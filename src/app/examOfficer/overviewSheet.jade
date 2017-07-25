@@ -1,0 +1,161 @@
+//   Created by GHostEater on 5/24/2016.
+div(ng-controller="OverviewSheetCtrl as vm")
+  .row.visible-print.text-center
+    span.col-sm-4
+      img(src="img/logo.png")
+    span.col-sm-8
+      h2 FOUNTAIN UNIVERSITY, OSOGBO
+      h3 (University of Nasrul-Lahi-Il-Fatih Society)
+      h3 {{vm.session.session}} &nbsp
+        span(ng-show="vm.semester.semester == 1") First Semester Examination Results
+        span(ng-show="vm.semester.semester == 2") Second Semester Examination Results
+  .row.visible-print
+    span Department: {{vm.lecturer.dept}}  Level: {{vm.level.level}}
+  .row.visible-print
+    span Programme: B.Sc &nbsp
+    span(ng-show="vm.lecturer.college === 'College of Management and Social Sciences'") (Hons.)
+    span {{vm.major.name}}
+  .row.hidden-print
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+        option(value="") Select Level
+    .col-sm-2(ng-show="vm.user.examOfficer")
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+        option(value="") Select Major
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
+        option(value="") Select Session
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.semester.semester")
+        option(value="1") 1st Semester
+        option(value="2") 2nd Semester
+    .col-sm-2
+      button.btn.btn-sm.btn-primary(ng-click="vm.getResults()") Go
+  .row.content.hidden-print
+    button.btn.btn-primary(ng-click="vm.print()") Print
+  .row
+    .col-sm-12
+      .row
+        h3.col-sm-12.text-center PASS LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+          th Previous CGPA
+          th Present GPA
+          th FINAL CGPA
+          th
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{status:1}")
+            td {{key + 1}}
+            td {{student.info.user.username | matricNo}}
+            td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
+            td {{student.prev_cgpa | number:2}}
+            td {{student.gpa | number:2}}
+            td {{student.cgpa | number:2}}
+            td
+              span(ng-show="student.gp_status === 1") Fountain Scholar
+    .col-sm-12
+      .row
+        h3.col-sm-12.text-center PASS WITH COURSE(S) STILL OUTSTANDING LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+          th Previous CGPA
+          th Present GPA
+          th FINAL CGPA
+          th
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{status:0,gp_status:1||2}")
+            td {{key + 1}}
+            td {{student.info.user.username | matricNo}}
+            td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
+            td {{student.prev_cgpa | number:2}}
+            td {{student.gpa | number:2}}
+            td {{student.cgpa | number:2}}
+            td
+              span(ng-show="student.gp_status === 1") Fountain Scholar
+    .col-sm-12
+      .row
+        h3.col-sm-12.text-center PROBATION LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+          th Previous CGPA
+          th Present GPA
+          th FINAL CGPA
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{status:0,gp_status:3}")
+            td {{key + 1}}
+            td {{student.info.user.username | matricNo}}
+            td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
+            td {{student.prev_cgpa | number:2}}
+            td {{student.gpa | number:2}}
+            td {{student.cgpa | number:2}}
+    .col-sm-12
+      .row
+        h3.col-sm-12.text-center WITHDRAWAL LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+          th Previous CGPA
+          th Present GPA
+          th FINAL CGPA
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{gp_status:4}")
+            td {{key + 1}}
+            td {{student.info.user.username | matricNo}}
+            td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
+            td {{student.prev_cgpa | number:2}}
+            td {{student.gpa | number:2}}
+            td {{student.cgpa | number:2}}
+  .col-sm-2
+    .panel.panel-info
+      .panel-heading Summary
+      .panel-body
+        table.table.table-bordered
+          tr
+            th Pass
+            td {{vm.pass}}
+          tr
+            th PCSO
+            td {{vm.pcso}}
+          tr
+            th Probation
+            td {{vm.probation}}
+          tr
+            th Withdrawal
+            td {{vm.withdrawal}}
+          tr
+            th Leave
+            td {{vm.leave}}
+          tr
+            th Sick
+            td {{vm.sick}}
+          tr
+            th Total
+            th {{vm.total}}
+  .row.visible-print
+    .col-sm-4
+      span {{vm.levelAdviser.lecturer.user.last_name | uppercase}}, {{vm.levelAdviser.lecturer.user.first_name}}
+      br
+      span ___________________________________
+      br
+      span Level Adviser {{vm.level.level}} Level Signature/Date
+    .col-sm-4
+      span {{vm.hod.lecturer.user.last_name | uppercase}}, {{vm.hod.lecturer.user.first_name}}
+      br
+      span ___________________________________&nbsp
+      br
+      span Head of {{vm.hod.dept}}'s Signature/Date
+    .col-sm-4
+      span Dean of College: ____________________________
+      br
+      span Signature/Date

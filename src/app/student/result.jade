@@ -1,0 +1,29 @@
+//Created by GHostEater on 09-May-16.
+div(ng-controller="ResultCtrl as vm")
+  h4 Result for {{vm.student.user.username | matricNo}} {{vm.student.user.last_name | uppercase}}, {{vm.student.user.first_name}}
+  .panel.panel-info(ng-repeat="res in vm.res | orderBy:'+session'")
+    .panel-heading {{res.gp.session}} Session &nbsp
+      span(ng-show="res.gp.semester === 1") 1st Semester
+      span(ng-show="res.gp.semester === 2") 2nd Semester
+    .panel-body
+      table.table.table-striped
+        thead
+          th Course Code
+          th Course Title
+          th Unit
+          th Final
+          th Grade
+        tbody
+          tr(ng-repeat="result in res.result | orderBy:'+code'")
+            td {{result.course.code}}
+            td {{result.course.title}}
+            td {{result.course.unit}}
+            td {{result.final}}
+            td {{result.grade}}
+      span TNU: {{res.gp.tnu}}&nbsp
+      span TCP: {{res.gp.tcp}}&nbsp
+      span GPA: {{res.gp.gpa | number:2}}&nbsp
+      span CTNU: {{res.gp.ctnu}}&nbsp
+      span CTCP: {{res.gp.ctcp}}&nbsp
+      span CGPA: {{res.gp.cgpa | number:2}}&nbsp
+      span TCE: {{res.gp.tce}}

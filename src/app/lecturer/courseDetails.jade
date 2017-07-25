@@ -1,0 +1,68 @@
+//Created by GHostEater on 03-May-16.
+div(ng-controller="CourseDetailsCtrl as vm")
+  .row.content
+    .col-sm-4
+      input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.search")
+    button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.lecturer.id)" ng-hide="vm.perm.status == 1") Request Edit Privileges
+    button.btn.btn-sm.btn-primary(ng-click="vm.getDetails()") Load Course Details
+  .panel.panel-primary
+    .panel-heading Course Details for {{vm.course.course.code}} {{vm.course.course.title}} {{vm.session.session}} Session
+    .panel-body
+      h4 Registered Students
+      h5 Pass Percentage: {{vm.passPercentage}}%
+      h5 Total Students: {{vm.students.length}}
+      .col-sm-2
+        table.table.table-bordered.table-striped
+          tr
+            th A
+            td {{vm.a}}
+          tr
+            th B
+            td {{vm.b}}
+          tr
+            th C
+            td {{vm.c}}
+          tr
+            th D
+            td {{vm.d}}
+          tr
+            th F
+            td {{vm.f}}
+      .table-responsive
+        table.table.table-bordered.table-striped
+          thead
+            th S/N
+            th Matric No
+            th Name
+            th.text-center(colspan="4") Results
+            tr
+              th
+              th
+              th
+              th CA
+              th Exam
+              th Score 100%
+              th Grade
+              th(ng-show="vm.perm.status == 1") Actions
+          tbody
+            tr(ng-repeat="(key,student) in vm.students | orderBy: '+username' | filter: vm.search")
+              td {{key+1}}
+              td {{student.info.user.username | matricNo}}
+              td {{student.info.user.last_name}}, {{student.info.user.first_name}}
+              td {{student.result.ca}}
+              td {{student.result.exam}}
+              td {{student.result.final}}
+              td {{student.result.grade}}
+              td(ng-show="vm.perm.status == 1")
+                button.btn.btn-xs.btn-warning(ng-click="vm.editCa(student.result.id)") Edit CA
+                button.btn.btn-xs.btn-warning(ng-click="vm.editExam(student.result.id)") Edit Exam
+    .panel-footer.hidden-print(ng-show="vm.course.position == 1")
+      .row.content
+        csv-upload.col-sm-4(ng-model="vm.ca")
+        button.col-sm-2.btn.btn-primary(ng-click="vm.uploadCA()") Upload CA
+      .row.content
+        csv-upload.col-sm-4(ng-model="vm.exam")
+        button.col-sm-2.btn.btn-primary(ng-click="vm.uploadExam()") Upload Exam
+      h5 Unregistered Students
+        ol
+          li(ng-repeat="reg in vm.notReg") {{reg}}

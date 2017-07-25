@@ -1,0 +1,60 @@
+//Created by GHostEater on 29-May-17.
+div(ng-controller="GraduatingListCtrl as vm")
+  .row.visible-print.text-center
+    span.col-sm-4
+      img(src="img/logo.png")
+    span.col-sm-8
+      h2 FOUNTAIN UNIVERSITY, OSOGBO
+      h3 (University of Nasrul-Lahi-Il-Fatih Society)
+      h3 {{vm.session.session}}
+  .row.visible-print
+    span Department: {{vm.dept.name}}
+  .row.visible-print
+    span Programme: B.Sc &nbsp
+    span(ng-show="vm.lecturer.college === 'College of Management and Social Sciences'") (Hons.)
+    span {{vm.major.name}}
+  .row.hidden-print
+    .col-sm-2(ng-show="vm.user.type === '2' || vm.user.type === '1'")
+      select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+        option(value='') Select College
+    .col-sm-2(ng-show="vm.user.type === '2' || vm.user.type === '5'")
+      select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college.name} track by dept.id")
+        option(value='') Select Department
+    .col-sm-2(ng-show="vm.user.examOfficer || vm.user.hod || vm.user.type === '2' || vm.user.type === '5'")
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+        option(value="") Select Major
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+        option(value="") Select Level
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
+        option(value="") Select Session
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.semester.semester")
+        option(value="1") 1st Semester
+        option(value="2") 2nd Semester
+  .row.hidden-print
+    .col-sm-2.col-sm-offset-10
+      button.btn.btn-sm.btn-primary(ng-click="vm.getStudents()") Go
+  .row.content.hidden-print
+    button.btn.btn-primary(ng-click="vm.print()") Print
+  .panel.panel-info
+    .panel-body
+      .well
+        .row
+          h3.col-sm-12.text-center GRADUATING LIST
+        table.table.table-striped
+          thead
+            th S/N
+            th Matric No
+            th Name
+            th FINAL CGPA
+            th
+          tbody(style="font-size: 0.9em")
+            tr(ng-repeat="(key,gp) in vm.students | orderBy:'+username'")
+              td {{key + 1}}
+              td {{gp.student.user.username}}
+              td {{gp.student.user.last_name | uppercase}}, {{gp.student.user.first_name}}
+              td {{gp.cgpa | number:2}}
+              td
+                span(ng-show="gp.cgpa >= 4") Fountain Scholar

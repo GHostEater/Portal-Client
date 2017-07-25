@@ -1,0 +1,10 @@
+div(ng-show='user.type == 1').hidden-print
+  section(ng-include="'app/layout/dashAdmin.html'")
+div(ng-show='user.type == 2').hidden-print
+  section(ng-include="'app/layout/dashAcademicAffairs.html'")
+div(ng-show='user.type == 5').hidden-print
+  section(ng-include="'app/layout/dashCollegeOfficer.html'")
+div(ng-show='user.type == 6').hidden-print
+  section(ng-include="'app/layout/dashLecturer.html'")
+div(ng-show='user.type == 7').hidden-print
+  section(ng-include="'app/layout/dashStudent.html'")

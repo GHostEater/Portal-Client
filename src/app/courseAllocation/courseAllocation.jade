@@ -1,0 +1,62 @@
+//Created by GHostEater on 24-Jun-17.
+div(ng-controller="CourseAllocationCtrl as vm")
+  .col-sm-12
+    .row.content.hidden-print
+      button.col-sm-2.btn.btn-primary(ng-click="vm.allocate()") Allocate Course
+    .row.hidden-print
+      .col-sm-2
+        select.form-control.input-sm(ng-options="session as session.session for session in vm.sessions track by session.id" ng-model="vm.session")
+          option(value='') Select Session
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.semester.semester")
+          option(value="1") 1st Semester
+          option(value="2") 2nd Semester
+      .col-sm-2
+        button.btn.btn-sm.btn-primary(ng-click="vm.getAllocations()") Go
+    .row.visible-print
+      .col-sm-12
+        img.center-block(src="img/logo.png")
+      .col-sm-12.text-center
+        h2 FOUNTAIN UNIVERSITY, OSOGBO
+        h3 (University of Nasrul-Lahi-Il-Fatih Society)
+        h4 {{vm.lecturer.college}}
+        h4 {{vm.lecturer.department}}
+      .col-sm-12
+        h5 The Details of the Allocation of Courses for
+    .row
+      span.col-sm-4 Session: {{vm.session.session}}
+      span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}
+        span(ng-show="vm.semester.semester == 1") st Semester
+        span(ng-show="vm.semester.semester == 2") nd Semester
+    span.row Department: {{vm.lecturer.dept}}
+    table.table.table-striped.table-bordered
+      thead
+        th Course Code
+        th Course Title
+        th Unit
+        th Level
+        th Lecturer
+        th Position
+        th.hidden-print Actions
+      tbody
+        tr(ng-repeat="allocation in vm.allocations")
+          td {{allocation.course.code}}
+          td {{allocation.course.title}}
+          td {{allocation.course.unit}}
+          td {{allocation.course.level}}
+          td {{allocation.lecturer.user.last_name}}, {{allocation.lecturer.user.first_name}}
+          td
+            span(ng-show="allocation.position == 1") Coordinator
+            span(ng-show="allocation.position == 2") Assisting Lecturer
+          td.hidden-print
+            a(ui-sref="courseDetail({id:allocation.id})").btn.btn-xs.btn-primary View Details
+            button.btn.btn-xs.btn-danger(ng-click="vm.remove(allocation.id)") Delete
+  .row.visible-print
+    .col-sm-12
+      span {{vm.lecturer.user.last_name | uppercase}}, {{vm.lecturer.user.first_name}}
+      br
+      span ___________________________________&nbsp
+      br
+      span Head of {{vm.lecturer.dept}}'s Signature/Date&nbsp
+  .row.content.hidden-print
+    button.btn.btn-xs.btn-primary(ng-click="vm.print()") Print

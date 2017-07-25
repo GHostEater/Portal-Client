@@ -1,0 +1,49 @@
+//Created by GHostEater on 24-Apr-17.
+div(ng-controller="ResultEditRequestCtrl as vm").row
+  section.col-sm-6
+    .panel.panel-info
+      .panel-heading
+        .panel-title Pending Edit Requests
+      .panel-body
+        .table-responsive
+          table.table.table-condensed.table-striped.table-bordered
+            thead
+              th S/N
+              th Name
+              th Department
+              th College
+              th Actions
+            tbody
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:0}")
+                td {{key + 1}}
+                td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
+                td {{request.lecturer.dept}}
+                td {{request.lecturer.college}}
+                td
+                  button.btn.btn-sm.btn-success(ng-click="vm.process(request.id,1,vm.user.id)") Approve
+                  button.btn.btn-sm.btn-danger(ng-click="vm.process(request.id,2,vm.user.id)") Decline
+  section.col-sm-6
+    .panel.panel-warning
+      .panel-heading
+        .panel-title Approved Edit Requests
+      .panel-body
+        .table-responsive
+          table.table.table-condensed.table-striped.table-bordered
+            thead
+              th S/N
+              th Name
+              th Department
+              th College
+              th Date
+              th Handled By
+              th Actions
+            tbody
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:1}")
+                td {{key + 1}}
+                td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
+                td {{request.lecturer.dept}}
+                td {{request.lecturer.college}}
+                td {{request.date | date:'dd-MMM-yyyy hh:mm:ss a'}}
+                td {{request.handledBy.last_name | uppercase}}, {{request.handledBy.first_name}}
+                td
+                  button.btn.btn-sm.btn-danger(ng-click="vm.disable(request.id)") Disable Edit

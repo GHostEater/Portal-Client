@@ -1,0 +1,42 @@
+//Created by GHostEater on 15-May-17.
+div(ng-controller="LogsCtrl as vm")
+  .row.content
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Filters
+      .panel-body
+        .form-group
+          .col-sm-4
+            select.form-control(ng-model="vm.user")
+              option(value="") All Users
+              option(value="Admin") Admin
+              option(value="College Officer") College Officer
+              option(value="Head of Department") Head of Department
+              option(value="Lecturer") Lecturer
+              option(value="Student") Student
+              option(value="Academic Affairs") Academic Affairs
+              option(value="Exam Officer") Exam Officer
+              option(value="Level Adviser") Level Adviser
+          .col-sm-4
+            label.control-label From:
+              input.form-control(type="date" ng-model="vm.date.min" placeholder="yyyy-mm-dd hh:mm:ss")
+          .col-sm-4
+            label.control-label To:
+              input.form-control(type="date" ng-model="vm.date.max" placeholder="yyyy-mm-dd hh:mm:ss")
+  .table-responsive
+    table.table.table-striped.table-bordered
+      thead
+        th S/N
+        th Name
+        th Action
+        th Role
+        th Date
+        th Location
+      tbody
+        tr(ng-repeat="(key,log) in vm.logs | orderBy: '-date' | filter: {role:vm.user} | rangeFilter:vm.date")
+          td {{key + 1}}
+          td {{log.user}}
+          td {{log.action}}
+          td {{log.role}}
+          td {{log.date|date:'dd-MMM-yyyy hh:mm:ssa'}}
+          td {{log.location}}

@@ -1,0 +1,5 @@
+//Created by GHostEater on 22-Jun-17.
+div(ng-controller="HomeCtrl as vm")
+  p Welcome
+  .row(ng-show="vm.user.type === '1' && vm.session.actions == 0")
+    button.btn.btn-primary(ng-click="vm.sessionActions()") Session Actions

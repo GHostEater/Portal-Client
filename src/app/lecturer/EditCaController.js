@@ -1,0 +1,91 @@
+/**
+ * Created by GHostEater on 5/23/2016.
+ */
+angular.module("b")
+  .controller('EditCaController',function(CourseResult,CourseResultEditLog,toastr,id,$uibModalInstance,CurrentUser,Lecturer,SystemLog){
+    var vm = this;
+    CourseResult.get({id:id}).$promise
+      .then(function(data){
+        vm.result = data;
+        vm.prevScore = vm.result.ca;
+      });
+    vm.lecturer = Lecturer.get({userId:CurrentUser.profile.id});
+    vm.ok = function(){
+      var grade = '';
+      var gp = '';
+      var status = '';
+      var exam = vm.result.exam;
+      var final = Number(vm.result.ca) + Number(exam);
+      final = Math.round(final);
+      if (final >= 100) {
+        final = 100;
+      }
+      if (final >= 70 && final <= 100) {
+        grade = 'A';
+        gp = 5;
+      }
+      else if (final >= 60 && final <= 69) {
+        grade = 'B';
+        gp = 4;
+      }
+      else if (final >= 50 && final <= 59) {
+        grade = 'C';
+        gp = 3;
+      }
+      else if (final >= 45 && final < 50) {
+        grade = 'D';
+        gp = 2;
+      }
+      else if (final <= 44) {
+        grade = 'F';
+        gp = 0;
+      }
+      if (grade === 'F') {
+        status = 0;
+      }
+      else {
+        status = 1;
+      }
+      if(vm.form.$dirty && vm.form.$valid){
+        var data = {
+          id: vm.result.id,
+          ca: vm.result.ca,
+          exam: exam,
+          final: final,
+          grade: grade,
+          gp: gp,
+          status: status
+        };
+        CourseResult.patch(data).$promise
+          .then(function(){
+            var date = new Date();
+            var data = {
+              result: vm.result.id,
+              type: "CA",
+              prev_score: vm.prevScore,
+              new_score: vm.result.ca,
+              date: date,
+              editedBy: vm.lecturer.id
+            };
+            CourseResultEditLog.save(data).$promise
+              .then(function(){
+                SystemLog.add("Edited Result");
+                toastr.success('Edit Logged');
+                toastr.success("CA Changed");
+                $uibModalInstance.close();
+              });
+          })
+          .catch(function(){
+            toastr.error("Unable to Change CA");
+          });
+
+      }
+      else if(vm.form.$pristine && vm.form.$valid){
+        toastr.info("No Changes");
+        $uibModalInstance.close();
+      }
+      else if(vm.form.$invalid){
+        toastr.error("Errors in form");
+      }
+    };
+  });

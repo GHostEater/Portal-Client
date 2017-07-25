@@ -1,0 +1,121 @@
+//   Created by GHostEater on 5/24/2016.
+div(ng-controller="AdminBroadSheetCtrl as vm")
+  .col-sm-12
+    .row.visible-print
+      span.col-sm-4
+        img(src="img/logo.png")
+      span.col-sm-8
+        h2 FOUNTAIN UNIVERSITY, OSOGBO
+        h3 (University of Nasrul-Lahi-Il-Fatih Society)
+        h3 {{vm.session.session}} &nbsp
+          span(ng-show="vm.semester.semester == 1") First Semester Examination Results
+          span(ng-show="vm.semester.semester == 2") Second Semester Examination Results
+    .row
+      span Department: {{vm.dept.name}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLevel: {{vm.level.level}}
+    .row
+      span Programme: B.Sc &nbsp
+      span(ng-show="vm.college.name === 'College of Management and Social Sciences'") (Hons.)
+      span {{vm.major.name}}
+    .row.hidden-print
+      .col-sm-2(ng-show="vm.user.type == 2 || vm.user.type == 1")
+        select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+          option(value='') Select College
+      .col-sm-2(ng-show="vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 1")
+        select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college.name} track by dept.id")
+          option(value='') Select Department
+      .col-sm-2(ng-show="vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 1")
+        select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+          option(value="") Select Major
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+          option(value="") Select Level
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
+          option(value="") Select Session
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.semester.semester")
+          option(value="1") 1st Semester
+          option(value="2") 2nd Semester
+    .row.hidden-print
+      .col-sm-2
+        button.btn.btn-sm.btn-primary(ng-click="vm.getResults()") Go
+    .row.content.hidden-print
+      button.btn.btn-sm.btn-primary(ng-click="vm.print()") Print
+    .row.sm-content
+      .table-responsive
+        table.table.table-striped.table-bordered
+          thead(style="font-size: 0.7em")
+            th(width="1%") S/N
+            th(width="5%") Matric No
+            th(width="40%").text-center Courses
+            th(width="20%").text-center Outstanding
+            th(colspan=3) Previous
+            th(colspan=3) Present
+            th(colspan=3) FINAL
+            th(width="2%") Remark
+            tr
+              th
+              th
+              th
+              th
+              th(width="1%") TCP
+              th(width="1%") TNU
+              th(width="1%") CGPA
+              th(width="1%") TCP
+              th(width="1%") TNU
+              th(width="1%") GPA
+              th(width="1%") CTCP
+              th(width="1%") CTNU
+              th(width="1%") CGPA
+              th
+          tbody(style="font-size: 0.7em")
+            tr(ng-repeat="(key,student) in vm.students | orderBy:'+username'")
+              td {{key + 1}}
+              td {{student.info.user.username | matricNo}}
+              td
+                div(ng-repeat="res in student.result")
+                  div.col-sm-4
+                    span {{res.course.code}} &nbsp
+                    span {{res.course.unit}} &nbsp
+                    span {{res.final}} &nbsp
+                    span {{res.grade}},
+              td
+                div(ng-repeat="res in student.resultFail")
+                  div.col-sm-6
+                    span {{res.course.code}} &nbsp
+                    span REP,
+                div(ng-repeat="res in student.outstandings")
+                  div.col-sm-6
+                    span {{res.course.code}} &nbsp
+                    span AR,
+              td {{student.prev_ctcp}}
+              td {{student.prev_ctnu}}
+              td {{student.prev_cgpa | number:2}}
+              td {{student.tcp}}
+              td {{student.tnu}}
+              td {{student.gpa | number:2}}
+              td {{student.ctcp}}
+              td {{student.ctnu}}
+              td {{student.cgpa | number:2}}
+              td
+                span(ng-show="student.resultFail.length == 0 && student.status === 1") PASS
+                span(ng-show="student.resultFail.length > 0 && student.gp_status == 2") PCSO
+                span(ng-show="student.gp_status == 3") PROBATION
+                span(ng-show="student.gp_status == 4") WITHDRAWAL
+    .row.visible-print
+      .col-sm-4
+        span {{vm.levelAdviser.lecturer.user.last_name | uppercase}}, {{vm.levelAdviser.lecturer.user.first_name}}
+        br
+        span ___________________________________
+        br
+        span Level Adviser {{vm.level.level}} Level Signature/Date
+      .col-sm-4
+        span {{vm.hod.lecturer.user.last_name | uppercase}}, {{vm.hod.lecturer.user.first_name}}
+        br
+        span ___________________________________&nbsp
+        br
+        span Head of {{vm.hod.dept}}'s Signature/Date
+      .col-sm-4
+        span Dean of College: ____________________________
+        br
+        span Signature/Date

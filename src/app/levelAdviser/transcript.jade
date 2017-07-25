@@ -1,0 +1,104 @@
+//   Created by GHostEater on 5/19/2016.
+div(ng-controller="TranscriptCtrl as vm")
+  .row.visible-print
+    .col-sm-12
+      img.center-block(src="img/logo.png")
+    .col-sm-12.text-center
+      h2 FOUNTAIN UNIVERSITY, OSOGBO
+      h3 (University of Nasrul-Lahi-Il-Fatih Society)
+      h4 {{vm.lecturer.college}}
+      h4 {{vm.lecturer.dept}}
+  .row
+    span.col-sm-4
+      span Matric No: {{vm.student.user.username | matricNo}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Name: {{vm.student.user.last_name | uppercase}}, {{vm.student.user.first_name}}
+      br
+      span College: {{vm.student.college}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Gender: {{vm.student.user.sex}}
+      br
+      span Department: {{vm.student.dept}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Date of Birth: {{vm.student.dateBirth}}
+  .row.content.hidden-print
+    button.btn.btn-primary(ng-click="vm.print()") Print
+  .panel.panel-info(ng-repeat="res in vm.results")
+    .panel-heading
+      h3.panel-title
+        span(ng-repeat="session in vm.sessions | filter:{session:res.gp.session}") {{session.session}} Session &nbsp
+        span(ng-show="res.gp.semester == 1") 1st Semester
+        span(ng-show="res.gp.semester == 2") 2nd Semester
+    .panel-body
+      .well
+        table.table.table-striped
+          thead
+            th Code
+            th Course Title
+            th Unit
+            th Score 100%
+            th Grade
+          tbody
+            tr(ng-repeat="result in res.result | orderBy:'+code'")
+              td {{result.course.code}}
+              td {{result.course.title}}
+              td {{result.course.unit}}
+              td {{result.final}}
+              td {{result.grade}}
+        div
+          span Present: &nbsp
+          span TNU: {{res.gp.tnu}}&nbsp
+          span TCP: {{res.gp.tcp}}&nbsp
+          span GPA: {{res.gp.gpa | number:2}}
+        br
+        div
+          span Cumulative: &nbsp
+          span TCE: {{res.gp.tce}}&nbsp
+          span TNU: {{res.gp.ctnu}}&nbsp
+          span TCP: {{res.gp.ctcp}}&nbsp
+          span CPGA: {{res.gp.cgpa | number:2}}
+        .row(ng-show="vm.user.levelAdviser")
+          h5 Carry Forward:
+          span(ng-repeat="fail in vm.fails") {{fail.course.code}} &nbsp
+          br
+          span(ng-repeat="outstanding in vm.outstandings") {{outstanding.course.code}} &nbsp
+  .row(ng-show="vm.user.type === '2'").visible-print
+    p
+      em.
+        Transcript is official, if it bears the impression seal of the University and their ink or facsimile signature of
+        the Registrar.
+  .row.visible-print
+    .col-sm-5(ng-show="vm.user.levelAdviser || vm.user.type === '5' ")
+      span Exam Officer/Head of Department
+      br
+      span ___________________________________&nbsp
+      br
+      span Signature/Date
+    .col-sm-5(ng-show="vm.user.type === '2'")
+      br
+      span ___________________________________&nbsp
+      br
+      span Registrar Signature/Date
+  .row.visible-print(ng-show="vm.user.type === '2'")
+    .col-sm-4
+      table.table.table-striped.table-condensed
+        tr
+          th Key to Grades
+        tr
+          td 4.50 - 5.00 First Class
+        tr
+          td 3.50 - 4.49 Second Class Upper
+        tr
+          td 2.50 - 3.49 Second Class Lower
+        tr
+          td 1.50 - 2.49 Third Class
+        tr
+          td 1.00 - 1.49 Pass
+    .col-sm-4
+      table.table.table-striped.table-condensed
+        tr
+          th Percentage Scores and Grades
+        tr
+          td 70 - 100 = A
+        tr
+          td 60 - 69 = B
+        tr
+          td 50 - 59 = C
+        tr
+          td 45 - 49 = D
+        tr
+          td 0 - 44 = F

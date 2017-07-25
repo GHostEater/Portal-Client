@@ -1,0 +1,11 @@
+//   Created by GHostEater on 5/23/2016.
+.modal-header
+  h3.modal-title Edit CA Score
+.modal-body
+  form(name="vm.form").form-horizontal
+    .form-group
+      .col-sm-10
+        input.form-control(type="text" name="ca" required ng-model="vm.result.ca" placeholder="CA Score")
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel
