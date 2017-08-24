@@ -20,25 +20,23 @@ angular.module("b")
       CourseResultGPA.student({student:vm.student.id}).$promise
         .then(function (data) {
           vm.gps = lodash.sortBy(data,['session','semester']);
-          var z=0;
-          for(var i=0; i<vm.gps.length; i++) {
+          angular.forEach(vm.gps,function (gp) {
             CourseResult.student({student: vm.student.id}).$promise
               .then(function (data) {
-                vm.result = lodash.filter(data, {session: vm.gps[z].session, course: {semester: vm.gps[z].semester}});
+                vm.result = lodash.filter(data, {session: gp.session, course: {semester: vm.gp.semester}});
                 vm.resultFail = lodash.filter(data, {grade: 'F'});
                 sortResults();
               });
             function sortResults() {
               var dat = {
                 result: vm.result,
-                gp: vm.gps[z]
+                gp: gp
               };
               vm.results.push(dat);
-              z += 1;
             }
-          }
           });
-        }
+        });
+    }
     vm.editCa = function(id){
       var options = {
         templateUrl: 'app/lecturer/editCa.html',
@@ -99,170 +97,100 @@ angular.module("b")
         if (vm.student.status === '1') {
           vm.gps = lodash.remove(vm.gps,{session:vm.session.session,semester:vm.semester.semester});
           vm.last = lodash.findLast(vm.gps);
+          var prob = 0;
+          var withdraw = 0;
+          var count = 0;
+          for(var i=0; i<2; i++){
+            if(vm.gps[i].cgpa < 1.5){count += 1;}
+            if(count === 2){prob = 1;}
+            else if(count === 3){withdraw = 1;}
+          }
           var tnu = 0;
           var tcp = 0;
-          var gpa = 0;
-          var ctcp = 0;
-          var ctnu = 0;
-          var cgpa = 0;
           var tce = 0;
           var status = 1;
-          var gp_status = 1;
-          var dat = {};
+          var gp_status = 0;
+          angular.forEach(vm.result,function (res) {
+            tnu += Number(res.course.unit);
+            tcp += Number(res.gp) * Number(res.course.unit);
+            if (res.grade !== 'F') {
+              tce += Number(res.gp);
+            }
+          });
+          var gpa = tcp / tnu;
+          if(tcp === 0 || tnu === 0) gpa = 0;
           if (!vm.last) {
-            for (var j = 0; j < vm.result.length; j++) {
-              tnu += Number(vm.result[j].course.unit);
-            }
-            for (var k = 0; k < vm.result.length; k++) {
-              tcp += Number(vm.result[k].gp) * Number(vm.result[k].course.unit);
-            }
-            for (var y = 0; y < vm.result.length; y++) {
-              if (vm.result[y].grade !== 'F') {
-                tce += Number(vm.result[y].gp);
-              }
-            }
-            gpa = tcp / tnu;
-            ctcp = tcp;
-            ctnu = tnu;
-            cgpa = ctcp / ctnu;
-            if (vm.resultFail.length > 0) {
-              status = 0
-            }
-            if (cgpa >= 4.00) {
-              gp_status = 1;
-            }
-            else if (cgpa >= 1.50 && cgpa <= 3.99) {
-              gp_status = 2;
-            }
-            else if (cgpa >= 1.00 && cgpa < 1.50) {
-              gp_status = 3;
-            }
-            else if (cgpa <= 1.00) {
-              gp_status = 4;
-            }
-            dat = {
-              info: vm.student,
-              results: vm.result,
-              resultFail: vm.resultFail,
-              tnu: tnu,
-              ctnu: ctnu,
-              tcp: tcp,
-              ctcp: ctcp,
-              tce: tce,
-              gpa: gpa,
-              cgpa: cgpa,
-              prev_cgpa: 0.00,
-              prev_ctcp: 0.00,
-              prev_ctnu: 0.00,
-              prev_tce: 0,
-              status: status,
-              gp_status: gp_status
-            };
-            var d = {
-              student: vm.student.id,
-              session: session.id,
-              dept: vm.student.deptId,
-              semester: gp.semester,
-              tcp: dat.tcp,
-              tnu: dat.tnu,
-              gpa: dat.gpa,
-              ctcp: dat.ctcp,
-              ctnu: dat.ctnu,
-              cgpa: dat.cgpa,
-              tce: dat.tce,
-              prev_ctcp: dat.prev_ctcp,
-              prev_ctnu: dat.prev_ctnu,
-              prev_cgpa: dat.prev_cgpa,
-              prev_tce: dat.prev_tce,
-              status: dat.status,
-              rel: 0
-            };
-            CourseResultGPA.save(d).$promise
-              .then(function () {
-                SystemLog.add("Re-Processed Result");
-                toastr.success("Result Processed");
-              })
-              .catch(function () {
-                toastr.error("Error");
-              });
+            vm.last.tce = 0;
+            vm.last.tcp = 0;
+            vm.last.tnu = 0;
+            vm.last.cgpa = 0;
+            vm.last.ctcp = 0;
+            vm.last.ctnu = 0;
+            vm.last.tce = 0;
           }
-          else {
-            for (var l = 0; l < vm.result.length; l++) {
-              tnu += Number(vm.result[l].course.unit);
-            }
-            for (var m = 0; m < vm.result.length; m++) {
-              tcp += Number(vm.result[m].gp) * Number(vm.result[m].course.unit);
-            }
-            for (var z = 0; z < vm.result.length; z++) {
-              if (vm.result[z].grade !== 'F') {
-                tce += Number(vm.result[z].gp);
-              }
-            }
-            gpa = tcp / tnu;
-            tce += Number(vm.last.tce);
-            ctcp = tcp + Number(vm.last.tcp);
-            ctnu = tnu + Number(vm.last.tnu);
-            cgpa = ctcp / ctnu;
-            if (vm.resultFail.length > 0) {
-              status = 0
-            }
-            if (cgpa >= 4.00) {
-              gp_status = 1;
-            }
-            else if (cgpa >= 1.50 && cgpa <= 3.99) {
-              gp_status = 2;
-            }
-            else if (cgpa >= 1.00 && cgpa < 1.50) {
-              gp_status = 3;
-            }
-            else if (cgpa <= 1.00) {
-              gp_status = 4;
-            }
-            dat = {
-              info: vm.student,
-              results: vm.result,
-              resultFail: vm.resultFail,
-              tnu: tnu,
-              ctnu: ctnu,
-              tcp: tcp,
-              tce: tce,
-              ctcp: ctcp,
-              gpa: gpa,
-              cgpa: cgpa,
-              prev_cgpa: vm.last.cgpa,
-              prev_ctcp: vm.last.ctcp,
-              prev_ctnu: vm.last.ctnu,
-              prev_tce: vm.last.tce,
-              status: status,
-              gp_status: gp_status
-            };
-            var d = {
-              student: vm.student.id,
-              session: vm.session.id,
-              dept: vm.student.deptId,
-              semester: vm.semester.semester,
-              tcp: dat.tcp,
-              tnu: dat.tnu,
-              gpa: dat.gpa,
-              ctcp: dat.ctcp,
-              ctnu: dat.ctnu,
-              cgpa: dat.cgpa,
-              tce: dat.tce,
-              prev_ctcp: dat.prev_ctcp,
-              prev_ctnu: dat.prev_ctnu,
-              prev_cgpa: dat.prev_cgpa,
-              status: dat.gp_status,
-              rel: 0
-            };
-            CourseResultGPA.save(d).$promise
-              .then(function () {
-                SystemLog.add("Re-Processed Result");
-                toastr.success("Result Processed");
-              })
-              .catch(function () {
-                toastr.error("Error");
-              });
+          tce += Number(vm.last.tce);
+          var ctcp = tcp + Number(vm.last.tcp);
+          var ctnu = tnu + Number(vm.last.tnu);
+          var cgpa = ctcp / ctnu;
+          if(ctcp === 0 || ctnu === 0) cgpa = 0;
+          if(vm.resultFail.length > 0 || vm.outstandings.length > 0){status=0}
+          if(cgpa >= 4.00) {
+            gp_status = 1;
           }
+          if(cgpa >= 1.50 && cgpa <= 3.99) {
+            gp_status = 2;
+          }
+          if(cgpa < 1.50) {
+            gp_status = 3;
+          }
+          var dat = {
+            info: vm.student,
+            result: vm.result,
+            resultFail: vm.resultFail,
+            outstandings: vm.outstandings,
+            tnu: tnu,
+            ctnu: ctnu,
+            tcp: tcp,
+            ctcp: ctcp,
+            tce: tce,
+            gpa: gpa,
+            cgpa: cgpa,
+            prev_cgpa: vm.last.cgpa,
+            prev_ctcp: vm.last.ctcp,
+            prev_ctnu: vm.last.ctnu,
+            prev_tce: vm.last.tce,
+            status: status,
+            gp_status: gp_status,
+            prob: prob,
+            withdraw: withdraw
+          };
+          var data = {
+            student: vm.student.id,
+            session: session.id,
+            dept: vm.student.deptId,
+            semester: gp.semester,
+            tcp: dat.tcp,
+            tnu: dat.tnu,
+            gpa: dat.gpa,
+            ctcp: dat.ctcp,
+            ctnu: dat.ctnu,
+            cgpa: dat.cgpa,
+            tce: dat.tce,
+            prev_ctcp: dat.prev_ctcp,
+            prev_ctnu: dat.prev_ctnu,
+            prev_cgpa: dat.prev_cgpa,
+            prev_tce: dat.prev_tce,
+            status: dat.status,
+            rel: 0
+          };
+          CourseResultGPA.save(data).$promise
+            .then(function () {
+              SystemLog.add("Re-Processed Result");
+              toastr.success("Result Processed");
+            })
+            .catch(function () {
+              toastr.error("Error");
+            });
         }
       }
     }

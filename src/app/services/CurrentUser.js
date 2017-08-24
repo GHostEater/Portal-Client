@@ -16,6 +16,7 @@ angular.module("b")
         type: '',
         token: '',
         co: '',
+        dean: '',
         hod: '',
         levelAdviser: '',
         examOfficer: '',
@@ -35,6 +36,7 @@ angular.module("b")
         user.type = localUser.type;
         user.token = localUser.token;
         user.co = localUser.co;
+        user.dean = localUser.dean;
         user.hod = localUser.hod;
         user.levelAdviser = localUser.levelAdviser;
         user.examOfficer = localUser.examOfficer;
@@ -52,6 +54,7 @@ angular.module("b")
       profile.type = user.type;
       profile.token = user.token;
       profile.co = user.co;
+      profile.dean = user.dean;
       profile.hod = user.hod;
       profile.levelAdviser = user.levelAdviser;
       profile.examOfficer = user.examOfficer;

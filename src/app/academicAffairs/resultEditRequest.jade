@@ -14,7 +14,7 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
               th College
               th Actions
             tbody
-              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:0}")
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:0,lecturer:{college:vm.user.dean.college}}")
                 td {{key + 1}}
                 td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
                 td {{request.lecturer.dept}}
@@ -38,7 +38,7 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
               th Handled By
               th Actions
             tbody
-              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:1}")
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:1,lecturer:{college:vm.user.dean.college}}")
                 td {{key + 1}}
                 td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
                 td {{request.lecturer.dept}}

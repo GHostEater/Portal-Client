@@ -6,12 +6,14 @@ angular.module("b")
     var vm = this;
     vm.print = print;
     vm.getResults = getResults;
-    vm.pass = 0;
-    vm.pcso = 0;
-    vm.probation = 0;
-    vm.withdrawal = 0;
-    vm.leave = 0;
-    vm.sick = 0;
+    vm.pass = [];
+    vm.pcso = [];
+    vm.probation = [];
+    vm.withdrawal = [];
+    vm.suspension = [];
+    vm.deferment = [];
+    vm.leave = [];
+    vm.sick = [];
     vm.total = 0;
     vm.students = [];
     vm.outstandings = [];
@@ -48,19 +50,13 @@ angular.module("b")
       Student.dept({dept:vm.dept.id}).$promise
         .then(function (data) {
           vm.s = lodash.filter(data,{major:vm.major.name, level:vm.level.level});
-          for (var i = 0; i < vm.s.length; i++) {
-            vm.student = vm.s[i];
-            if(vm.student.status === '3'){
-              vm.leave += 1;
-            }
-            else if(vm.student.status === '4'){
-              vm.sick += 1;
-            }
-            else if(vm.student.status === '6'){
-              vm.withdrawal += 1;
-            }
-            getWavings(vm.student);
-          }
+          angular.forEach(vm.s,function (student) {
+            if(student.status === '3'){vm.leave.push(student);}
+            else if(student.status === '4'){vm.sick.push(student);}
+            else if(student.status === '5'){vm.suspension.push(student);}
+            else if(student.status === '6'){vm.deferment.push(student);}
+            getWavings(student);
+          });
         });
     }
     function getWavings(student) {
@@ -110,150 +106,98 @@ angular.module("b")
             vm.gps = lodash.sortBy(data,['session','semester']);
             vm.gps = lodash.remove(vm.gps,{session:vm.session.session,semester:vm.semester.semester});
             vm.last = lodash.findLast(vm.gps);
+            var prob = 0;
+            var withdraw = 0;
+            var count = 0;
+            for(var i=0; i<2; i++){
+              if(vm.gps[i].cgpa < 1.5){count += 1;}
+              if(count === 2){prob = 1;}
+              else if(count === 3){withdraw = 1;}
+            }
             var tnu = 0;
             var tcp = 0;
-            var gpa = 0;
-            var ctcp = 0;
-            var ctnu = 0;
-            var cgpa = 0;
             var tce = 0;
             var status = 1;
             var gp_status = 0;
-            var dat = {};
+            angular.forEach(result,function (res) {
+              tnu += Number(res.course.unit);
+              tcp += Number(res.gp) * Number(res.course.unit);
+              if (res.grade !== 'F') {
+                tce += Number(res.gp);
+              }
+            });
+            var gpa = tcp / tnu;
+            if(tcp === 0 || tnu === 0) gpa = 0;
             if (!vm.last) {
-              for (var j = 0; j < result.length; j++) {
-                tnu += Number(result[j].course.unit);
-              }
-              for (var k = 0; k < result.length; k++) {
-                tcp += Number(result[k].gp) * Number(result[k].course.unit);
-              }
-              for (var y = 0; y < result.length; y++) {
-                if (result[y].grade !== 'F') {
-                  tce += Number(result[y].gp);
-                }
-              }
-              gpa = parseFloat(tcp / tnu);
-              if(tcp === 0 || tnu === 0) gpa = 0.0;
-              ctcp = tcp;
-              ctnu = tnu;
-              cgpa = parseFloat(ctcp / ctnu);
-              if(ctcp === 0 || ctnu === 0) cgpa = 0.0;
-              if(fail.length>0|| cgpa<1.5){status=0}
-              if(cgpa >= 4.00) {
-                gp_status = 1;
-              }
-              if(cgpa >= 1.50 && cgpa <= 3.99) {
-                gp_status = 2;
-              }
-              if(cgpa >= 1.00 && cgpa < 1.50) {
-                gp_status = 3;
-              }
-              if(cgpa < 1.00) {
-                gp_status = 4;
-              }
-              dat = {
-                info: student,
-                result: result,
-                resultFail: fail,
-                outstandings: outstandings,
-                tnu: tnu,
-                ctnu: ctnu,
-                tcp: tcp,
-                ctcp: ctcp,
-                tce: tce,
-                gpa: gpa,
-                cgpa: cgpa,
-                prev_cgpa: 0.00,
-                prev_ctcp: 0.00,
-                prev_ctnu: 0.00,
-                prev_tce: 0,
-                status: status,
-                gp_status: gp_status
-              };
-              if (!lodash.find(vm.students, {info: {id: dat.info.id}})) {
-                if(status === 1){
-                  vm.pass += 1;
-                }
-                if(status === 0 && gp_status <= 2){
-                  vm.pcso += 1;
-                }
-                if((status === 0 || 1) && gp_status === 3){
-                  vm.probation += 1;
-                }
-                if((status === 0 || 1) && gp_status === 4){
-                  vm.withdrawal += 1;
-                }
-                vm.total = vm.pass+vm.pcso+vm.probation+vm.withdrawal+vm.leave+vm.sick;
-                vm.students.push(dat);
-              }
+              vm.last.tce = 0;
+              vm.last.tcp = 0;
+              vm.last.tnu = 0;
+              vm.last.cgpa = 0;
+              vm.last.ctcp = 0;
+              vm.last.ctnu = 0;
+              vm.last.tce = 0;
             }
-            else {
-              for (var l = 0; l < result.length; l++) {
-                tnu += Number(result[l].course.unit);
-              }
-              for (var m = 0; m < result.length; m++) {
-                tcp += Number(result[m].gp) * Number(result[m].course.unit);
-              }
-              for (var z = 0; z < result.length; z++) {
-                if (result[z].grade !== 'F') {
-                  tce += Number(result[z].gp);
+            tce += Number(vm.last.tce);
+            var ctcp = tcp + Number(vm.last.tcp);
+            var ctnu = tnu + Number(vm.last.tnu);
+            var cgpa = ctcp / ctnu;
+            if(ctcp === 0 || ctnu === 0) cgpa = 0;
+            if(fail.length > 0 || outstandings.length > 0){status=0}
+            if(cgpa >= 4.00) {
+              gp_status = 1;
+            }
+            if(cgpa >= 1.50 && cgpa <= 3.99) {
+              gp_status = 2;
+            }
+            if(cgpa < 1.50) {
+              gp_status = 3;
+            }
+            var dat = {
+              info: student,
+              result: result,
+              resultFail: fail,
+              outstandings: outstandings,
+              tnu: tnu,
+              ctnu: ctnu,
+              tcp: tcp,
+              ctcp: ctcp,
+              tce: tce,
+              gpa: gpa,
+              cgpa: cgpa,
+              prev_cgpa: vm.last.cgpa,
+              prev_ctcp: vm.last.ctcp,
+              prev_ctnu: vm.last.ctnu,
+              prev_tce: vm.last.tce,
+              status: status,
+              gp_status: gp_status,
+              prob: prob,
+              withdraw: withdraw
+            };
+            if (!lodash.find(vm.students, {info: {id: dat.info.id}})) {
+              if(Number(student.level) === 100){
+                if(status === 1){
+                  vm.pass.push(dat);
+                }
+                if(status === 0){
+                  vm.pcso.push(dat);
                 }
               }
-              gpa = parseFloat(tcp / tnu);
-              if(tcp === 0 || tnu === 0) gpa = 0.0;
-              tce += Number(vm.last.tce);
-              ctcp = tcp + Number(vm.last.tcp);
-              ctnu = tnu + Number(vm.last.tnu);
-              cgpa = parseFloat(ctcp / ctnu);
-              if(ctcp === 0 || ctnu === 0) cgpa = 0.0;
-              if(fail.length>0 || cgpa<1.5){status=0}
-              if(cgpa >=4.00) {
-                gp_status = 1;
-              }
-              if(cgpa >= 1.50 && cgpa <= 3.99) {
-                gp_status = 2;
-              }
-              if(cgpa >= 1.00 && cgpa < 1.50) {
-                gp_status = 3;
-              }
-              if(cgpa < 1.00) {
-                gp_status = 4;
-              }
-              dat = {
-                info: student,
-                result: result,
-                resultFail: fail,
-                outstandings: outstandings,
-                tnu: tnu,
-                ctnu: ctnu,
-                tcp: tcp,
-                tce: tce,
-                ctcp: ctcp,
-                gpa: gpa,
-                cgpa: cgpa,
-                prev_cgpa: vm.last.cgpa,
-                prev_ctcp: vm.last.ctcp,
-                prev_ctnu: vm.last.ctnu,
-                prev_tce: vm.last.tce,
-                status: status,
-                gp_status: gp_status
-              };
-              if (!lodash.find(vm.students, {info: {id: dat.info.id}})) {
-                if(status === 1){
-                  vm.pass += 1;
+              else if(Number(student.level) !== 100){
+                if(status === 1 && gp_status <= 2){
+                  vm.pass.push(dat);
                 }
                 if(status === 0 && gp_status <= 2){
-                  vm.pcso += 1;
+                  vm.pcso.push(dat);
                 }
-                if((status === 0 || 1) && gp_status === 3){
-                  vm.probation += 1;
+                if(prob === 1 && gp_status === 3){
+                  vm.probation.push(dat);
                 }
-                if((status === 0 || 1) && gp_status === 4){
-                  vm.withdrawal += 1;
+                if(withdraw === 1 && gp_status === 3){
+                  vm.withdrawal.push(dat);
                 }
-                vm.total = vm.pass+vm.pcso+vm.probation+vm.withdrawal+vm.leave+vm.sick;
-                vm.students.push(dat);
               }
+              vm.total = vm.pass.length+vm.pcso.length+vm.probation.length+vm.withdrawal+vm.leave.length+vm.sick.length+vm.deferment.length+vm.suspension.length;
+              vm.students.push(dat);
             }
           });
       }

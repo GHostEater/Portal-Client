@@ -50,7 +50,7 @@ div(ng-controller="CourseRegCtrl as vm")
         .panel-footer
           button(ng-show="vm.counter >= 15 && vm.counter <= 24" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
           button(ng-show="vm.student.level == 300 && vm.semester.semester == 2 && vm.counter >= 6" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
-          button(ng-show="vm.student.level == 400 && vm.counter >= 1" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
+          button(ng-show="vm.student.level == 400 && vm.counter >= 15 && vm.counter <= 27" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
   .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || vm.lateRegStatus.status == 1)")
     .col-sm-6.col-sm-offset-4(ng-show="vm.outstandings.length>0")
       .panel.panel-danger

@@ -9,6 +9,8 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('courseToMajor',{url:'/course-to-major/',templateUrl:'app/courseToMajor/courseToMajor.html'})
     .state('log',{url:'/system/logs/',templateUrl:'app/systemLog/logs.html'})
 
+    .state('paymentToMajor',{url:'/payment-to-major/',templateUrl:'app/paymentToMajor/paymentToMajor.html'})
+
     .state('adminCourseAllocation',{url:'/admin/course-allocation/',templateUrl:'app/academicAffairs/adminCourseAllocation.html'})
     .state('adminOverviewSheet',{url:'/admin/overview-sheet/',templateUrl:'app/academicAffairs/adminOverviewSheet.html'})
     .state('adminBroadSheet',{url:'/admin/broad-sheet/',templateUrl:'app/academicAffairs/adminBroadSheet.html'})

@@ -2,7 +2,7 @@
  * Created by GHostEater on 19-Feb-16.
  */
 angular.module("b")
-  .controller("LoginController",function(Auth,$location,$filter,CurrentUser,toastr,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Semester,SystemLog){
+  .controller("LoginController",function(Auth,$location,$filter,CurrentUser,toastr,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Dean,Semester,SystemLog){
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.semester = Semester.get();
@@ -30,6 +30,13 @@ angular.module("b")
               CollegeOfficer.get({userId:vm.data.id}).$promise
                 .then(function (data) {
                   vm.data.co = data;
+                  setUser();
+                });
+            }
+            else if(vm.data.type === '8'){
+              Dean.get({userId:vm.data.id}).$promise
+                .then(function (data) {
+                  vm.data.dean = data;
                   setUser();
                 });
             }

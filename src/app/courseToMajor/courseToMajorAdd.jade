@@ -22,9 +22,8 @@
   div(ng-show="vm.courseSelect == 1")
     h4 Selected Course: {{vm.course.code}} {{vm.course.title}}
     button.btn.btn-danger(ng-click="vm.deSelectCourse()") Remove Selection
-    select.form-control(ng-model='vm.level' required)
+    select.form-control(ng-model='vm.level' required ng-options="level as level.level for level in vm.levels track by level.id")
       option(value='') Select Level
-      option(ng-repeat='level in vm.levels', value='{{level.id}}') {{level.level}}
 .modal-footer(ng-show="vm.level")
   button.btn.btn-primary(ng-click="vm.ok()") Confirm
   button.btn.btn-default(ng-click="$dismiss()") Cancel

@@ -43,7 +43,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
   .row
     .col-sm-12
       .row
-        h3.col-sm-12.text-center PASS LIST
+        h4.col-sm-12.text-center PASS LIST
       table.table.table-striped
         thead
           th S/N
@@ -54,7 +54,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
           th FINAL CGPA
           th
         tbody(style="font-size: 0.9em")
-          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{status:1}")
+          tr(ng-repeat="(key,student) in vm.pass | orderBy:'+username'")
             td {{key + 1}}
             td {{student.info.user.username | matricNo}}
             td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -65,7 +65,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
               span(ng-show="student.gp_status === 1") Fountain Scholar
     .col-sm-12
       .row
-        h3.col-sm-12.text-center PASS WITH COURSE(S) STILL OUTSTANDING LIST
+        h4.col-sm-12.text-center PASS WITH COURSE(S) STILL OUTSTANDING LIST
       table.table.table-striped
         thead
           th S/N
@@ -76,7 +76,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
           th FINAL CGPA
           th
         tbody(style="font-size: 0.9em")
-          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{status:0,gp_status:2}")
+          tr(ng-repeat="(key,student) in vm.pcso | orderBy:'+username'")
             td {{key + 1}}
             td {{student.info.user.username | matricNo}}
             td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -87,7 +87,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
               span(ng-show="student.gp_status === 1") Fountain Scholar
     .col-sm-12
       .row
-        h3.col-sm-12.text-center PROBATION LIST
+        h4.col-sm-12.text-center PROBATION LIST
       table.table.table-striped
         thead
           th S/N
@@ -97,7 +97,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
           th Present GPA
           th FINAL CGPA
         tbody(style="font-size: 0.9em")
-          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{status:0,gp_status:3}")
+          tr(ng-repeat="(key,student) in vm.probation | orderBy:'+username'")
             td {{key + 1}}
             td {{student.info.user.username | matricNo}}
             td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -106,7 +106,7 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
             td {{student.cgpa | number:2}}
     .col-sm-12
       .row
-        h3.col-sm-12.text-center WITHDRAWAL LIST
+        h4.col-sm-12.text-center WITHDRAWAL LIST
       table.table.table-striped
         thead
           th S/N
@@ -116,13 +116,65 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
           th Present GPA
           th FINAL CGPA
         tbody(style="font-size: 0.9em")
-          tr(ng-repeat="(key,student) in vm.students | orderBy:'+username' | filter:{gp_status:4}")
+          tr(ng-repeat="(key,student) in vm.withdrawal | orderBy:'+username'")
             td {{key + 1}}
             td {{student.info.user.username | matricNo}}
             td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
             td {{student.prev_cgpa | number:2}}
             td {{student.gpa | number:2}}
             td {{student.cgpa | number:2}}
+    .col-sm-12
+      .row
+        h4.col-sm-12.text-center SICK LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.sick | orderBy:'+username'")
+            td {{key + 1}}
+            td {{student.user.username | matricNo}}
+            td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+    .col-sm-12
+      .row
+        h4.col-sm-12.text-center LEAVE LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.leave | orderBy:'+username'")
+            td {{key + 1}}
+            td {{student.user.username | matricNo}}
+            td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+    .col-sm-12
+      .row
+        h4.col-sm-12.text-center DEFERMENT LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.deferment | orderBy:'+username'")
+            td {{key + 1}}
+            td {{student.user.username | matricNo}}
+            td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+    .col-sm-12
+      .row
+        h4.col-sm-12.text-center SUSPENSION LIST
+      table.table.table-striped
+        thead
+          th S/N
+          th Matric
+          th Name
+        tbody(style="font-size: 0.9em")
+          tr(ng-repeat="(key,student) in vm.suspension | orderBy:'+username'")
+            td {{key + 1}}
+            td {{student.user.username | matricNo}}
+            td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
   .col-sm-2
     .panel.panel-info
       .panel-heading Summary
@@ -130,22 +182,28 @@ div(ng-controller="AdminOverviewSheetCtrl as vm")
         table.table.table-bordered
           tr
             th Pass
-            td {{vm.pass}}
+            td {{vm.pass.length}}
           tr
             th PCSO
-            td {{vm.pcso}}
+            td {{vm.pcso.length}}
           tr
             th Probation
-            td {{vm.probation}}
+            td {{vm.probation.length}}
           tr
             th Withdrawal
-            td {{vm.withdrawal}}
+            td {{vm.withdrawal.length}}
           tr
             th Leave
-            td {{vm.leave}}
+            td {{vm.leave.length}}
           tr
             th Sick
-            td {{vm.sick}}
+            td {{vm.sick.length}}
+          tr
+            th Suspension
+            td {{vm.suspension.length}}
+          tr
+            th Deferment
+            td {{vm.deferment.length}}
           tr
             th Total
             th {{vm.total}}

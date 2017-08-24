@@ -36,6 +36,6 @@ div(ng-controller="StudentResultViewController as vm")
         span TNU: {{res.gp.tnu}}&nbsp
         span TCP: {{res.gp.tcp}}&nbsp
         span GPA: {{res.gp.gpa | number:2}}&nbsp
-        span CPGA: {{res.gp.cgpa | number:2}}
+        span CGPA: {{res.gp.cgpa | number:2}}
         .row.sm-content
           button.btn.btn-primary(ng-click="vm.processResult(res.gp)") Re-Process Result

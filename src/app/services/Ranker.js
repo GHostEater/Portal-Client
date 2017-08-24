@@ -37,6 +37,9 @@ angular.module('b')
       else if(rank === '7'){
         return "Student";
       }
+      else if(rank === '8'){
+        return "Dean";
+      }
     }
     return{
       get: get

@@ -22,36 +22,36 @@ div(ng-controller='CourseToMajorCtrl as vm')
           section(ng-repeat='level in vm.levels')
             h3.text-center {{level.level}} Level
             h5 1st Semester
-              .table-responsive
-                table.table.table-bordered.table-striped
-                  thead
-                    th Course Code
-                    th Course Title
-                    th Unit
-                    th Type
-                    th Actions
-                  tbody
-                    tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:1},level:level.level}')
-                      td {{course.course.code}}
-                      td {{course.course.title}}
-                      td {{course.course.unit}}
-                      td {{course.course.type}}
-                      td
-                        button.btn.btn-xs.btn-danger(ng-click="vm.remove(course.id)") Delete
+            .table-responsive
+              table.table.table-bordered.table-striped
+                thead
+                  th Course Code
+                  th Course Title
+                  th Unit
+                  th Type
+                  th Actions
+                tbody
+                  tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:1},level:level.level}')
+                    td {{course.course.code}}
+                    td {{course.course.title}}
+                    td {{course.course.unit}}
+                    td {{course.course.type}}
+                    td
+                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(course.id)") Delete
             h5 2nd Semester
-              .table-responsive
-                table.table.table-bordered.table-striped
-                  thead
-                    th Course Code
-                    th Course Title
-                    th Unit
-                    th Type
-                    th Actions
-                  tbody
-                    tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:2},level:level.level}')
-                      td {{course.course.code}}
-                      td {{course.course.title}}
-                      td {{course.course.unit}}
-                      td {{course.course.type}}
-                      td
-                        button.btn.btn-xs.btn-danger(ng-click="vm.remove(course.id)") Delete
+            .table-responsive
+              table.table.table-bordered.table-striped
+                thead
+                  th Course Code
+                  th Course Title
+                  th Unit
+                  th Type
+                  th Actions
+                tbody
+                  tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:2},level:level.level}')
+                    td {{course.course.code}}
+                    td {{course.course.title}}
+                    td {{course.course.unit}}
+                    td {{course.course.type}}
+                    td
+                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(course.id)") Delete

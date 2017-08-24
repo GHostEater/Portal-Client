@@ -25,7 +25,7 @@ angular.module('b')
           vm.collegeOfficer = data;
           getDepts(vm.collegeOfficer.college);
         });
-    }
+     }
     }
 
     function getDepts(college){
@@ -35,7 +35,6 @@ angular.module('b')
       vm.majors = lodash.filter(vm.m,{dept:dept});
     }
     function getMajorCourses(id){
-      vm.major = lodash.find(vm.m,{id:Number(id)});
       vm.majorCourses = CourseToMajor.query({majorId:id});
     }
     function add(majorId){
