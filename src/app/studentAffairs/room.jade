@@ -1,0 +1,28 @@
+//Created by GHostEater on 09-Nov-17.
+div(ng-controller="RoomCtrl as vm")
+  .row
+    .col-sm-6
+      select.form-control.input-sm(ng-model='vm.hostel' ng-options="hostel as hostel.name for hostel in vm.hostels track by hostel.id")
+        option(value='') Select Hostel
+  .row
+    .col-sm-12.content-vert
+      button.btn.btn-primary(ng-click='vm.add()') Add Room
+  .table-responsive
+    table.table.table-striped.table-bordered
+      thead
+        th S/N
+        th Name
+        th Size
+        th Hostel
+        th Sex
+        th Actions
+      tbody
+        tr(ng-repeat="(key,room) in vm.rooms | orderBy:'+name' | filter:{hostel:vm.hostel}")
+          td {{key + 1}}
+          td {{room.name}}
+          td {{room.size}}
+          td {{room.hostel.name}}
+          td {{room.hostel.sex}}
+          td
+            button.btn.btn-xs.btn-warning(ng-click="vm.edit(room)") Edit
+            button.btn.btn-xs.btn-danger(ng-click="vm.remove(room)") Delete

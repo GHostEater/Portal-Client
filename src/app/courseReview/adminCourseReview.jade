@@ -1,0 +1,52 @@
+//Created by GHostEater on 11-Dec-17.
+div(ng-controller="AdminCourseReviewCtrl as vm")
+  .row
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.session' ng-options="session as session.session for session in vm.sessions track by session.id")
+        option(value='') Select Session
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.college' ng-options="college as college.acronym for college in vm.colleges track by college.id")
+        option(value='') Select College
+    .col-sm-3
+      select.form-control.input-sm(ng-model='vm.dept' ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college} track by dept.id")
+        option(value='') Select Department
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.course' ng-options="course as course.code for course in vm.courses | filter:{dept:vm.dept} track by course.id")
+        option(value='') Select Course
+    .col-sm-3
+      button.btn.btn-sm.btn-primary(ng-click='vm.getReviews(vm.course)') Go
+  .row.content-vert(ng-show="vm.reviews")
+    .col-sm-3
+      button.btn.btn-sm.btn-warning(ng-click="vm.exportToExcel('#table')") Export
+  .row(ng-show="vm.reviews")
+    .col-sm-12
+      table.table.table-striped.table-bordered.table-condensed#table
+        thead
+          tr
+            th(colspan=11).text-center
+              h4 Evaluation of {{vm.reviews[0].lecturer.user.last_name}}, {{vm.reviews[0].lecturer.user.first_name}} on {{vm.course.code}} {{vm.session.session}} Session
+          tr
+            th S/N
+            th Question 1
+            th Question 2
+            th Question 3
+            th Question 4
+            th Question 5
+            th Question 6
+            th Question 7
+            th Question 8
+            th Question 9
+            th Question 10
+        tbody
+          tr(ng-repeat="(key,review) in vm.reviews")
+            td {{key+1}}
+            td {{review.q1}}
+            td {{review.q2}}
+            td {{review.q3}}
+            td {{review.q4}}
+            td {{review.q5}}
+            td {{review.q6}}
+            td {{review.q7}}
+            td {{review.q8}}
+            td {{review.q9}}
+            td {{review.q10}}

@@ -1,0 +1,13 @@
+//Created by GHostEater on 09-Nov-17.
+div(ng-controller="HostelCtrl as vm").col-sm-12
+  .table-responsive
+    table.table.table-striped.table-bordered
+      thead
+        th S/N
+        th Name
+        th Sex
+      tbody
+        tr(ng-repeat="(key,hostel) in vm.hostels")
+          td {{key + 1}}
+          td {{hostel.name}}
+          td {{hostel.sex}}

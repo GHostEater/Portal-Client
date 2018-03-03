@@ -1,0 +1,27 @@
+.modal-header
+  h3.modal-title Add Payment To {{vm.major.name}}
+.modal-body
+  div(ng-show="vm.paymentSelect == 0")
+    .row.content
+      form.content.col-sm-4
+        input.form-control(type="text" placeholder="Search" ng-model="vm.searchTerm")
+    .table-responsive
+      table.table.table-striped.table-condensed
+        thead
+          th Name
+          th Amount
+          th Action
+        tbody
+          tr(ng-repeat="payment in vm.payments | orderBy:'+code' | filter:vm.searchTerm")
+            td {{payment.name}}
+            td {{payment.amount | number:2}}
+            td
+              button.btn.btn-xs.btn-primary(ng-click="vm.selectPayment(payment.id)") Select
+  div(ng-show="vm.paymentSelect == 1")
+    h4 Selected Payment: {{vm.payment.name}} {{vm.payment.amount | number:2}}
+    button.btn.btn-danger(ng-click="vm.deSelectPayment()") Remove Selection
+    select.form-control(ng-model='vm.level' required ng-options="level as level.level for level in vm.levels track by level.id")
+      option(value='') Select Level
+.modal-footer(ng-show="vm.level")
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

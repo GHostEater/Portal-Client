@@ -1,0 +1,8 @@
+//Created by GHostEater on 04-Mar-16.
+.modal-header
+    h3.modal-title {{vm.header}}
+.modal-body
+    p.text-center Are You Sure
+.modal-footer
+    button.btn.btn-danger(ng-click="vm.ok()") Confirm
+    button.btn.btn-default(ng-click="$dismiss()") Cancel

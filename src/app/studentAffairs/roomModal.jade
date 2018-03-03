@@ -1,0 +1,12 @@
+//Created by GHostEater on 09-Nov-17.
+.modal-header
+  h3.modal-title {{vm.header}}
+.modal-body
+  form(name="vm.form")
+    input.form-control.input-sm(ng-model="vm.room.name" placeholder="Name" required)
+    input.form-control.input-sm(ng-model="vm.room.size" placeholder="Size" required)
+    select.form-control.input-sm(ng-model='vm.room.hostel' ng-options="hostel as hostel.name for hostel in vm.hostels track by hostel.id" required)
+      option(value='') Select Hostel
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

@@ -1,0 +1,22 @@
+//Created by GHostEater on 03-Mar-18.
+div(ng-controller="LevelAdviserCtrl as vm").row
+  .col-sm-12
+    button.btn.btn-primary(ng-click="vm.add()") Add Level Adviser
+  .col-sm-4.content-vert
+    form
+      input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.searchTerm")
+  .col-sm-12
+    table.table.table-condensed.table-striped.table-bordered
+      thead
+        th Name
+        th Major
+        th Levels
+        th Actions
+      tbody
+        tr(ng-repeat="adviser in vm.levelAdvisers | filter: vm.searchTerm")
+          td {{adviser.lecturer.user.last_name | uppercase}}, {{adviser.lecturer.user.first_name}}
+          td {{adviser.major.name}}
+          td
+            span(ng-repeat="level in adviser.level") {{level.level}}&nbsp
+          td
+            button.btn.btn-sm.btn-danger(ng-click="vm.remove(adviser)") Delete

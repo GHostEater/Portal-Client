@@ -1,0 +1,77 @@
+//Created by GHostEater on 01-Mar-18.
+div(ng-controller="StudentViewCtrl as vm")
+  .row
+    .col-sm-6
+      .content-vert
+        img.img-responsive(ng-src="{{vm.student.user.img}}" width="150" height="150")
+      table.table.table-bordered.table-striped
+        tr
+          th.col-sm-5 Name
+          td {{vm.student.user.last_name | uppercase}}, {{vm.student.user.first_name}}
+        tr
+          th Matric No
+          td {{vm.student.user.username | matricNo}}
+        tr
+          th Sex
+          td {{vm.student.user.sex}}
+        tr
+          th Genotype
+          td {{vm.student.user.genotype}}
+        tr
+          th Blood Group
+          td {{vm.student.user.blood_group}}
+        tr
+          th E-Mail
+          td {{vm.student.user.email}}
+        tr
+          th Phone Number
+          td {{vm.student.user.phone}}
+        tr
+          th Date of Birth
+          td {{vm.student.user.date_birth}}
+        tr
+          th Nationality
+          td {{vm.student.user.nationality}}
+        tr
+          th State of Origin
+          td {{vm.student.user.state_origin}}
+        tr
+          th Town
+          td {{vm.student.user.town}}
+        tr
+          th Local Government Area
+          td {{vm.student.user.lga}}
+        tr
+          th Religion
+          td {{vm.student.user.religion}}
+        tr
+          th Address
+          td {{vm.student.user.address}}
+        tr
+          th Next of Kin
+          td
+            span {{vm.student.user.next_kin}}
+            br
+            span {{vm.student.user.next_kin_address}}
+            br
+            span {{vm.student.parent_no}}
+    .col-sm-6
+      table.table.table-bordered.table-striped
+        tr
+          th College
+          td {{vm.student.major.dept.college.name}}
+        tr
+          th Department
+          td {{vm.student.major.dept.name}}
+        tr
+          th Major
+          td {{vm.student.major.name}}
+        tr
+          th Level
+          td {{vm.student.level.level}}
+        tr
+          th Mode of Entry
+          td {{vm.student.mode_of_entry.name}}
+        tr
+          th O'Level Result
+          td {{vm.student.olevel}}

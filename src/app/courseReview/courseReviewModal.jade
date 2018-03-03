@@ -1,0 +1,113 @@
+.modal-header
+  h4.modal-title Evaluate {{vm.lecturer.user.last_name}}, {{vm.lecturer.user.first_name}} on {{vm.course.code}} {{vm.session.session}} Session
+.modal-body.row
+  form(name="vm.form")
+    table.table.table-bordered.table-striped
+      thead
+        th S/N
+        th Question
+        th Answer
+      tbody
+        tr
+          td 1
+          td The Lecturer has been regular and punctual since the commencement of lectures for the semester.
+          td
+            label.control-label Agree
+              input(type='radio' name="q1" ng-model="vm.review.q1" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q1" ng-model="vm.review.q1" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q1" ng-model="vm.review.q1" value="Disagree" required)
+        tr
+          td 2
+          td The Lecture materials (notes and study materials) provided by the Lecturer is explicit and self-explanatory.
+          td
+            label.control-label Agree
+              input(type='radio' name="q2" ng-model="vm.review.q2" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q2" ng-model="vm.review.q2" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q2" ng-model="vm.review.q2" value="Disagree" required)
+        tr
+          td 3
+          td The use of multimedia and other modes in teaching are adequately embraced by the Lecturer.
+          td
+            label.control-label Agree
+              input(type='radio' name="q3" ng-model="vm.review.q3" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q3" ng-model="vm.review.q3" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q3" ng-model="vm.review.q3" value="Disagree" required)
+        tr
+          td 4
+          td The Lecturer seemed prepared for the class.
+          td
+            label.control-label Agree
+              input(type='radio' name="q4" ng-model="vm.review.q4" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q4" ng-model="vm.review.q4" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q4" ng-model="vm.review.q4" value="Disagree" required)
+        tr
+          td 5
+          td The Lecturer is readily accessible to the students outside Lecture periods.
+          td
+            label.control-label Agree
+              input(type='radio' name="q5" ng-model="vm.review.q5" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q5" ng-model="vm.review.q5" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q5" ng-model="vm.review.q5" value="Disagree" required)
+        tr
+          td 6
+          td There was good rapport and student/teacher interaction between the Lecturer and the students.
+          td
+            label.control-label Agree
+              input(type='radio' name="q6" ng-model="vm.review.q6" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q6" ng-model="vm.review.q6" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q6" ng-model="vm.review.q6" value="Disagree" required)
+        tr
+          td 7
+          td The Lecturer explained course material clearly and effectively.
+          td
+            label.control-label Agree
+              input(type='radio' name="q7" ng-model="vm.review.q7" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q7" ng-model="vm.review.q7" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q7" ng-model="vm.review.q7" value="Disagree" required)
+        tr
+          td 8
+          td The Lecturer’s voice is audible.
+          td
+            label.control-label Agree
+              input(type='radio' name="q8" ng-model="vm.review.q8" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q8" ng-model="vm.review.q8" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q8" ng-model="vm.review.q8" value="Disagree" required)
+        tr
+          td 9
+          td The Lecturer writes legibly on the board.
+          td
+            label.control-label Agree
+              input(type='radio' name="q9" ng-model="vm.review.q9" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q9" ng-model="vm.review.q9" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q9" ng-model="vm.review.q9" value="Disagree" required)
+        tr
+          td 10
+          td The Lecturer gives periodic Assignments and tests to ascertain the level of comprehension.
+          td
+            label.control-label Agree
+              input(type='radio' name="q10" ng-model="vm.review.q10" value="Agree" required)
+            label.control-label Neutral
+              input(type='radio' name="q10" ng-model="vm.review.q10" value="Neutral" required)
+            label.control-label Disagree
+              input(type='radio' name="q10" ng-model="vm.review.q10" value="Disagree" required)
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel
