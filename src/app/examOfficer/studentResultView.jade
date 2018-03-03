@@ -5,7 +5,7 @@ div(ng-controller="StudentResultViewController as vm")
       h3.panel-title
         span {{res.gp.student.user.last_name | uppercase}}, {{res.gp.student.user.first_name}} &nbsp
         span {{res.gp.student.user.username | matricNo}} &nbsp
-        span {{res.gp.session}} Session &nbsp
+        span {{res.gp.session.session}} Session &nbsp
         span(ng-show="res.gp.semester == 1") 1st Semester
         span(ng-show="res.gp.semester == 2") 2nd Semester
     .panel-body
@@ -19,7 +19,7 @@ div(ng-controller="StudentResultViewController as vm")
             th Exam
             th Score 100%
             th Grade
-            th Actions
+            th(ng-show="vm.user.examOfficer || vm.user.levelAdviser") Actions
           tbody
             tr(ng-repeat="result in res.result | orderBy:'+code'")
               td {{result.course.code}}
@@ -29,13 +29,13 @@ div(ng-controller="StudentResultViewController as vm")
               td {{result.exam}}
               td {{result.final}}
               td {{result.grade}}
-              td
-                button.btn.btn-xs.btn-warning(ng-click="vm.editCa(result.id)") Edit Ca
-                button.btn.btn-xs.btn-warning(ng-click="vm.editExam(result.id)") Edit Exam
+              td(ng-show="vm.user.examOfficer || vm.user.levelAdviser")
+                button.btn.btn-xs.btn-warning(ng-click="vm.editCa(result)") Edit Ca
+                button.btn.btn-xs.btn-warning(ng-click="vm.editExam(result)") Edit Exam
         span TCE: {{res.gp.tce}}&nbsp
         span TNU: {{res.gp.tnu}}&nbsp
         span TCP: {{res.gp.tcp}}&nbsp
         span GPA: {{res.gp.gpa | number:2}}&nbsp
         span CGPA: {{res.gp.cgpa | number:2}}
-        .row.sm-content
+        .row.sm-content(ng-show="vm.user.examOfficer || vm.user.levelAdviser")
           button.btn.btn-primary(ng-click="vm.processResult(res.gp)") Re-Process Result

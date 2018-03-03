@@ -1,8 +1,9 @@
+/* eslint-disable angular/controller-name */
 /**
  * Created by GHostEater on 16-Aug-16.
  */
 angular.module("b")
-  .controller("ProcessRequestCtrl", function(CourseResultEditRequest,id,status,handledBy,toastr,$uibModalInstance,SystemLog){
+  .controller("ProcessRequestCtrl", function(CourseResultEditRequest,id,status,handled_by,toastr,$uibModalInstance,SystemLog){
     var vm = this;
     vm.status = status;
     CourseResultEditRequest.get({id:id}).$promise
@@ -15,7 +16,7 @@ angular.module("b")
         id: id,
         status: status,
         date: new Date(),
-        handledBy: handledBy
+        handled_by: handled_by
       };
       CourseResultEditRequest.patch(data).$promise
         .then(function(){

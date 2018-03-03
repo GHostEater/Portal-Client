@@ -14,21 +14,21 @@ div(ng-controller="ResultEditLogCtrl as vm")
       th Session
       th Semester
     tbody
-      tr(ng-repeat="(key,log) in vm.logs | orderBy: '+session' | filter: vm.searchTerm")
+      tr(ng-repeat="(key,log) in vm.logs | orderBy: '-session.session' | filter: vm.searchTerm")
         td {{key + 1}}
         td {{log.type}}
         td {{log.prev_score}}
         td {{log.new_score}}
-        td {{log.editedBy.user.last_name | uppercase}}, {{log.editedBy.user.first_name}}
+        td {{log.edited_by.user.last_name | uppercase}}, {{log.edited_by.user.first_name}}
           br
-          span {{log.editedBy.college}}
+          span {{log.edited_by.college.acronym}}
           br
-          span {{log.editedBy.dept}}
+          span {{log.edited_by.dept.name}}
         td {{log.result.student.user.last_name | uppercase}}, {{log.result.student.user.first_name}}
           br
           span {{log.result.student.user.username | matricNo}}
         td {{log.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
-        td {{log.result.session}}
+        td {{log.result.session.session}}
         td
           span(ng-show="log.result.course.semester == 1") 1st Semester
           span(ng-show="log.result.course.semester == 2") 2nd Semester

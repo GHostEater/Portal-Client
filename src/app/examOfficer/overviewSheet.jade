@@ -4,9 +4,10 @@ div(ng-controller="OverviewSheetCtrl as vm")
     span.col-sm-4
       img(src="img/logo.png")
     span.col-sm-8
-      h2 FOUNTAIN UNIVERSITY, OSOGBO
-      h3 (University of Nasrul-Lahi-Il-Fatih Society)
-      h3 {{vm.session.session}} &nbsp
+      h3 FOUNTAIN UNIVERSITY, OSOGBO
+      h4
+        i (University of Nasrul-Lahi-Il-Fatih Society)
+      h4 {{vm.session.session}} &nbsp
         span(ng-show="vm.semester.semester == 1") First Semester Examination Results
         span(ng-show="vm.semester.semester == 2") Second Semester Examination Results
   .row.visible-print
@@ -20,7 +21,7 @@ div(ng-controller="OverviewSheetCtrl as vm")
       select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
         option(value="") Select Level
     .col-sm-2(ng-show="vm.user.examOfficer")
-      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept} track by major.id")
         option(value="") Select Major
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")

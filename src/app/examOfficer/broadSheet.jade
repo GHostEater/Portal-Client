@@ -3,25 +3,26 @@ div(ng-controller="BroadSheetCtrl as vm")
   .col-sm-12
     .row.visible-print.text-center
       span.col-sm-4
-        img(src="img/logo.png")
+        img(src="img/logo.png" height="50px")
       span.col-sm-8
-        h2 FOUNTAIN UNIVERSITY, OSOGBO
-        h3 (University of Nasrul-Lahi-Il-Fatih Society)
-        h3 {{vm.session.session}} &nbsp
+        h3 FOUNTAIN UNIVERSITY, OSOGBO
+        h4
+          i (University of Nasrul-Lahi-Il-Fatih Society)
+        h4 {{vm.session.session}} &nbsp
           span(ng-show="vm.semester.semester == 1") First Semester Examination Results
           span(ng-show="vm.semester.semester == 2") Second Semester Examination Results
     .row
-      span Department: {{vm.lecturer.dept}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLevel: {{vm.level.level}}
+      span Department: {{vm.lecturer.dept.name}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLevel: {{vm.level.level}}
     .row
       span Programme: B.Sc &nbsp
-      span(ng-show="vm.lecturer.college === 'College of Management and Social Sciences'") (Hons.)
+      span(ng-show="vm.lecturer.college.name === 'College of Management and Social Sciences'") (Hons.)
       span {{vm.major.name}}
     .row.hidden-print
       .col-sm-2
         select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
           option(value="") Select Level
       .col-sm-2(ng-show="vm.user.examOfficer")
-        select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+        select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept} track by major.id")
           option(value="") Select Major
       .col-sm-2
         select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
@@ -107,7 +108,7 @@ div(ng-controller="BroadSheetCtrl as vm")
         br
         span ___________________________________&nbsp
         br
-        span Head of {{vm.hod.dept}}'s Signature/Date
+        span Head of {{vm.hod.dept.name}}'s Signature/Date
       .col-sm-4
         span Dean of College: ____________________________
         br

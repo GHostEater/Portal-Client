@@ -1,40 +1,39 @@
-//   Created by GHostEater on 4/23/2016.
+//Created by GHostEater on 4/23/2016.
 .modal-header
-    h3.modal-title Allocate Course
+  h3.modal-title Allocate Course
 .modal-body
-    form(name="vm.form").form-horizontal
-        div(ng-show="vm.lecturerSelect == 0")
-            .row.content
-                form.content.col-sm-4
-                    input.form-control(type="text" placeholder="Search" ng-model="vm.searchTerm")
-            .table-responsive
-                table.table.table-striped.table-condensed
-                    thead
-                        th Name
-                        th College
-                        th Department
-                        th Action
-                    tbody
-                        tr(ng-repeat="lecturer in vm.lecturers | filter: vm.searchTerm")
-                            td {{lecturer.user.last_name}}, {{lecturer.user.first_name}}
-                            td {{lecturer.college}}
-                            td {{lecturer.dept}}
-                            td
-                                button.btn.btn-xs.btn-primary(ng-click="vm.selectLecturer(lecturer.id)") Select
-        div(ng-show="vm.lecturerSelect == 1")
-            h4 Selected Lecturer: {{vm.lecturer.user.last_name}}, {{vm.lecturer.user.first_name}}
-            button.btn.btn-danger(ng-click="vm.deSelectLecturer()") Remove Selection
-            .form-group
-                .col-sm-10
-                    select.form-control.input-sm(ng-options="course as course.code for course in vm.courses track by course.id" ng-model="vm.course")
-                        option(value='') Course Code
-            .form-group
-                .col-sm-10
-                    select.form-control.input-sm(name="position" required ng-model="vm.position")
-                        option(value="") Position
-                        option(value="1") Coordinator
-                        option(value="2") Assisting Lecturer
+  form(name="vm.form").form-horizontal
+    div(ng-show="vm.lecturerSelect == 0")
+      .row.content
+        form.content.col-sm-4
+          input.form-control(type="text" placeholder="Search" ng-model="vm.searchTerm")
+      .table-responsive
+        table.table.table-striped.table-condensed
+          thead
+            th Name
+            th College
+            th Department
+            th Action
+          tbody
+            tr(ng-repeat="lecturer in vm.lecturers | filter: vm.searchTerm")
+              td {{lecturer.user.last_name}}, {{lecturer.user.first_name}}
+              td {{lecturer.college.name}}
+              td {{lecturer.dept.name}}
+              td
+                button.btn.btn-xs.btn-primary(ng-click="vm.selectLecturer(lecturer.id)") Select
+    div(ng-show="vm.lecturerSelect == 1")
+      h4 Selected Lecturer: {{vm.lecturer.user.last_name}}, {{vm.lecturer.user.first_name}}
+      button.btn.btn-danger(ng-click="vm.deSelectLecturer()") Remove Selection
+      .form-group
+        .col-sm-10
+          select.form-control.input-sm(ng-options="course as course.code for course in vm.courses track by course.id" ng-model="vm.course")
+            option(value='') Course Code
+      .form-group
+        .col-sm-10
+          select.form-control.input-sm(name="position" required ng-model="vm.position")
+            option(value="") Position
+            option(value="1") Coordinator
+            option(value="2") Assisting Lecturer
 .modal-footer
-    p {{vm.course}}
-    button.btn.btn-primary(ng-click="vm.ok()") Confirm
-    button.btn.btn-default(ng-click="$dismiss()") Cancel
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

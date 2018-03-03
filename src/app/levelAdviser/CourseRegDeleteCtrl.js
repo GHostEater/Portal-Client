@@ -1,3 +1,4 @@
+/* eslint-disable angular/controller-name */
 angular.module("b")
   .controller('CourseRegDeleteCtrl',function(CourseReg,id,toastr,$uibModalInstance,SystemLog){
     var vm = this;

@@ -54,8 +54,8 @@ div(ng-controller="CourseDetailsCtrl as vm")
               td {{student.result.final}}
               td {{student.result.grade}}
               td(ng-show="vm.perm.status == 1")
-                button.btn.btn-xs.btn-warning(ng-click="vm.editCa(student.result.id)") Edit CA
-                button.btn.btn-xs.btn-warning(ng-click="vm.editExam(student.result.id)") Edit Exam
+                button.btn.btn-xs.btn-warning(ng-click="vm.editCa(student.result)") Edit CA
+                button.btn.btn-xs.btn-warning(ng-click="vm.editExam(student.result)") Edit Exam
     .panel-footer.hidden-print(ng-show="vm.course.position == 1")
       .row.content
         csv-upload.col-sm-4(ng-model="vm.ca")

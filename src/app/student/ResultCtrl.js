@@ -1,3 +1,4 @@
+/* eslint-disable angular/controller-name */
 /**
  * Created by GHostEater on 09-May-16.
  */
@@ -6,11 +7,8 @@ angular.module("b")
     var vm = this;
     vm.res = [];
     vm.user = CurrentUser.profile;
-    Student.get({userId:vm.user.id}).$promise
-      .then(function (data) {
-        vm.student = data;
-        getResult();
-      });
+    vm.student = vm.user.student;
+    getResult();
     function getResult() {
       CourseResult.student({student:vm.student.id}).$promise
         .then(function(data){

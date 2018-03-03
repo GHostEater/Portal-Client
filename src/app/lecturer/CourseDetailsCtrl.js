@@ -1,8 +1,10 @@
+/* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller("CourseDetailsCtrl",function(CourseAllocation,CourseReg,CourseResult,CourseResultEditRequest,Student,Lecturer,Session,Semester,CurrentUser,lodash,toastr,$stateParams,$uibModal,SystemLog,$filter){
+  .controller("CourseDetailsCtrl",function(CourseAllocation,CourseReg,CourseResult,CourseResultEditRequest,Student,Lecturer,Session,Semester,CurrentUser,lodash,toastr,$stateParams,$uibModal,SystemLog,$filter,Access){
+    Access.lecturer();
     var vm = this;
     vm.user = CurrentUser.profile;
-    vm.lecturer = Lecturer.get({userId:vm.user.id});
+    vm.lecturer = vm.user.lecturer;
     vm.course = CourseAllocation.get({id:$stateParams.id});
     vm.session = Session.getCurrent();
     vm.semester = Semester.get();
@@ -14,7 +16,7 @@ angular.module("b")
     function getRequests() {
       CourseResultEditRequest.query().$promise
       .then(function (data) {
-        vm.perm = lodash.find(data,{lecturer:{user:{id:vm.user.id}},status:1});
+        vm.perm = lodash.find(data,{lecturer:vm.lecturer,status:1});
       });
     }getRequests();
 
@@ -41,7 +43,7 @@ angular.module("b")
       CourseReg.course({course:vm.course.course.id,session:vm.session.id}).$promise
         .then(function (data) {
           for(var i=0; i<data.length; i++){
-            Student.get({userId:data[i].student.user.id}).$promise
+            Student.get({user:data[i].student.user.id}).$promise
             .then(function(data){
                 vm.students.push({
                   info: data,
@@ -72,7 +74,7 @@ angular.module("b")
             course: vm.course.course.id,
             student: vm.student.info.id,
             ca: ca,
-            dept: vm.student.info.deptId,
+            dept: vm.student.info.dept.id,
             session: vm.session.id
           };
           CourseResult.uploadCA(data).$promise
@@ -107,19 +109,19 @@ angular.module("b")
           }
           if (final >= 70 && final <= 100) {
             grade = 'A';
-            gp = 5;
+            gp = 4;
           }
           else if (final >= 60 && final <= 69) {
             grade = 'B';
-            gp = 4;
+            gp = 3;
           }
           else if (final >= 50 && final <= 59) {
             grade = 'C';
-            gp = 3;
+            gp = 2;
           }
           else if (final >= 45 && final < 50) {
             grade = 'D';
-            gp = 2;
+            gp = 1;
           }
           else if (final <= 44) {
             grade = 'F';
@@ -148,15 +150,15 @@ angular.module("b")
         }
       }
     }
-    vm.editCa = function(id){
+    vm.editCa = function(result){
       var options = {
         templateUrl: 'app/lecturer/editCa.html',
         controller: "EditCaController",
         controllerAs: 'vm',
         size: 'sm',
         resolve:{
-          id: function(){
-            return id;
+          result: function(){
+            return result;
           }
         }
       };
@@ -165,15 +167,15 @@ angular.module("b")
           getDetails();
         });
     };
-    vm.editExam = function(id){
+    vm.editExam = function(result){
       var options = {
         templateUrl: 'app/lecturer/editExam.html',
         controller: "EditExamController",
         controllerAs: 'vm',
         size: 'sm',
         resolve:{
-          id: function(){
-            return id;
+          result: function(){
+            return result;
           }
         }
       };

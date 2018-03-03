@@ -19,8 +19,8 @@ div(ng-controller="CourseAllocationCtrl as vm")
       .col-sm-12.text-center
         h2 FOUNTAIN UNIVERSITY, OSOGBO
         h3 (University of Nasrul-Lahi-Il-Fatih Society)
-        h4 {{vm.lecturer.college}}
-        h4 {{vm.lecturer.department}}
+        h4 {{vm.lecturer.college.name}}
+        h4 {{vm.lecturer.dept.name}}
       .col-sm-12
         h5 The Details of the Allocation of Courses for
     .row
@@ -28,7 +28,7 @@ div(ng-controller="CourseAllocationCtrl as vm")
       span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}
         span(ng-show="vm.semester.semester == 1") st Semester
         span(ng-show="vm.semester.semester == 2") nd Semester
-    span.row Department: {{vm.lecturer.dept}}
+    span.row Department: {{vm.lecturer.dept.name}}
     table.table.table-striped.table-bordered
       thead
         th Course Code
@@ -43,7 +43,7 @@ div(ng-controller="CourseAllocationCtrl as vm")
           td {{allocation.course.code}}
           td {{allocation.course.title}}
           td {{allocation.course.unit}}
-          td {{allocation.course.level}}
+          td {{allocation.course.level.level}}
           td {{allocation.lecturer.user.last_name}}, {{allocation.lecturer.user.first_name}}
           td
             span(ng-show="allocation.position == 1") Coordinator
@@ -57,6 +57,6 @@ div(ng-controller="CourseAllocationCtrl as vm")
       br
       span ___________________________________&nbsp
       br
-      span Head of {{vm.lecturer.dept}}'s Signature/Date&nbsp
+      span Head of {{vm.lecturer.dept.name}}'s Signature/Date&nbsp
   .row.content.hidden-print
     button.btn.btn-xs.btn-primary(ng-click="vm.print()") Print

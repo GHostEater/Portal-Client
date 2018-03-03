@@ -1,20 +1,18 @@
+/* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller('AllocateCtrl',function(CourseAllocation,Dept,toastr,$uibModalInstance,lodash,CurrentUser,Lecturer,Course,Session,SystemLog){
+  .controller('AllocateCtrl',function(CourseAllocation,toastr,$uibModalInstance,lodash,CurrentUser,Lecturer,Course,Session,SystemLog){
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.lecturerSelect = 0;
     vm.selectLecturer = selectLecturer;
     vm.deSelectLecturer = deSelectLecturer;
     vm.lecturers = Lecturer.query();
+    vm.dept = vm.user.hod.dept;
     Course.query().$promise
       .then(function (data) {
-        vm.courses = lodash.filter(data,{dept:vm.user.hod.dept});
+        vm.courses = lodash.filter(data,{dept:{name:vm.user.hod.dept.name}});
       });
     vm.session = Session.getCurrent();
-    Dept.query().$promise
-      .then(function (data) {
-        vm.dept = lodash.find(data,{name:vm.user.hod.dept});
-      });
 
     function selectLecturer(id){
       vm.lecturer = lodash.find(vm.lecturers,{id:id});
@@ -29,7 +27,7 @@ angular.module("b")
         var data = {
           course: vm.course.id,
           lecturer: vm.lecturer.id,
-          allocatedBy: vm.user.hod.lecturer.id,
+          allocated_by: vm.user.hod.lecturer.id,
           session: vm.session.id,
           position: vm.position,
           dept: vm.dept.id

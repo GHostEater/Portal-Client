@@ -1,15 +1,16 @@
+/* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('CourseToMajorAddCtrl', function (Course,Level,CourseToMajor,toastr,lodash,majorId,Major,$uibModalInstance,SystemLog) {
+  .controller('CourseToMajorAddCtrl', function (Course,Level,CourseToMajor,toastr,lodash,major,$uibModalInstance,SystemLog) {
     var vm = this;
     vm.courseSelect = 0;
     vm.selectCourse = selectCourse;
     vm.deSelectCourse = deSelectCourse;
     vm.courses = Course.query();
     vm.levels = Level.query();
-    vm.major = Major.get({id:majorId});
+    vm.major = major;
 
-    function selectCourse(id){
-      vm.course = lodash.find(vm.courses,{id:id});
+    function selectCourse(course){
+      vm.course = course;
       vm.courseSelect = 1;
     }
     function deSelectCourse(){
@@ -31,5 +32,5 @@ angular.module('b')
         .catch(function(){
           toastr.error("Error");
         });
-    }
+    };
   });

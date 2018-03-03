@@ -1,3 +1,4 @@
+/* eslint-disable angular/controller-name */
 angular.module("b")
   .controller('AllocationDeleteCtrl',function(CourseAllocation,id,toastr,$modalInstance,SystemLog){
     var vm = this;

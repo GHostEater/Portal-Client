@@ -17,10 +17,12 @@ angular.module("b")
         token: '',
         co: '',
         dean: '',
+        lecturer: '',
         hod: '',
         levelAdviser: '',
         examOfficer: '',
         student:'',
+        studentAffairs:'',
         get loggedIn(){
           return this.id;
         }
@@ -37,10 +39,12 @@ angular.module("b")
         user.token = localUser.token;
         user.co = localUser.co;
         user.dean = localUser.dean;
+        user.lecturer = localUser.lecturer;
         user.hod = localUser.hod;
         user.levelAdviser = localUser.levelAdviser;
         user.examOfficer = localUser.examOfficer;
         user.student = localUser.student;
+        user.studentAffairs = localUser.studentAffairs;
       }
       return user;
     }
@@ -55,10 +59,12 @@ angular.module("b")
       profile.token = user.token;
       profile.co = user.co;
       profile.dean = user.dean;
+      profile.lecturer = user.lecturer;
       profile.hod = user.hod;
       profile.levelAdviser = user.levelAdviser;
       profile.examOfficer = user.examOfficer;
       profile.student = user.student;
+      profile.studentAffairs = user.studentAffairs;
 
       localStorage.add(USER_INFO,profile);
     }
@@ -70,5 +76,5 @@ angular.module("b")
       profile: profile,
       setUser: setUser,
       logOut: logOut
-    }
+    };
   });

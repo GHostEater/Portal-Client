@@ -1,8 +1,10 @@
+/* eslint-disable angular/controller-name */
 /**
  * Created by GHostEater on 5/19/2016.
  */
 angular.module("b")
-  .controller("TranscriptCtrl",function(CourseResult,CourseResultGPA,CourseReg,CourseToMajor,CourseWaving,Student,lodash,toastr,$stateParams,Session,Semester,CurrentUser,$window){
+  .controller("TranscriptCtrl",function(CourseResult,CourseResultGPA,CourseReg,CourseToMajor,CourseWaving,Student,lodash,toastr,$stateParams,Session,Semester,CurrentUser,$window,Access){
+    Access.lecturer();
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.results = [];
@@ -10,7 +12,7 @@ angular.module("b")
     vm.outstandings = [];
     vm.sessions = Session.query();
     vm.semester = Semester.get();
-    Student.get({userId:$stateParams.userId}).$promise
+    Student.get({user:$stateParams.userId}).$promise
       .then(function (data) {
         vm.student = data;
         getGP();
@@ -28,7 +30,8 @@ angular.module("b")
                 getCourseToMajor();
                 sortResults();
               });
-            function sortResults(){
+          }
+          function sortResults(){
               var dat = {
                 result: vm.result,
                 gp: vm.gps[z]
@@ -37,7 +40,7 @@ angular.module("b")
               z+=1;
             }
             function getCourseToMajor() {
-              CourseToMajor.query({majorId:vm.student.majorId}).$promise
+              CourseToMajor.query({major:vm.student.major.id}).$promise
                 .then(function (data) {
                   vm.courses = data;
                   getCourseReg();
@@ -72,7 +75,6 @@ angular.module("b")
                 }
               }
             }
-          }
         });
     }
     vm.print = function(){

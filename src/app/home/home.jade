@@ -1,5 +1,12 @@
 //Created by GHostEater on 22-Jun-17.
 div(ng-controller="HomeCtrl as vm")
-  p Welcome
+  h4.text-center
+    em Welcome to Fountain University Portal System
   .row(ng-show="vm.user.type === '1' && vm.session.actions == 0")
     button.btn.btn-primary(ng-click="vm.sessionActions()") Session Actions
+  .row(ng-show="vm.user.type === '7' && vm.allocation")
+    p.text-center You have been Allocated Room: {{vm.allocation.room.name}} in {{vm.allocation.room.hostel.name}} for {{vm.session.session}} Session
+  .row(ng-show="vm.user.type === '7' && vm.student.edited === false")
+    p.text-center
+      i This is Allowed Once! Subsequent edit of Personal Information will require visiting ICT for assistance.
+    a.btn.btn-sm.btn-primary(ui-sref="student_edit({id:vm.student.id})") Edit Personal Info & Password

@@ -11,7 +11,7 @@ angular.module('b')
     }
     return {
       responseError: responseError
-    }
+    };
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('VerifyToken');

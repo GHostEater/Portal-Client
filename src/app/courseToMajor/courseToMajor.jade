@@ -1,19 +1,19 @@
 div(ng-controller='CourseToMajorCtrl as vm')
   .row
     .col-sm-3(ng-show="vm.user.type == 1")
-      select.form-control.input-sm(ng-model='vm.college' ng-change='vm.getDepts(vm.college.name)' ng-options="college as college.acronym for college in vm.colleges track by college.id")
+      select.form-control.input-sm(ng-model='vm.college' ng-change='vm.getDepts(vm.college)' ng-options="college as college.acronym for college in vm.colleges track by college.id")
         option(value='') Select College
     .col-sm-3
-      select.form-control.input-sm(ng-model='vm.dept', ng-change='vm.getMajors(vm.dept.name)' ng-options="dept as dept.name for dept in vm.depts track by dept.id")
+      select.form-control.input-sm(ng-model='vm.dept', ng-change='vm.getMajors(vm.dept)' ng-options="dept as dept.name for dept in vm.depts track by dept.id")
         option(value='') Select Department
     .col-sm-3
       select.form-control.input-sm(ng-model='vm.major' ng-options="major as major.name for major in vm.majors track by major.id")
         option(value='') Select Major
     .col-sm-3
-      button.btn.btn-sm.btn-primary(ng-click='vm.getMajorCourses(vm.major.id)') Go
+      button.btn.btn-sm.btn-primary(ng-click='vm.getMajorCourses(vm.major)') Go
   .row(ng-show='vm.majorCourses')
     .col-sm-12.content-vert
-      button.btn.btn-primary(ng-click='vm.add(vm.major.id)') Add Course to {{vm.major.name}}
+      button.btn.btn-primary(ng-click='vm.add(vm.major)') Add Course to {{vm.major.name}}
     .col-sm-12
       .panel.panel-primary
         .panel-heading
@@ -31,13 +31,13 @@ div(ng-controller='CourseToMajorCtrl as vm')
                   th Type
                   th Actions
                 tbody
-                  tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:1},level:level.level}')
+                  tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:1},level:{id:level.id}}')
                     td {{course.course.code}}
                     td {{course.course.title}}
                     td {{course.course.unit}}
                     td {{course.course.type}}
                     td
-                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(course.id)") Delete
+                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(course)") Delete
             h5 2nd Semester
             .table-responsive
               table.table.table-bordered.table-striped
@@ -48,10 +48,10 @@ div(ng-controller='CourseToMajorCtrl as vm')
                   th Type
                   th Actions
                 tbody
-                  tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:2},level:level.level}')
+                  tr(ng-repeat='course in vm.majorCourses | filter:{course:{semester:2},level:{id:level.id}}')
                     td {{course.course.code}}
                     td {{course.course.title}}
                     td {{course.course.unit}}
                     td {{course.course.type}}
                     td
-                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(course.id)") Delete
+                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(course)") Delete

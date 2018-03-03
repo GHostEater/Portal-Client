@@ -11,17 +11,17 @@ div(ng-controller="GraduatingListCtrl as vm")
     span Department: {{vm.dept.name}}
   .row.visible-print
     span Programme: B.Sc &nbsp
-    span(ng-show="vm.lecturer.college === 'College of Management and Social Sciences'") (Hons.)
+    span(ng-show="vm.lecturer.college.name === 'College of Management and Social Sciences'") (Hons.)
     span {{vm.major.name}}
   .row.hidden-print
     .col-sm-2(ng-show="vm.user.type === '2' || vm.user.type === '1'")
       select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
         option(value='') Select College
     .col-sm-2(ng-show="vm.user.type === '2' || vm.user.type === '5'")
-      select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college.name} track by dept.id")
+      select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college} track by dept.id")
         option(value='') Select Department
     .col-sm-2(ng-show="vm.user.examOfficer || vm.user.hod || vm.user.type === '2' || vm.user.type === '5'")
-      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept} track by major.id")
         option(value="") Select Major
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")

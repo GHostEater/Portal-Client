@@ -2,7 +2,7 @@
 div(ng-controller="ResultComputationCtrl as vm")
   .row.content.hidden-print
     .col-sm-2
-      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept.name} track by major.id")
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept} track by major.id")
         option(value="") Select Major
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")

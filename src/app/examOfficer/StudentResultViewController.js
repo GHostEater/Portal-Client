@@ -2,7 +2,8 @@
  * Created by GHostEater on 6/12/2016.
  */
 angular.module("b")
-  .controller("StudentResultViewController",function(CourseResult,CourseResultGPA,CourseReg,CourseToMajor,CourseWaving,Student,lodash,toastr,$stateParams,Session,Semester,CurrentUser,SystemLog,$uibModal){
+  .controller("StudentResultViewController",function(CourseResult,CourseResultGPA,CourseReg,CourseToMajor,CourseWaving,Student,lodash,toastr,$stateParams,Session,Semester,CurrentUser,SystemLog,$uibModal,Access){
+    Access.general();
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.results = [];
@@ -11,7 +12,7 @@ angular.module("b")
     vm.sessions = Session.query();
     vm.session = Session.getCurrent();
     vm.semester = Semester.get();
-    Student.get({userId:$stateParams.userId}).$promise
+    Student.get({user:$stateParams.userId}).$promise
       .then(function (data) {
         vm.student = data;
         getGP();
@@ -37,15 +38,15 @@ angular.module("b")
           });
         });
     }
-    vm.editCa = function(id){
+    vm.editCa = function(result){
       var options = {
         templateUrl: 'app/lecturer/editCa.html',
         controller: "EditCaController",
         controllerAs: 'vm',
         size: 'sm',
         resolve:{
-          id: function(){
-            return id;
+          result: function(){
+            return result;
           }
         }
       };
@@ -54,15 +55,15 @@ angular.module("b")
           getGP();
         });
     };
-    vm.editExam = function(id){
+    vm.editExam = function(result){
       var options = {
         templateUrl: 'app/lecturer/editExam.html',
         controller: "EditExamController",
         controllerAs: 'vm',
         size: 'sm',
         resolve:{
-          id: function(){
-            return id;
+          result: function(){
+            return result;
           }
         }
       };
@@ -79,13 +80,12 @@ angular.module("b")
       function getStudentResults(gp) {
         CourseResult.student({student: vm.student.id}).$promise
           .then(function (data) {
-            vm.result = lodash.filter(data, {session: gp.session, course: {semester: gp.semester}});
+            vm.result = lodash.filter(data, {session:{id:gp.session.id}, course: {semester: gp.semester}});
             vm.resultFail = [];
             vm.stdResults = data;
             vm.stdResultsFail = lodash.filter(data, {grade: "F"});
             angular.forEach(vm.stdResultsFail,function (result) {
-              if (!lodash.find(vm.stdResults, {course: {code: result.course.code}, status: 1})
-                && !lodash.find(vm.wavings, {course: {code: result.course.code}})) {
+              if (!lodash.find(vm.stdResults, {course:{id:result.course.id}, status: 1}) && !lodash.find(vm.wavings, {course:{id:result.course.id}})) {
                 vm.resultFail.push(result);
               }
             });
@@ -93,17 +93,19 @@ angular.module("b")
           });
       }
       function computeGP(gp) {
-        var session = lodash.find(vm.sessions,{session:gp.session});
+        var session = gp.session;
         if (vm.student.status === '1') {
-          vm.gps = lodash.remove(vm.gps,{session:vm.session.session,semester:vm.semester.semester});
+          vm.gps = lodash.remove(vm.gps,{session:{id:vm.session.id},semester:vm.semester.semester});
           vm.last = lodash.findLast(vm.gps);
           var prob = 0;
           var withdraw = 0;
           var count = 0;
           for(var i=0; i<2; i++){
-            if(vm.gps[i].cgpa < 1.5){count += 1;}
-            if(count === 2){prob = 1;}
-            else if(count === 3){withdraw = 1;}
+            if(vm.gps[i]){
+              if(vm.gps[i].cgpa < 1.5){count += 1;}
+              if(count === 2){prob = 1;}
+              else if(count === 3){withdraw = 1;}
+            }
           }
           var tnu = 0;
           var tcp = 0;
@@ -120,6 +122,7 @@ angular.module("b")
           var gpa = tcp / tnu;
           if(tcp === 0 || tnu === 0) gpa = 0;
           if (!vm.last) {
+            vm.last = {};
             vm.last.tce = 0;
             vm.last.tcp = 0;
             vm.last.tnu = 0;
@@ -133,7 +136,7 @@ angular.module("b")
           var ctnu = tnu + Number(vm.last.tnu);
           var cgpa = ctcp / ctnu;
           if(ctcp === 0 || ctnu === 0) cgpa = 0;
-          if(vm.resultFail.length > 0 || vm.outstandings.length > 0){status=0}
+          if(vm.resultFail.length > 0 || vm.outstandings.length > 0){status=0;}
           if(cgpa >= 4.00) {
             gp_status = 1;
           }
@@ -167,7 +170,7 @@ angular.module("b")
           var data = {
             student: vm.student.id,
             session: session.id,
-            dept: vm.student.deptId,
+            dept: vm.student.dept.id,
             semester: gp.semester,
             tcp: dat.tcp,
             tnu: dat.tnu,
@@ -193,5 +196,5 @@ angular.module("b")
             });
         }
       }
-    }
+    };
   });

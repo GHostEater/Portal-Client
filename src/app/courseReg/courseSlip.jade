@@ -8,22 +8,22 @@ div(ng-controller="CourseSlipCtrl as vm").row
       .col-sm-10.text-center
         h2 FOUNTAIN UNIVERSITY, OSOGBO
         h3 (University of Nasrul-Lahi-Il-Fatih Society)
-        h4 {{vm.college.name}}
+        h4 {{vm.student.major.dept.college.name}}
       .row
         .col-sm-2.col-sm-offset-10
-          img.img-responsive(ng-src="{{vm.host}}/img/students/{{vm.student.img}}" width="150" height="150")
+          img.img-responsive(ng-src="{{vm.student.user.img}}")
       .row
         span.col-sm-4 Session: {{vm.session.session}}
         span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}
         span(ng-show="vm.semester.semester == 1") st Semester
         span(ng-show="vm.semester.semester == 2") nd Semester
 
-      span.row Department: {{vm.student.dept}}
-      span.row Major: {{vm.student.major}}
+      span.row Department: {{vm.student.major.dept.name}}
+      span.row Major: {{vm.student.major.name}}
       span.row Name:&nbsp
         b {{vm.student.user.last_name | uppercase}},&nbsp
         span {{vm.student.user.first_name}}
-      span.row Matric Number: {{vm.student.user.username}}
+      span.row Matric Number: {{vm.student.user.username | matricNo}}
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code
@@ -43,6 +43,6 @@ div(ng-controller="CourseSlipCtrl as vm").row
       br
       span Student's Signature/Date
     .col-sm-5.col-sm-offset-2
-      span ____________________________&bnsp
+      span ____________________________&nbsp
       br
       span Level Adviser Signature/Date

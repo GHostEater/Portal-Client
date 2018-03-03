@@ -1,5 +1,7 @@
+/* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('LateRegRequestCtrl',function (CurrentUser,LateReg,lodash,toastr,SystemLog) {
+  .controller('LateRegRequestCtrl',function (CurrentUser,LateReg,lodash,toastr,SystemLog,Access) {
+    Access.general();
     var vm = this;
     function getLateReg() {
      LateReg.query().$promise
@@ -18,7 +20,7 @@ angular.module('b')
         .then(function () {
           var data = {
             student: request.student.id,
-            approvedBy: CurrentUser.profile.id,
+            approved_by: CurrentUser.profile.id,
             date: new Date()
           };
           LateReg.addLog(data).$promise

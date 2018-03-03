@@ -7,5 +7,7 @@
         a(ui-sref='courseReg') Course Registration
       li(ui-sref-active="active")
         a(ui-sref='courseSlip') Course Slip
+      li(ui-sref-active="active" ng-hide="user.student.level.level == 100 && semester.semester == 1")
+        a(ui-sref='courseReview') Course Lecturer Evaluations
       li(ui-sref-active="active")
         a(ui-sref='studentResult') Result

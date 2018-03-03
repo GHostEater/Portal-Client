@@ -1,7 +1,10 @@
+/* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('CourseRegCtrl',function (CurrentUser,Student,Semester,Session,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$location){
+  .controller('CourseRegCtrl',function (CurrentUser,Semester,Session,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
+    Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
+    vm.student = vm.user.student;
     vm.addCourse = addCourse;
     vm.removeCourse = removeCourse;
     vm.submitCourseForm = submitCourseForm;
@@ -19,28 +22,21 @@ angular.module('b')
       Semester.get().$promise
         .then(function (data) {
           vm.semester = data;
-          getStudent();
-        });
-    }
-    function getStudent() {
-      Student.get({userId:vm.user.id}).$promise
-        .then(function (data) {
-          vm.student = data;
           getLateReg();
         });
     }
     function getLateReg() {
       LateReg.query().$promise
         .then(function (data) {
-          vm.lateRegStatus = lodash.find(data,{student:vm.student.id,session:vm.session.id,semester:vm.semester.semester});
+          vm.lateRegStatus = lodash.find(data,{student:{id:vm.student.id},session:{id:vm.session.id},semester:vm.semester.semester});
           getResult();
         });
     }
     function getResult() {
       CourseResult.student({student:vm.student.id}).$promise
         .then(function (data) {
-          vm.result = data;
-          vm.resultLast = lodash.find(data,{sessionId:Number(vm.session.id)-1});
+          vm.result = lodash.sortBy(data,['session','semester']);
+          vm.resultLast = lodash.find(data,{session:{id:Number(vm.session.id)-1}});
           vm.resultFail = lodash.filter(data,{grade:'F'});
           getRegisteredCourses();
         });
@@ -53,7 +49,7 @@ angular.module('b')
         });
     }
     function getCourses() {
-      CourseToMajor.query({majorId:vm.student.majorId}).$promise
+      CourseToMajor.query({major:vm.student.major.id}).$promise
         .then(function (data) {
           vm.courses = data;
           vm.cous = data;
@@ -79,13 +75,13 @@ angular.module('b')
         }
       }
 
-      if(vm.student.level === '100'&&vm.semester.semester === '1'){
+      if(vm.student.level.level === '100'&&vm.semester.semester === '1'){
         vm.outstandings = [];
       }
-      else if(vm.student.modeOfEntry === 'D/E'&&vm.student.level === '200'&&vm.semester.semester === '1'){
+      else if(vm.student.mode_of_entry === 'D/E'&&vm.student.level.level === '200'&&vm.semester.semester === '1'){
         for(var k=0; k<vm.courses.length; k++){
           if(!lodash.find(vm.wavings,{course:{code:vm.courses[k].code}}) && vm.courses[k].course.semester === vm.semester.semester){
-            if(vm.courses[k].level < vm.student.level){
+            if(vm.courses[k].level.level < vm.student.level.level){
               if(!lodash.find(vm.outstandings,{course:{code:vm.course.code}})){
                 vm.outstandings.push(vm.courses[k]);
               }
@@ -93,7 +89,7 @@ angular.module('b')
           }
         }
       }
-      else if(vm.student.modeOfEntry === 'D/E 300'&&vm.student.level === '300'&&vm.semester.semester === '1'){
+      else if(vm.student.mode_of_entry === 'D/E 300'&&vm.student.level.level === '300'&&vm.semester.semester === '1'){
         for(var l=0; l<vm.courses.length; l++){
           if(!lodash.find(vm.wavings,{course:{code:vm.courses[l].course.code}}) && vm.courses[l].course.semester === vm.semester.semester){
             if(vm.courses[l].level < vm.student.level){
@@ -106,10 +102,7 @@ angular.module('b')
       }
       else{
         for(var m=0; m<vm.courses.length; m++){
-          if(!lodash.find(vm.registeredCourses,{course:{code:vm.courses[m].course.code}})
-            && !lodash.find(vm.wavings,{course:{code:vm.courses[m].course.code}})
-            && vm.courses[m].level <= vm.student.level
-            && vm.courses[m].course.semester === vm.semester.semester){
+          if(!lodash.find(vm.registeredCourses,{course:{code:vm.courses[m].course.code}}) && !lodash.find(vm.wavings,{course:{code:vm.courses[m].course.code}}) && vm.courses[m].level.level <= vm.student.level.level && vm.courses[m].course.semester === vm.semester.semester){
             if(!lodash.find(vm.outstandings,{course:{code:vm.course.code}})){
               vm.outstandings.push(vm.courses[m]);
             }
@@ -123,8 +116,8 @@ angular.module('b')
         code: course.code,
         unit: course.unit,
         student: vm.student.id,
-        level: vm.student.levelId,
-        sessionId: vm.session.id,
+        level: vm.student.level,
+        session: vm.session,
         status: 0,
         from: from
       };
@@ -161,7 +154,7 @@ angular.module('b')
         var data = {
           course: vm.regs[i].id,
           student: vm.student.id,
-          level: vm.student.levelId,
+          level: vm.student.level.id,
           session: vm.session.id
         };
         CourseReg.save(data).$promise
@@ -170,7 +163,7 @@ angular.module('b')
             toastr.success("Course Registered");
           });
       }
-      $location.url('/student/course-slip/');
+      $state.go("courseSlip");
     }
     function requestLateReg() {
       var data = {

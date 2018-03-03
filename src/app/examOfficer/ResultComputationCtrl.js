@@ -1,10 +1,11 @@
+/* eslint-disable angular/controller-name */
 /**
  * Created by GHostEater on 10-May-16.
  */
 angular.module("b")
-  .controller("ResultComputationCtrl",function(toastr,CurrentUser,Lecturer,Hod,LevelAdviser,Dept,College,CourseToMajor,CourseReg,CourseWaving,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,SystemLog){
+  .controller("ResultComputationCtrl",function(Access,toastr,CurrentUser,Lecturer,Hod,LevelAdviser,Dept,College,CourseToMajor,CourseReg,CourseWaving,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,SystemLog){
+    Access.lecturer();
     var vm = this;
-    vm.print = print;
     vm.getResults = getResults;
     vm.processResult = processResult;
     vm.releaseResult = releaseResult;
@@ -25,7 +26,7 @@ angular.module("b")
     vm.majors = Major.query();
     vm.session = Session.getCurrent();
     vm.semester = Semester.get();
-    vm.lecturer = Lecturer.get({userId:vm.user.id});
+    vm.lecturer = vm.user.lecturer;
     vm.hods = Hod.query();
     if(vm.user.examOfficer){
       Level.query().$promise
@@ -34,30 +35,24 @@ angular.module("b")
         });
     }
     else if(vm.user.levelAdviser){
-      vm.levels = [];
-      angular.forEach(vm.user.levelAdviser.level,function(level){
-        Level.get({id:level}).$promise
-          .then(function (data) {
-            vm.levels.push(data);
-          });
-      });
+      vm.levels = vm.user.levelAdviser.level;
     }
 
     function getResults() {
       vm.students = [];
       if(vm.user.examOfficer){
         vm.hod = lodash.find(vm.hods,{dept:vm.user.examOfficer.dept});
-        vm.levelAdviser = lodash.find(vm.levelAdvisers,{major:vm.major.name,level:[vm.level.id]});
+        vm.levelAdviser = lodash.find(vm.levelAdvisers,{major:vm.major,level:[vm.level]});
       }
       else if(vm.user.levelAdviser){
         vm.hod = lodash.find(vm.hods,{dept:vm.user.levelAdviser.lecturer.dept});
         vm.levelAdviser = vm.user.levelAdviser;
         vm.major = vm.user.levelAdviser.major;
       }
-      CourseResult.dept({session:vm.session.id,dept:vm.lecturer.deptId}).$promise
+      CourseResult.dept({session:vm.session,dept:vm.lecturer.dept}).$promise
         .then(function (data) {
           vm.results = lodash.filter(data,{course:{semester:Number(vm.semester.semester)}});
-          CourseToMajor.query({majorId:vm.major.id}).$promise
+          CourseToMajor.query({major:vm.major.id}).$promise
             .then(function (data) {
               vm.courses = data;
               computeGP();
@@ -65,9 +60,9 @@ angular.module("b")
         });
     }
     function computeGP() {
-      Student.dept({dept:vm.lecturer.deptId}).$promise
+      Student.dept({dept:vm.lecturer.dept.id}).$promise
         .then(function (data) {
-          vm.s = lodash.filter(data,{major:vm.major.name, level:vm.level.level});
+          vm.s = lodash.filter(data,{major:vm.major, level:vm.level});
           angular.forEach(vm.s,function (student) {
             if(student.status === '3'){vm.leave.push(student);}
             else if(student.status === '4'){vm.sick.push(student);}
@@ -94,22 +89,19 @@ angular.module("b")
     function getStudentResults(student) {
       CourseResult.student({student:student.id}).$promise
         .then(function (data) {
-          vm.result = lodash.filter(vm.results,{student:{id:Number(student.id)},course:{semester:Number(vm.semester.semester)},session:vm.session.session});
+          vm.result = lodash.filter(vm.results,{student:{id:student.id},course:{semester:Number(vm.semester.semester)},session:{id:vm.session.id}});
           vm.resultFail = [];
           vm.outstandings = [];
           vm.stdResults = data;
           vm.stdResultsFail = lodash.filter(data,{grade:"F"});
           angular.forEach(vm.stdResults,function (result) {
-            if(!lodash.find(vm.stdResults,{course:{id:Number(result.course.id)},status:1})
-              && !lodash.find(vm.wavings,{course:{id:Number(result.course.id)}})){
+            if(!lodash.find(vm.stdResults,{course:{id:result.course.id},status:1}) && !lodash.find(vm.wavings,{course:{id:result.course.id}})){
               vm.resultFail.push(result);
             }
           });
           angular.forEach(vm.courses,function (course) {
-            if(!lodash.find(vm.registeredCourses,{course:{id:Number(course.course.id)}})
-              && !lodash.find(vm.wavings,{course:{id:Number(course.course.id)}})
-              && !lodash.find(vm.result,{course:{id:Number(course.course.id)}})){
-              if(!lodash.find(vm.outstandings,{course:{id:Number(course.course.id)}})){
+            if(!lodash.find(vm.registeredCourses,{course:{id:course.course.id}}) && !lodash.find(vm.wavings,{course:{id:course.course.id}}) && !lodash.find(vm.result,{course:{id:course.course.id}})){
+              if(!lodash.find(vm.outstandings,{course:{id:course.course.id}})){
                 vm.outstandings.push(course);
               }
             }
@@ -122,15 +114,17 @@ angular.module("b")
         CourseResultGPA.student({student: student.id}).$promise
           .then(function (data) {
             vm.gps = lodash.sortBy(data,['session','semester']);
-            vm.gps = lodash.remove(vm.gps,{session:vm.session.session,semester:vm.semester.semester});
+            vm.gps = lodash.remove(vm.gps,{session:{id:vm.session.id},semester:vm.semester.semester});
             vm.last = lodash.findLast(vm.gps);
             var prob = 0;
             var withdraw = 0;
             var count = 0;
             for(var i=0; i<2; i++){
-              if(vm.gps[i].cgpa < 1.5){count += 1;}
-              if(count === 2){prob = 1;}
-              else if(count === 3){withdraw = 1;}
+              if(vm.gps[i]){
+                if(vm.gps[i].cgpa < 1.5){count += 1;}
+                if(count === 2){prob = 1;}
+                else if(count === 3){withdraw = 1;}
+              }
             }
             var tnu = 0;
             var tcp = 0;
@@ -147,6 +141,7 @@ angular.module("b")
             var gpa = tcp / tnu;
             if(tcp === 0 || tnu === 0) gpa = 0;
             if (!vm.last) {
+              vm.last = {};
               vm.last.tce = 0;
               vm.last.tcp = 0;
               vm.last.tnu = 0;
@@ -160,7 +155,7 @@ angular.module("b")
             var ctnu = tnu + Number(vm.last.tnu);
             var cgpa = ctcp / ctnu;
             if(ctcp === 0 || ctnu === 0) cgpa = 0;
-            if(fail.length > 0 || outstandings.length > 0){status=0}
+            if(fail.length > 0 || outstandings.length > 0){status=0;}
             if(cgpa >= 4.00) {
               gp_status = 1;
             }
@@ -214,21 +209,18 @@ angular.module("b")
                   vm.withdrawal.push(dat);
                 }
               }
-              vm.total = vm.pass.length+vm.pcso.length+vm.probation.length+vm.withdrawal+vm.leave.length+vm.sick.length+vm.deferment.length+vm.suspension.length;
+              vm.total = vm.pass.length+vm.pcso.length+vm.probation.length+vm.withdrawal.length+vm.leave.length+vm.sick.length+vm.deferment.length+vm.suspension.length;
               vm.students.push(dat);
             }
           });
       }
-    }
-    function print(){
-      $window.print();
     }
     function processResult(){
       angular.forEach(vm.students,function (student) {
         var data = {
           student: student.info.id,
           session: vm.session.id,
-          dept: vm.hod.lecturer.deptId,
+          dept: vm.hod.lecturer.dept.id,
           semester: vm.semester.semester,
           tcp: student.tcp,
           tnu: student.tnu,
@@ -255,7 +247,7 @@ angular.module("b")
       });
     }
     function releaseResult(){
-      CourseResultGPA.dept({dept:vm.user.examOfficer.deptId, session:vm.session.id}).$promise
+      CourseResultGPA.dept({dept:vm.user.examOfficer.dept.id, session:vm.session.id}).$promise
         .then(function(data){
           vm.gps = data;
           release();

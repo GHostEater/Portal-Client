@@ -1,5 +1,7 @@
+/* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller("LecturerCoursesCtrl",function(CourseAllocation,CurrentUser,lodash,Session,Semester){
+  .controller("LecturerCoursesCtrl",function(CourseAllocation,CurrentUser,lodash,Session,Semester,Access){
+    Access.lecturer();
     var vm = this;
     vm.user = CurrentUser.profile;
     Semester.get().$promise

@@ -1,15 +1,12 @@
+/* eslint-disable angular/controller-name */
 /**
  * Created by GHostEater on 16-Jun-17.
  */
 angular.module('b')
-  .controller("CourseToMajorCtrl",function (CourseToMajor,College,CollegeOfficer,Dept,Major,Level,toastr,lodash,$uibModal,CurrentUser) {
+  .controller("CourseToMajorCtrl",function (CourseToMajor,College,CollegeOfficer,Dept,Major,Level,toastr,lodash,$uibModal,CurrentUser,Access) {
+    Access.general();
     var vm = this;
     vm.user = CurrentUser.profile;
-    College.query().$promise
-      .then(function (data) {
-        vm.colleges = data;
-        getCO();
-      });
     vm.levels = Level.query();
     vm.d = Dept.query();
     vm.m = Major.query();
@@ -18,57 +15,59 @@ angular.module('b')
     vm.getMajorCourses = getMajorCourses;
     vm.add = add;
     vm.remove = remove;
+
+    College.query().$promise
+      .then(function (data) {
+        vm.colleges = data;
+        getCO();
+      });
     function getCO() {
      if(vm.user.type === '5'){
-      CollegeOfficer.get({userId:vm.user.id}).$promise
-        .then(function (data) {
-          vm.collegeOfficer = data;
-          getDepts(vm.collegeOfficer.college);
-        });
+       vm.collegeOfficer = vm.user.co;
+       getDepts(vm.collegeOfficer.college);
      }
     }
-
     function getDepts(college){
-      vm.depts = lodash.filter(vm.d,{college:college});
+      vm.depts = lodash.filter(vm.d,{college:{id:college.id}});
     }
     function getMajors(dept){
-      vm.majors = lodash.filter(vm.m,{dept:dept});
+      vm.majors = lodash.filter(vm.m,{dept:{id:dept.id}});
     }
-    function getMajorCourses(id){
-      vm.majorCourses = CourseToMajor.query({majorId:id});
+    function getMajorCourses(major){
+      vm.majorCourses = CourseToMajor.query({major:major.id});
     }
-    function add(majorId){
+    function add(major){
       var options = {
         templateUrl: 'app/courseToMajor/courseToMajorAdd.html',
         controller: "CourseToMajorAddCtrl",
         controllerAs: 'vm',
         size: 'lg',
         resolve:{
-          majorId: function(){
-            return majorId;
+          major: function(){
+            return major;
           }
         }
       };
       $uibModal.open(options).result
         .then(function(){
-          getMajorCourses(vm.major.id);
+          getMajorCourses(vm.major);
         });
     }
-    function remove(id){
+    function remove(major){
       var options = {
         templateUrl: 'app/courseToMajor/courseToMajorDelete.html',
         controller: "CourseToMajorDeleteCtrl",
         controllerAs: 'vm',
         size: 'sm',
         resolve:{
-          id: function(){
-            return id;
+          major: function(){
+            return major;
           }
         }
       };
       $uibModal.open(options).result
         .then(function(){
-          getMajorCourses(vm.major.id);
+          getMajorCourses(vm.major);
         });
     }
   });

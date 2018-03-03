@@ -1,5 +1,7 @@
+/* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('LvlCourseSlipCtrl',function(CourseReg,College,Student,CourseResult,CourseToMajor,CourseWaving,CurrentUser,$stateParams,Semester,toastr,lodash,Session,$uibModal,Lecturer,SystemLog){
+  .controller('LvlCourseSlipCtrl',function(CourseReg,College,Student,CourseResult,CourseToMajor,CourseWaving,CurrentUser,$stateParams,Semester,toastr,lodash,Session,$uibModal,Lecturer,SystemLog,Access){
+    Access.lecturer();
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.counter = 0;
@@ -20,7 +22,7 @@ angular.module('b')
         });
     }
     function getStudent() {
-      Student.get({userId:$stateParams.userId}).$promise
+      Student.get({user:$stateParams.userId}).$promise
       .then(function (data) {
         vm.student = data;
         getResult();
@@ -42,7 +44,7 @@ angular.module('b')
         });
     }
     function getCourses() {
-      CourseToMajor.query({majorId:vm.student.majorId}).$promise
+      CourseToMajor.query({major:vm.student.major.id}).$promise
         .then(function (data) {
           vm.courses = data;
           vm.cous = data;
@@ -57,7 +59,7 @@ angular.module('b')
         });
     }
     function getLecturer() {
-      vm.lecturer = Lecturer.get({userId:vm.user.id});
+      vm.lecturer = vm.user.lecturer;
       sortCourses();
     }
     function sortCourses() {
@@ -65,16 +67,14 @@ angular.module('b')
       vm.outstandings = [];
       for(var i=0; i<vm.resultFail.length; i++){
         if(lodash.find(vm.courses,{course:{code:vm.resultFail[i].course.code}})){
-          if(!lodash.find(vm.result,{course:{code:vm.resultFail[i].course.code},status:'1'})
-            && !lodash.find(vm.wavings,{course:{code:vm.resultFail[i].course.code}})){
+          if(!lodash.find(vm.result,{course:{code:vm.resultFail[i].course.code},status:'1'}) && !lodash.find(vm.wavings,{course:{code:vm.resultFail[i].course.code}})){
             vm.course = lodash.find(vm.courses,{course:{code:vm.resultFail[i].course.code}});
             vm.outstandings.push(vm.course);
           }
         }
       }
       for(var j=0; j<vm.courses.length; j++){
-        if(!lodash.find(vm.registeredCourses,{course:{code:vm.courses[j].course.code}})
-          && !lodash.find(vm.wavings,{course:{code:vm.courses[j].course.code}})){
+        if(!lodash.find(vm.registeredCourses,{course:{code:vm.courses[j].course.code}}) && !lodash.find(vm.wavings,{course:{code:vm.courses[j].course.code}})){
           vm.outstandings.push(vm.courses[j]);
         }
       }
@@ -103,7 +103,7 @@ angular.module('b')
       var data = {
         course: courseId,
         student: vm.student.id,
-        wavedBy: vm.lecturer.id
+        waved_by: vm.lecturer.id
       };
       CourseWaving.save(data).$promise
         .then(function () {

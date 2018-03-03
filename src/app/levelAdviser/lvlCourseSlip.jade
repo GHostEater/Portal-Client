@@ -14,12 +14,12 @@ div(ng-controller="LvlCourseSlipCtrl as vm")
         span(ng-show="vm.semester.semester == 1") st Semester
         span(ng-show="vm.semester.semester == 2") nd Semester
     div.visible-print
-      span.row Department: {{vm.student.dept}}
-      span.row Major: {{vm.student.major}}
+      span.row Department: {{vm.student.major.dept.name}}
+      span.row Major: {{vm.student.major.name}}
       span.row Name:&nbsp
         b {{vm.student.user.last_name | uppercase}},&nbsp
         span {{vm.student.user.first_name}}
-      span.row Matric Number: {{vm.student.user.username}}
+      span.row Matric Number: {{vm.student.user.username | matricNo}}
     table.table.table-striped.table-bordered.table-condensed
       thead
         th Course Code

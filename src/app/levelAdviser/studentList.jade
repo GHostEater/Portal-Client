@@ -18,15 +18,15 @@ div(ng-controller="StudentListCtrl as vm")
       tr(ng-repeat="student in vm.students | orderBy: '+username' | filter: vm.searchTerm")
         td {{student.user.username | matricNo}}
         td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
-        td {{student.college}}
-        td {{student.dept}}
-        td {{student.major}}
-        td {{student.level}}
-        td {{student.modeOfEntry}}
+        td {{student.major.dept.college.name}}
+        td {{student.major.dept.name}}
+        td {{student.major.name}}
+        td {{student.level.level}}
+        td {{student.mode_of_entry.name}}
         td {{student.user.email}}
         td
-          button.btn.btn-xs.btn-primary(ng-click="vm.view(student.user.id)" ng-show="vm.user.levelAdviser") View Details
-          button.btn.btn-xs.btn-primary(ng-click="vm.edit(student.user.id)" ng-show="vm.user.levelAdviser") Edit
+          a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.user.id})" ng-show="vm.user.levelAdviser") View Details
+          a.btn.btn-xs.btn-primary(ui-sref="student_edit({id:student.user.id})" ng-show="vm.user.levelAdviser") Edit
           a.btn.btn-xs.btn-primary(ui-sref="lvlCourseSlip({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Course Registration Details
           a.btn.btn-xs.btn-primary(ui-sref="studentTranscript({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Transcript
           a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})" ng-show="vm.user.examOfficer") View Result

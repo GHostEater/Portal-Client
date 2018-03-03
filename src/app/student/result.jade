@@ -2,7 +2,7 @@
 div(ng-controller="ResultCtrl as vm")
   h4 Result for {{vm.student.user.username | matricNo}} {{vm.student.user.last_name | uppercase}}, {{vm.student.user.first_name}}
   .panel.panel-info(ng-repeat="res in vm.res | orderBy:'+session'")
-    .panel-heading {{res.gp.session}} Session &nbsp
+    .panel-heading {{res.gp.session.session}} Session &nbsp
       span(ng-show="res.gp.semester === 1") 1st Semester
       span(ng-show="res.gp.semester === 2") 2nd Semester
     .panel-body

@@ -5,7 +5,6 @@
     <title>FUO Portal</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <script src="lib/angular-file-upload-all.js"></script>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
@@ -31,8 +30,8 @@
     <div ng-include="'app/layout/header.html'"></div>
     <div class="container-fluid mainBody">
       <div class="row">
-        <div ng-include="'app/layout/dash.html'" class="col-sm-2"></div>
-        <div class="col-sm-10" ui-view></div>
+        <div ng-include="'app/layout/dash.html'" ng-class="{'col-sm-2':flex === 'yes'}"></div>
+        <div ng-class="{'col-sm-10':flex === 'yes','col-sm-12':flex === 'no'}" ui-view></div>
       </div>
     </div>
     <div ng-include="'app/layout/footer.html'"></div>
@@ -51,7 +50,6 @@
     <!-- inject:partials -->
     <!-- angular templates will be automatically converted in js and inserted here -->
     <!-- endinject -->
-    <script src="lib/angular-file-upload-all.js"></script>
     <script src="lib/bootstrap.min.js"></script>
     <script src="lib/papaparse.min.js"></script>
     <!-- endbuild -->

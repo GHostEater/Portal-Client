@@ -18,7 +18,7 @@
             td {{course.title}}
             td {{course.unit}}
             td
-              button.btn.btn-xs.btn-primary(ng-click="vm.selectCourse(course.id)") Select
+              button.btn.btn-xs.btn-primary(ng-click="vm.selectCourse(course)") Select
   div(ng-show="vm.courseSelect == 1")
     h4 Selected Course: {{vm.course.code}} {{vm.course.title}}
     button.btn.btn-danger(ng-click="vm.deSelectCourse()") Remove Selection

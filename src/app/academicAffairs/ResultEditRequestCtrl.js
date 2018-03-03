@@ -1,5 +1,7 @@
+/* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('ResultEditRequestCtrl',function (CourseResultEditRequest,CurrentUser,$uibModal) {
+  .controller('ResultEditRequestCtrl',function (CourseResultEditRequest,CurrentUser,$uibModal,Access) {
+    Access.general();
     var vm = this;
     vm.user = CurrentUser.profile;
     function getRequests() {
@@ -8,7 +10,7 @@ angular.module('b')
     vm.process = process;
     vm.disable = disable;
 
-    function process(id,status,handledBy){
+    function process(id,status,handled_by){
       var options = {
         templateUrl: 'app/academicAffairs/processRequest.html',
         controller: "ProcessRequestCtrl",
@@ -21,8 +23,8 @@ angular.module('b')
           status: function(){
             return status;
           },
-          handledBy: function(){
-            return handledBy;
+          handled_by: function(){
+            return handled_by;
           }
         }
       };

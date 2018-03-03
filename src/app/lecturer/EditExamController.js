@@ -2,14 +2,11 @@
  * Created by GHostEater on 5/25/2016.
  */
 angular.module("b")
-  .controller('EditExamController',function(CourseResult,CourseResultEditLog,toastr,id,$uibModalInstance,CurrentUser,Lecturer,SystemLog){
+  .controller('EditExamController',function(CourseResult,CourseResultEditLog,toastr,result,$uibModalInstance,CurrentUser,SystemLog){
     var vm = this;
-    CourseResult.get({id:id}).$promise
-      .then(function(data){
-        vm.result = data;
-        vm.prevScore = vm.result.exam;
-      });
-    vm.lecturer = Lecturer.get({userId:CurrentUser.profile.id});
+    vm.result = result;
+    vm.prevScore = vm.result.exam;
+    vm.lecturer = CurrentUser.profile.lecturer;
     vm.ok = function(){
       var grade = '';
       var gp = '';
@@ -22,19 +19,19 @@ angular.module("b")
       }
       if (final >= 70 && final <= 100) {
         grade = 'A';
-        gp = 5;
+        gp = 4;
       }
       else if (final >= 60 && final <= 69) {
         grade = 'B';
-        gp = 4;
+        gp = 3;
       }
       else if (final >= 50 && final <= 59) {
         grade = 'C';
-        gp = 3;
+        gp = 2;
       }
       else if (final >= 45 && final < 50) {
         grade = 'D';
-        gp = 2;
+        gp = 1;
       }
       else if (final <= 44) {
         grade = 'F';
@@ -65,7 +62,7 @@ angular.module("b")
               prev_score: vm.prevScore,
               new_score: vm.result.exam,
               date: date,
-              editedBy: vm.lecturer.id
+              edited_by: vm.lecturer.id
             };
             CourseResultEditLog.save(data).$promise
               .then(function(){
