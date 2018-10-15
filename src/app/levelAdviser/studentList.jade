@@ -27,6 +27,6 @@ div(ng-controller="StudentListCtrl as vm")
         td
           a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.user.id})" ng-show="vm.user.levelAdviser") View Details
           a.btn.btn-xs.btn-primary(ui-sref="student_edit({id:student.user.id})" ng-show="vm.user.levelAdviser") Edit
-          a.btn.btn-xs.btn-primary(ui-sref="lvlCourseSlip({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Course Registration Details
+          a.btn.btn-xs.btn-primary(ui-sref="adminCourseSlip({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Course Registration Details
           a.btn.btn-xs.btn-primary(ui-sref="studentTranscript({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Transcript
-          a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})" ng-show="vm.user.examOfficer") View Result
+          a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})" ng-show="vm.user.examOfficer || vm.user.levelAdviser") View Result

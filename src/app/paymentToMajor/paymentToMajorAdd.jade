@@ -20,8 +20,16 @@
   div(ng-show="vm.paymentSelect == 1")
     h4 Selected Payment: {{vm.payment.name}} {{vm.payment.amount | number:2}}
     button.btn.btn-danger(ng-click="vm.deSelectPayment()") Remove Selection
-    select.form-control(ng-model='vm.level' required ng-options="level as level.level for level in vm.levels track by level.id")
+    select.form-control.input-sm(ng-model='vm.level' required ng-options="level as level.level for level in vm.levels track by level.id")
       option(value='') Select Level
+    label.control-label JME
+      input.form-control.input-sm(type="checkbox" ng-model="vm.jme")
+    label.control-label D/E
+      input.form-control.input-sm(type="checkbox" ng-model="vm.de")
+    label.control-label Conversion
+      input.form-control.input-sm(type="checkbox" ng-model="vm.conversion")
+    label.control-label Part Time
+      input.form-control.input-sm(type="checkbox" ng-model="vm.pt")
 .modal-footer(ng-show="vm.level")
   button.btn.btn-primary(ng-click="vm.ok()") Confirm
   button.btn.btn-default(ng-click="$dismiss()") Cancel

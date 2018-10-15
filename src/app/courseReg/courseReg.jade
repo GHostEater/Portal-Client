@@ -24,13 +24,13 @@ div(ng-controller="CourseRegCtrl as vm")
               th Type
               th Actions
             tbody
-              tr(ng-repeat="course in vm.courses | orderBy: '+code'")
+              tr(ng-repeat="course in vm.courses | orderBy: '+course.code'")
                 td {{course.course.code}}
                 td {{course.course.title}}
                 td {{course.course.unit}}
                 td {{course.course.type}}
                 td
-                  button.btn.btn-xs.btn-success(ng-click="vm.addCourse(course.course,0)") Add
+                  button.btn.btn-xs.btn-success(ng-click="vm.addCourse(course,0)") Add
     .col-sm-4
       .panel.panel-primary
         .panel-heading Selected Courses
@@ -43,14 +43,14 @@ div(ng-controller="CourseRegCtrl as vm")
                 th Action
               tbody
                 tr(ng-repeat="reg in vm.regs")
-                  td {{reg.code}}
-                  td {{reg.unit}}
+                  td {{reg.course.course.code}}
+                  td {{reg.course.course.unit}}
                   td
-                    button.btn.btn-xs.btn-danger(ng-click="vm.removeCourse(reg,reg.from)" ng-hide="reg.status == 1") Remove
+                    button.btn.btn-xs.btn-danger(ng-click="vm.removeCourse(reg.course,reg.from)" ng-hide="reg.status == 1") Remove
         .panel-footer
-          button(ng-show="vm.counter >= 15 && vm.counter <= 24" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
-          button(ng-show="vm.student.level == 300 && vm.semester.semester == 2 && vm.counter >= 6" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
-          button(ng-show="vm.student.level == 400 && vm.counter >= 15 && vm.counter <= 27" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
+          button(ng-show="(vm.counter >= 15 && vm.counter <= vm.counter_limit) || ((vm.student.level.level === '300' || vm.student.level.level === '400') && vm.semester.semester === 2 && vm.counter >= 6) || (vm.student.level.level === '400' && vm.counter >= 1 && vm.counter <= vm.counter_limit)" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
+          //button(ng-show="" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
+          //button(ng-show="" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
   .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || vm.lateRegStatus.status == 1)")
     .col-sm-6.col-sm-offset-4(ng-show="vm.outstandings.length>0")
       .panel.panel-danger
@@ -64,10 +64,10 @@ div(ng-controller="CourseRegCtrl as vm")
               th Type
               th Actions
             tbody
-              tr(ng-repeat="course in vm.outstandings | orderBy: '+code'")
+              tr(ng-repeat="course in vm.outstandings | orderBy: '+course.code'")
                 td {{course.course.code}}
                 td {{course.course.title}}
                 td {{course.course.unit}}
                 td {{course.course.type}}
                 td
-                  button.btn.btn-xs.btn-success(ng-click="vm.addCourse(course.course,1)") Add
+                  button.btn.btn-xs.btn-success(ng-click="vm.addCourse(course,1)") Add

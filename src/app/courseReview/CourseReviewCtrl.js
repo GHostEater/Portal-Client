@@ -3,7 +3,7 @@
  * Created by GHostEater on 08-Dec-17.
  */
 angular.module('b')
-  .controller('CourseReviewCtrl',function (CourseReview,CourseReg,CurrentUser,Session,Semester,lodash,$uibModal,Access) {
+  .controller('CourseReviewCtrl',function (CourseReview,CourseReg,CurrentUser,Session,Semester,lodash,$uibModal,Access,CourseAllocation) {
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -21,12 +21,23 @@ angular.module('b')
         });
     }
     function getCourses() {
+      vm.lecturers = [];
       CourseReg.student({student:vm.user.student.id}).$promise
         .then(function (data) {
-          vm.courses = lodash.filter(data,{course:{semester:Number(vm.semester.semester)},session:{id:vm.session.id}});
+          vm.courses = lodash.filter(data,{session:{id:vm.session.id}});
+          CourseAllocation.query({session:vm.session.id}).$promise
+            .then(function(data){
+              vm.alloc = data;
+              angular.forEach(vm.courses,function (course) {
+                vm.lect = lodash.filter(vm.alloc,{course:{id:course.course.id}});
+                angular.forEach(vm.lect,function (lect) {
+                  vm.lecturers.push(lect);
+                });
+              });
+            });
         });
     }
-    function review(course){
+    function review(course,lecturer){
       var options = {
         templateUrl: 'app/courseReview/courseReviewModal.html',
         controller: "CourseReviewModalCtrl",
@@ -35,6 +46,9 @@ angular.module('b')
         resolve:{
           course: function(){
             return course;
+          },
+          lecturer: function(){
+            return lecturer;
           }
         }
       };

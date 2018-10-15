@@ -7,21 +7,24 @@ div(ng-controller="StudentEditCtrl as vm").row
     form(name="vm.form").form-horizontal
       .form-group(ng-show="vm.u.type == 1")
         .col-sm-4
-          input.input-sm.form-control(type="text" name="matricNo" required ng-model="vm.user.username" placeholder="Matric Number")
+          input.input-sm.form-control(type="text" name="matricNo" ng-model="vm.user.username" placeholder="Matric Number")
+      .form-group(ng-show="vm.u.type == 1 || vm.student.edit === false")
+        .col-sm-4
+          input.input-sm.form-control(type="password" name="password" ng-model="vm.user.password" placeholder="Password")
       .form-group(ng-show="vm.u.type == 1")
         .col-sm-4
-          input.input-sm.form-control(type="text" name="last_name" required ng-model="vm.user.last_name" placeholder="Last Name")
+          input.input-sm.form-control(type="text" name="last_name" ng-model="vm.user.last_name" placeholder="Last Name")
         .col-sm-8
-          input.input-sm.form-control(type="text" name="first_name" required ng-model="vm.user.first_name" placeholder="First Name")
+          input.input-sm.form-control(type="text" name="first_name" ng-model="vm.user.first_name" placeholder="First Name")
       .form-group(ng-show="vm.u.type == 1")
         .col-sm-12
-          select.input-sm.form-control(name="sex" required ng-model="vm.user.sex")
+          select.input-sm.form-control(name="sex" ng-model="vm.user.sex")
             option(value="") Select Gender
             option(value="Male") Male
             option(value="Female") Female
       .form-group
         .col-sm-12
-          select.input-sm.form-control(name="bloodGroup" required ng-model="vm.user.blood_group")
+          select.input-sm.form-control(name="bloodGroup" ng-model="vm.user.blood_group")
             option(value="") Select Blood Group
             option(value="O+") O+
             option(value="O-") O-
@@ -33,42 +36,45 @@ div(ng-controller="StudentEditCtrl as vm").row
             option(value="AB-") AB-
       .form-group
         .col-sm-12
-          select.input-sm.form-control(name="genotype" required ng-model="vm.user.genotype")
+          select.input-sm.form-control(name="genotype" ng-model="vm.user.genotype")
             option(value="") Select Genotype
             option(value="AA") AA
             option(value="AS") AS
             option(value="SS") SS
             option(value="CS") CS
+            option(value="AC") AC
       .form-group
         .col-sm-6
-          input.input-sm.form-control(type="text" name="email" required ng-model="vm.user.email" placeholder="E-mail")
+          input.input-sm.form-control(type="text" name="email" ng-model="vm.user.email" placeholder="E-mail")
         .col-sm-4
-          input.input-sm.form-control(type="text" name="phoneNumber" required ng-model="vm.user.phone" placeholder="Phone Number")
+          input.input-sm.form-control(type="text" name="phoneNumber" ng-model="vm.user.phone" placeholder="Phone Number")
       .form-group
         .col-sm-12
-          input.input-sm.form-control(type="text" name="dateBirth" required ng-model="vm.user.date_birth" placeholder="Date of Birth")
+          input.input-sm.form-control(type="text" name="dateBirth" ng-model="vm.user.date_birth" placeholder="Date of Birth (YYYY-MM-DD)")
       .form-group
         .col-sm-3
-          input.input-sm.form-control(type="text" name="nationality" required ng-model="vm.user.nationality" placeholder="Nationality")
+          input.input-sm.form-control(type="text" name="nationality" ng-model="vm.user.nationality" placeholder="Nationality")
         .col-sm-3
-          input.input-sm.form-control(type="text" name="stateOrigin" required ng-model="vm.user.state_origin" placeholder="State Of Origin")
+          input.input-sm.form-control(type="text" name="stateOrigin" ng-model="vm.user.state_origin" placeholder="State Of Origin")
         .col-sm-3
-          input.input-sm.form-control(type="text" name="town" required ng-model="vm.user.town" placeholder="Town")
+          input.input-sm.form-control(type="text" name="town" ng-model="vm.user.town" placeholder="Town")
         .col-sm-3
-          input.input-sm.form-control(type="text" name="lga" required ng-model="vm.user.lga" placeholder="Local Government Area")
+          input.input-sm.form-control(type="text" name="lga" ng-model="vm.user.lga" placeholder="Local Government Area")
       .form-group
         .col-sm-12
-          input.input-sm.form-control(type="text" name="religion" required ng-model="vm.user.religion" placeholder="Religion")
+          input.input-sm.form-control(type="text" name="religion" ng-model="vm.user.religion" placeholder="Religion")
       .form-group
         .col-sm-12
-          input.input-sm.form-control(type="text" name="address" required ng-model="vm.user.address" placeholder="Address")
+          input.input-sm.form-control(type="text" name="address" ng-model="vm.user.address" placeholder="Address")
       .form-group
         .col-sm-12
-          input.input-sm.form-control(type="text" name="nextOfKin" required ng-model="vm.user.next_kin" placeholder="Next of Kin")
+          input.input-sm.form-control(type="text" name="nextOfKin" ng-model="vm.user.next_kin" placeholder="Next of Kin")
         .col-sm-12
-          input.input-sm.form-control(type="text" name="nextOfKinAddress" required ng-model="vm.user.next_kin_address" placeholder="Next of Kin Address")
+          input.input-sm.form-control(type="text" name="nextOfKinAddress" ng-model="vm.user.next_kin_address" placeholder="Next of Kin Address")
         .col-sm-12
-          input.input-sm.form-control(type="text" name="parentNo" required ng-model="vm.student.parent_no" placeholder="Parent Phone Number")
+          input.input-sm.form-control(type="text" name="parentNo" ng-model="vm.student.parent_no" placeholder="Parent Phone Number")
+        .col-sm-12(ng-hide="vm.u.type == 7")
+          input.input-sm.form-control(type="text" name="parentEmail" ng-model="vm.student.parent_email" placeholder="Parent E-Mail Address")
       .form-group(ng-hide="vm.u.type == 7")
         .col-sm-4
           select.input-sm.form-control(ng-model="vm.student.major.dept.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
@@ -86,18 +92,28 @@ div(ng-controller="StudentEditCtrl as vm").row
         .col-sm-4
           select.input-sm.form-control(ng-model="vm.student.mode_of_entry" ng-options="mode_of_entry as mode_of_entry.name for mode_of_entry in vm.mode_of_entrys track by mode_of_entry.id")
             option(value='') Select Mode Of Entry
-      .form-group(ng-hide="vm.u.type == 7")
+        .col-sm-4
+          select.input-sm.form-control(name="programme_type" ng-model="vm.student.programme_type")
+            option(value="") Select Programme Type
+            option(value="Full Time") Full Time
+            option(value="Part Time") Part Time
+            option(value="Executive") Executive
+      .form-group
         .col-sm-12
-          select.input-sm.form-control(name="oLevel" required ng-model="vm.student.olevel")
+          select.input-sm.form-control(name="oLevel" ng-model="vm.student.olevel")
             option(value="") Select O' Level Type
             option(value="WAEC") WAEC
             option(value="NECO") NECO
             option(value="WAEC/GCE") WAEC/GCE
             option(value="NECO/GCE") NECO/GCE
             option(value="WAEC/NECO") WAEC/NECO
+            option(value="NABTEB") NABTEB
+            option(value="NABTEB/WAEC") NABTEB/WAEC
+            option(value="NABTEB/NECO") NABTEB/NECO
+            option(value="NABTEB/GCE") NABTEB/GCE
       .form-group(ng-hide="vm.u.type == 7")
         .col-sm-12
-          select.input-sm.form-control(name="status" required ng-model="vm.student.status")
+          select.input-sm.form-control(name="status" ng-model="vm.student.status")
             option(value="") Select Student Status
             option(value="1") Normal
             option(value="2") Exchange

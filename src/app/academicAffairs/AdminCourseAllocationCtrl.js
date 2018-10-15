@@ -15,7 +15,7 @@ angular.module("b")
           CollegeOfficer.get({user:vm.user.id}).$promise
             .then(function (data) {
               vm.collegeOfficer = data;
-              vm.college = lodash.find(vm.colleges,{name:vm.collegeOfficer.college.id});
+              vm.college = lodash.find(vm.colleges,{id:vm.collegeOfficer.college.id});
             });
         }
       });

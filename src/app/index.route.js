@@ -8,7 +8,11 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('studentUpload',{url:'/student-upload/',templateUrl:'app/student/studentUpload.html'})
     .state('courseToMajor',{url:'/course-to-major/',templateUrl:'app/courseToMajor/courseToMajor.html'})
     .state('log',{url:'/system/logs/',templateUrl:'app/systemLog/logs.html'})
-    .state('adminCourseReview',{url:'/admin/course-lecturer-evaluations/',templateUrl:'app/courseReview/adminCourseReview.html'})
+    .state('adminCourseReview',{url:'/admin/course-lecturer-evaluations/:course/:lecturer/:session/',templateUrl:'app/courseReview/adminCourseReview.html'})
+    .state('adminCourseReviewDept',{url:'/admin/course-lecturer-evaluations/department',templateUrl:'app/courseReview/adminCourseReviewDept.html'})
+    .state('result_release_status',{url:'/admin/result-release-status/',templateUrl:'app/admin/result_release_status.html'})
+    .state('semester',{url:'/admin/semester/',templateUrl:'app/admin/semester.html'})
+    .state('session',{url:'/admin/session/',templateUrl:'app/admin/session.html'})
 
     .state('paymentToMajor',{url:'/payment-to-major/',templateUrl:'app/paymentToMajor/paymentToMajor.html'})
 
@@ -16,19 +20,20 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('room',{url:'/room/',templateUrl:'app/studentAffairs/room.html'})
     .state('roomAllocation',{url:'/room-allocation/',templateUrl:'app/studentAffairs/roomAllocation.html'})
 
-    .state('adminCourseAllocation',{url:'/admin/course-allocation/',templateUrl:'app/academicAffairs/adminCourseAllocation.html'})
     .state('adminOverviewSheet',{url:'/admin/overview-sheet/',templateUrl:'app/academicAffairs/adminOverviewSheet.html'})
     .state('adminBroadSheet',{url:'/admin/broad-sheet/',templateUrl:'app/academicAffairs/adminBroadSheet.html'})
+    .state('adminResultSheet',{url:'/admin/result-sheet/',templateUrl:'app/academicAffairs/adminResultSheet.html'})
     .state('editRequest',{url:'/admin/result-edit-requests/',templateUrl:'app/academicAffairs/resultEditRequest.html'})
     .state('editLog',{url:'/admin/result-edit-logs/',templateUrl:'app/academicAffairs/resultEditLog.html'})
     .state('lateRegRequest',{url:'/admin/late-reg-requests/',templateUrl:'app/academicAffairs/lateRegRequest.html'})
 
     .state('studentList',{url:'/student-list/',templateUrl:'app/levelAdviser/studentList.html'})
-    .state('lvlCourseSlip',{url:'/lecturer/student/course-slip/:userId/',templateUrl:'app/levelAdviser/lvlCourseSlip.html'})
     .state('studentTranscript',{url:'/lecturer/student-transcript/:userId/',templateUrl:'app/levelAdviser/transcript.html'})
 
+    .state('results',{url:'/results/',templateUrl:'app/result/results.html'})
     .state('overviewSheet',{url:'/lecturer/overview-sheet/',templateUrl:'app/examOfficer/overviewSheet.html'})
     .state('broadSheet',{url:'/lecturer/broad-sheet/',templateUrl:'app/examOfficer/broadSheet.html'})
+    .state('resultSheet',{url:'/lecturer/result-sheet/',templateUrl:'app/examOfficer/resultSheet.html'})
     .state('resComp',{url:'/lecturer/result-computation/',templateUrl:'app/examOfficer/resultComputation.html'})
     .state('studentResultView',{url:'/lecturer/student-result-view/:userId/',templateUrl:'app/examOfficer/studentResultView.html'})
     .state('gradList',{url:'/lecturer/graduating-list/',templateUrl:'app/examOfficer/graduatingList.html'})
@@ -39,6 +44,8 @@ function routerConfig($stateProvider, $urlRouterProvider) {
 
     .state('courseReg',{url:'/student/course-registration/',templateUrl:'app/courseReg/courseReg.html'})
     .state('courseSlip',{url:'/student/course-slip/',templateUrl:'app/courseReg/courseSlip.html'})
+    .state('adminCourseSlip',{url:'/admin/course-slip/:userId/',templateUrl:'app/courseReg/adminCourseSlip.html'})
+
     .state('studentResult',{url:'/student/result/',templateUrl:'app/student/result.html'})
     .state('courseReview',{url:'/student/course-lecturer-evaluations/',templateUrl:'app/courseReview/courseReview.html'})
     .state('student_edit',{url:'/student-edit/:id',templateUrl:'app/student/student_edit.html'})
@@ -47,6 +54,14 @@ function routerConfig($stateProvider, $urlRouterProvider) {
 
     .state('level_advisers',{url:'/hod/level-advisers/',templateUrl:'app/hod/level_adviser.html'})
     .state('exam_officer',{url:'/hod/exam-officer/',templateUrl:'app/hod/exam_officer.html'})
+
+    .state('student_payment',{url:'/student/payment/',templateUrl:'app/payment/student_payment.html'})
+    .state('student_pay',{url:'/student/payment/pay/:payment/:amount/:level',templateUrl:'app/payment/student_pay.html'})
+
+    .state('xpress_payment',{url:'/admin/payXpress-payments',templateUrl:'app/payment/admin_xpress_payment.html'})
+    .state('payment_reports',{url:'/admin/payment-reports',templateUrl:'app/payment/admin_payment_reports.html'})
+    .state('payment_reports_admission',{url:'/admin/admission-payment-reports',templateUrl:'app/payment/admin_payment_reports_admission.html'})
+
   ;
 
   $urlRouterProvider.otherwise('/');

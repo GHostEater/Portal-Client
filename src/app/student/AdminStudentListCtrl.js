@@ -11,8 +11,11 @@ angular.module('b')
     College.query().$promise
       .then(function(data){
         vm.colleges = data;
-        if(vm.user === '5'){
+        if(vm.user.type === '5'){
           vm.college = vm.user.co.college;
+        }
+        if(vm.user.type === '8'){
+          vm.college = vm.user.dean.college;
         }
       });
     vm.depts = Dept.query();

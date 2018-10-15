@@ -1,0 +1,7 @@
+//Created by GHostEater on 18-Mar-18.
+div(ng-controller="ResultReleaseStatusCtrl as vm").row
+  .col-sm-12.text-center
+    h4 Result Release Status is&nbsp
+      br
+      b {{vm.status.status}}
+    button.btn.btn-warning(ng-click="vm.change()") Change Status

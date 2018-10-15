@@ -5,23 +5,21 @@ div(ng-controller="OverviewSheetCtrl as vm")
       img(src="img/logo.png")
     span.col-sm-8
       h3 FOUNTAIN UNIVERSITY, OSOGBO
-      h4
-        i (University of Nasrul-Lahi-Il-Fatih Society)
       h4 {{vm.session.session}} &nbsp
         span(ng-show="vm.semester.semester == 1") First Semester Examination Results
         span(ng-show="vm.semester.semester == 2") Second Semester Examination Results
   .row.visible-print
-    span Department: {{vm.lecturer.dept}}  Level: {{vm.level.level}}
+    span Department: {{vm.lecturer.dept.name}}  Level: {{vm.level.level}}
   .row.visible-print
     span Programme: B.Sc &nbsp
-    span(ng-show="vm.lecturer.college === 'College of Management and Social Sciences'") (Hons.)
+    span(ng-show="vm.lecturer.college.name === 'College of Management and Social Sciences'") (Hons.)
     span {{vm.major.name}}
   .row.hidden-print
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
         option(value="") Select Level
-    .col-sm-2(ng-show="vm.user.examOfficer")
-      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept} track by major.id")
+    .col-sm-2(ng-show="vm.user.examOfficer || vm.user.hod")
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.lecturer.dept.name}} track by major.id")
         option(value="") Select Major
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
@@ -47,6 +45,7 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th Present GPA
           th FINAL CGPA
           th
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.pass | orderBy:'+username'")
             td {{key + 1}}
@@ -56,7 +55,10 @@ div(ng-controller="OverviewSheetCtrl as vm")
             td {{student.gpa | number:2}}
             td {{student.cgpa | number:2}}
             td
-              span(ng-show="student.gp_status === 1") Fountain Scholar
+              span(ng-show="student.cgpa >= 3.5") Fountain Scholar
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center PASS WITH COURSE(S) STILL OUTSTANDING LIST
@@ -69,6 +71,7 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th Present GPA
           th FINAL CGPA
           th
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.pcso | orderBy:'+username'")
             td {{key + 1}}
@@ -78,7 +81,10 @@ div(ng-controller="OverviewSheetCtrl as vm")
             td {{student.gpa | number:2}}
             td {{student.cgpa | number:2}}
             td
-              span(ng-show="student.gp_status === 1") Fountain Scholar
+              span(ng-show="student.cgpa >= 3.5") Fountain Scholar
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center PROBATION LIST
@@ -90,6 +96,7 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th Previous CGPA
           th Present GPA
           th FINAL CGPA
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.probation | orderBy:'+username'")
             td {{key + 1}}
@@ -98,6 +105,9 @@ div(ng-controller="OverviewSheetCtrl as vm")
             td {{student.prev_cgpa | number:2}}
             td {{student.gpa | number:2}}
             td {{student.cgpa | number:2}}
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center WITHDRAWAL LIST
@@ -109,6 +119,7 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th Previous CGPA
           th Present GPA
           th FINAL CGPA
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.withdrawal | orderBy:'+username'")
             td {{key + 1}}
@@ -117,6 +128,9 @@ div(ng-controller="OverviewSheetCtrl as vm")
             td {{student.prev_cgpa | number:2}}
             td {{student.gpa | number:2}}
             td {{student.cgpa | number:2}}
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center SICK LIST
@@ -125,11 +139,15 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th S/N
           th Matric
           th Name
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.sick | orderBy:'+username'")
             td {{key + 1}}
             td {{student.user.username | matricNo}}
             td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center LEAVE LIST
@@ -138,11 +156,15 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th S/N
           th Matric
           th Name
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.leave | orderBy:'+username'")
             td {{key + 1}}
             td {{student.user.username | matricNo}}
             td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center DEFERMENT LIST
@@ -151,11 +173,15 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th S/N
           th Matric
           th Name
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.deferment | orderBy:'+username'")
             td {{key + 1}}
             td {{student.user.username | matricNo}}
             td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-12
       .row
         h4.col-sm-12.text-center SUSPENSION LIST
@@ -164,11 +190,15 @@ div(ng-controller="OverviewSheetCtrl as vm")
           th S/N
           th Matric
           th Name
+          th.hidden-print Actions
         tbody(style="font-size: 0.9em")
           tr(ng-repeat="(key,student) in vm.suspension | orderBy:'+username'")
             td {{key + 1}}
             td {{student.user.username | matricNo}}
             td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+            td.hidden-print
+              a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
+              a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
     .col-sm-2
       .panel.panel-info
         .panel-heading Summary
@@ -202,19 +232,19 @@ div(ng-controller="OverviewSheetCtrl as vm")
               th Total
               th {{vm.total}}
   .row.visible-print
-    .col-sm-4
+    .col-sm-4.content-vert
       span {{vm.levelAdviser.lecturer.user.last_name | uppercase}}, {{vm.levelAdviser.lecturer.user.first_name}}
       br
       span ___________________________________
       br
       span Level Adviser {{vm.level.level}} Level Signature/Date
-    .col-sm-4
+    .col-sm-4.content-vert
       span {{vm.hod.lecturer.user.last_name | uppercase}}, {{vm.hod.lecturer.user.first_name}}
       br
       span ___________________________________&nbsp
       br
-      span Head of {{vm.hod.dept}}'s Signature/Date
-    .col-sm-4
+      span Head of {{vm.hod.dept.name}}'s Signature/Date
+    .col-sm-4.content-vert
       span Dean of College: ____________________________
       br
       span Signature/Date

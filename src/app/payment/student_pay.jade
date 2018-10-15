@@ -1,0 +1,57 @@
+//Created by GHostEater on 26-Apr-18.
+div(ng-controller="StudentPayCtrl as vm")
+  .row
+    .col-sm-4.col-sm-offset-4.text-center(ng-show="vm.payment.paid === false")
+      .panel.panel-info(ng-show="vm.payment.paid === false")
+        .panel-heading
+          .panel-title {{vm.payment_type.name}} Payment
+        .panel-body
+          h5 {{vm.payment_type.name}}: ₦{{vm.payment_type.amount_orig | number:'0'}}
+          h5(ng-show="vm.charges != 0") Processing Fee: ₦{{vm.charges | number:'0'}}
+          h5(ng-show="vm.charges != 0") Total: ₦{{vm.payment_type.amount | number:'0'}}
+          div(ng-show="!vm.payment.rrr")
+            h5 Order ID: {{vm.order_id}}
+              button.btn.btn-sm.btn-primary(ng-click="vm.generate_order_id()" ng-show="!vm.order_id") Generate Order ID
+
+            //- form(action="{{vm.remitaPost}}" name="SubmitRemitaForm" method="POST" target="_blank").remitaForm
+            //-   input(name="merchantId" value="{{vm.payment_type.merchant_id}}" type="hidden")
+            //-   input(name="serviceTypeId" value="{{vm.payment_type.service_type_id}}" type="hidden")
+            //-   input(name="orderId" value="{{vm.order_id}}" type="hidden")
+            //-   input(name="hash" value="{{vm.hash}}" type="hidden")
+            //-   input(name="payerName" value="{{vm.user.last_name}} {{vm.user.first_name}}" type="hidden")
+            //-   input(name="payerEmail" value="{{vm.user.email}}" type="hidden")
+            //-   input(name="payerPhone" value="{{vm.user.student.user.phone}}" type="hidden")
+            //-   input(name="amt" value="{{vm.payment_type.amount}}" type="hidden")
+            //-   input(name="responseurl" value="{{vm.remitaFinalResponse}}" type="hidden")
+            //-   input(name="paymenttype" value="RRRGEN" type="hidden")
+              //- select.form-control.input-sm(title='Credit Card Type', name='paymenttype', autocomplete='off')
+              //-   option -- Select Payment Type --
+              //-   option(value='VERVE') Verve Card
+              //-   option(value='VISA') Visa
+              //-   option(value='MASTERCARD') MasterCard
+              //-   option(value='POCKETMONI') PocketMoni
+              //-   option(value='POS') POS
+              //-   option(value='ATM') ATM
+              //-   option(value='BANK_BRANCH') BANK BRANCH
+              //-   option(value='BANK_INTERNET') BANK INTERNET
+              //-   option(value='REMITA_PAY') Remita Account Transfer
+            button.btn.btn-primary(ng-click="vm.generateRrr()" ng-show="vm.remita == false") Generate Remita Retrieval Reference
+
+          div(ng-show="vm.payment.rrr && vm.payment.paid == false")
+            h5 Order ID: {{vm.payment.order_id}}
+            h5 Remita Retrieval Reference: {{vm.payment.rrr}}
+            form(action="{{vm.remitaPay}}" name="SubmitRemitaForm" method="POST" target="_blank").remitaForm2
+              input(name="merchantId" value="{{vm.payment.payment_type.merchant_id}}" type="hidden")
+              input(name="hash" value="{{vm.hash}}" type="hidden")
+              input(name="rrr" value="{{vm.payment.rrr}}" type="hidden")
+              input(name="responseurl" value="{{vm.remitaFinalResponse}}" type="hidden")
+            button.btn.btn-success(ng-click="vm.submit2()" ng-show="vm.remita == false") Pay Via Remita
+            button.btn.btn-success(ng-click="vm.check_status(vm.payment)" ng-show="vm.remita == false") Check Remita Transaction Status
+          button.btn.btn-primary(ng-click="vm.reload()" ng-show="vm.remita == true") Refresh
+          .row.content-vert
+            a.btn.btn-primary(ui-sref="student_payment" ng-show="vm.remita == true") Go Back to Payments
+
+    .col-sm-6.col-sm-offset-3.text-center(ng-show="vm.payment.paid === true")
+      h4 {{vm.payment_type.name}}: ₦{{vm.payment_type.amount_orig | number:'0'}}
+      h4 You have already paid for this
+      a.btn.btn-primary(ui-sref="student_payment") Go Back to Payments

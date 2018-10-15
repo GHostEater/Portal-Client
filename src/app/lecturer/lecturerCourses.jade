@@ -15,6 +15,6 @@ div(ng-controller="LecturerCoursesCtrl as vm")
           td {{allocation.course.code}}
           td {{allocation.course.title}}
           td {{allocation.course.unit}}
-          td {{allocation.course.level}}
+          td {{allocation.course.level.level}}
           td
             a(ui-sref="courseDetail({id:allocation.id})").btn.btn-xs.btn-primary View Details

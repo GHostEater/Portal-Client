@@ -1,5 +1,8 @@
 //Created by GHostEater on 6/12/2016.
 div(ng-controller="StudentResultViewController as vm")
+  .row(ng-hide="vm.user.type === '1' || vm.user.type === '2' || vm.user.type === '8' || ((vm.user.hod || vm.user.levelAdviser) && !vm.user.examOfficer)")
+    .col-sm-12
+      button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.user.lecturer.id)" ng-show="vm.perm.status == null") Request Edit Privileges
   .panel.panel-info(ng-repeat="(key,res) in vm.results | orderBy:'-session'")
     .panel-heading
       h3.panel-title
@@ -9,33 +12,32 @@ div(ng-controller="StudentResultViewController as vm")
         span(ng-show="res.gp.semester == 1") 1st Semester
         span(ng-show="res.gp.semester == 2") 2nd Semester
     .panel-body
-      .table-responsive
-        table.table.table-striped
-          thead
-            th Code
-            th Course Title
-            th Unit
-            th CA
-            th Exam
-            th Score 100%
-            th Grade
-            th(ng-show="vm.user.examOfficer || vm.user.levelAdviser") Actions
-          tbody
-            tr(ng-repeat="result in res.result | orderBy:'+code'")
-              td {{result.course.code}}
-              td {{result.course.title}}
-              td {{result.course.unit}}
-              td {{result.ca}}
-              td {{result.exam}}
-              td {{result.final}}
-              td {{result.grade}}
-              td(ng-show="vm.user.examOfficer || vm.user.levelAdviser")
-                button.btn.btn-xs.btn-warning(ng-click="vm.editCa(result)") Edit Ca
-                button.btn.btn-xs.btn-warning(ng-click="vm.editExam(result)") Edit Exam
-        span TCE: {{res.gp.tce}}&nbsp
-        span TNU: {{res.gp.tnu}}&nbsp
-        span TCP: {{res.gp.tcp}}&nbsp
-        span GPA: {{res.gp.gpa | number:2}}&nbsp
-        span CGPA: {{res.gp.cgpa | number:2}}
-        .row.sm-content(ng-show="vm.user.examOfficer || vm.user.levelAdviser")
-          button.btn.btn-primary(ng-click="vm.processResult(res.gp)") Re-Process Result
+      table.table.table-striped
+        thead
+          th Code
+          th Course Title
+          th Unit
+          th CA
+          th Exam
+          th Score 100%
+          th Grade
+          th(ng-show="(vm.user.examOfficer && vm.perm.status == 1) || vm.user.type === '1'") Actions
+        tbody
+          tr(ng-repeat="result in res.result | orderBy:'+code'")
+            td {{result.course.code}}
+            td {{result.course.title}}
+            td {{result.course.unit}}
+            td {{result.ca}}
+            td {{result.exam}}
+            td {{result.final}}
+            td {{result.grade}}
+            td(ng-show="(vm.user.examOfficer && vm.perm.status == 1) || vm.user.type === '1'")
+              button.btn.btn-xs.btn-warning(ng-click="vm.editCa(result)") Edit CA
+              button.btn.btn-xs.btn-warning(ng-click="vm.editExam(result)") Edit Exam
+      span TCE: {{res.gp.tce}}&nbsp
+      span TNU: {{res.gp.tnu}}&nbsp
+      span TCP: {{res.gp.tcp}}&nbsp
+      span GPA: {{res.gp.gpa | number:2}}&nbsp
+      span CGPA: {{res.gp.cgpa | number:2}}
+      .row.sm-content(ng-show="(vm.user.examOfficer && vm.perm.status == 1) || vm.user.type === '1'")
+        button.btn.btn-primary(ng-click="vm.processResult(res.gp,key)") Re-Process Result

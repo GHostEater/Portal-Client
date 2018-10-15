@@ -1,0 +1,11 @@
+//Created by GHostEater on 05-Mar-18.
+.modal-header
+  .modal-title Select Exam Officer
+.modal-body
+  form(name="vm.form")
+    select.form-control.input-sm(required ng-model="vm.lecturer" ng-options="lecturer as lecturer.user.last_name+' '+lecturer.user.first_name for lecturer in vm.lecturers track by lecturer.id")
+
+      option(value="") Select Lecturer
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

@@ -10,4 +10,12 @@ angular.module('b').run(runBlock).run(run);
     $rootScope.semester = Semester.get();
     Student.autoWithdraw();
     var u = User.get({id:'1'});
+    $rootScope.menu = function (flex) {
+      if(flex === 'yes'){
+        $rootScope.flex = 'no';
+      }
+      else{
+        $rootScope.flex = 'yes';
+      }
+    };
   }

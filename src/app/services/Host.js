@@ -4,7 +4,7 @@
 angular.module('b')
   .factory('Host',function($location){
     var local = 'http://127.0.0.1:2000/api';
-    var server = 'http://api.fuo.edu.ng/api';
+    var server = 'https://api.fuo.com.ng/api';
     var host = "";
     function test(){
       if($location.absUrl().startsWith('http://localhost:3000')){

@@ -14,11 +14,11 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
               th College
               th Actions
             tbody
-              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:0,lecturer:{college:vm.user.dean.college}}")
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:0,lecturer:{dept:{college:{id:vm.user.dean.college.id}}}}")
                 td {{key + 1}}
                 td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
                 td {{request.lecturer.dept.name}}
-                td {{request.lecturer.college.acronym}}
+                td {{request.lecturer.dept.college.acronym}}
                 td
                   button.btn.btn-sm.btn-success(ng-click="vm.process(request.id,1,vm.user.id)") Approve
                   button.btn.btn-sm.btn-danger(ng-click="vm.process(request.id,2,vm.user.id)") Decline
@@ -38,11 +38,11 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
               th Handled By
               th Actions
             tbody
-              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:1,lecturer:{college:{name:vm.user.dean.college.name}}}")
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:1,lecturer:{dept:{college:{name:vm.user.dean.college.name}}}}")
                 td {{key + 1}}
                 td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
                 td {{request.lecturer.dept.name}}
-                td {{request.lecturer.college.acronym}}
+                td {{request.lecturer.dept.college.acronym}}
                 td {{request.date | date:'dd-MMM-yyyy hh:mm:ss a'}}
                 td {{request.handled_by.last_name | uppercase}}, {{request.handled_by.first_name}}
                 td

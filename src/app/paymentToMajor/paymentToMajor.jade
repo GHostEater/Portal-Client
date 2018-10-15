@@ -5,10 +5,10 @@ div(ng-controller="PaymentToMajorCtrl as vm")
       select.form-control.input-sm(ng-model='vm.college' ng-options="college as college.acronym for college in vm.colleges track by college.id")
         option(value='') Select College
     .col-sm-3
-      select.form-control.input-sm(ng-model='vm.dept' ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college} track by dept.id")
+      select.form-control.input-sm(ng-model='vm.dept' ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
         option(value='') Select Department
     .col-sm-3
-      select.form-control.input-sm(ng-model='vm.major' ng-options="major as major.name for major in vm.majors | filter:{dept:vm.dept} track by major.id")
+      select.form-control.input-sm(ng-model='vm.major' ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.dept.name}} track by major.id")
         option(value='') Select Major
     .col-sm-3
       button.btn.btn-sm.btn-primary(ng-click='vm.getMajorPayments(vm.major)') Go
@@ -27,10 +27,18 @@ div(ng-controller="PaymentToMajorCtrl as vm")
                 thead
                   th Name
                   th Amount
+                  th JME
+                  th D/E
+                  th Conversion
+                  th Part Time
                   th Actions
                 tbody
-                  tr(ng-repeat='payment in vm.majorPayments | filter:{level:level}')
+                  tr(ng-repeat='payment in vm.majorPayments | filter:{level:{id:level}}')
                     td {{payment.payment_type.name}}
                     td {{payment.payment_type.amount | number:2}}
+                    td {{payment.jme}}
+                    td {{payment.de}}
+                    td {{payment.conversion}}
+                    td {{payment.pt}}
                     td
                       button.btn.btn-xs.btn-danger(ng-click="vm.remove(payment.id)") Delete

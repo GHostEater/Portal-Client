@@ -11,6 +11,10 @@ angular.module('b')
         isArray: true,
         url: Host.host+'/course-reg/course/'
       },
+      getRegAndRawResult:{
+        method: 'get',
+        url: Host.host+'/course-reg/reg-and-raw-result/'
+      },
       status:{
         method: 'get',
         url: Host.host+'/reg-status/1/'
@@ -18,6 +22,14 @@ angular.module('b')
       save:{
         method: 'post',
         url:Host.host+'/course-reg/new/'
+      },
+      registerCourses:{
+        method: 'post',
+        url:Host.host+'/course-reg/register-courses/'
+      },
+      getRegistrableCourses:{
+        method: 'get',
+        url:Host.host+'/course-reg/registrable-courses/'
       }
     });
   });

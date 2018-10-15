@@ -1,5 +1,4 @@
-//
-   Created by GHostEater on 01-May-16.
+//Created by GHostEater on 01-May-16.
 div(ng-controller="CourseSlipCtrl as vm").row
   .col-sm-12
     .row.visible-print
@@ -30,12 +29,15 @@ div(ng-controller="CourseSlipCtrl as vm").row
       th Course Title
       th Unit
       th Type
+      th.hidden-print Action
     tbody
       tr(ng-repeat="course in vm.courses | orderBy: '+code'")
         td {{course.course.code}}
         td {{course.course.title}}
         td {{course.course.unit}}
         td {{course.course.type}}
+        td.hidden-print
+          button.btn.btn-xs.btn-danger(ng-click="vm.deleteCourse(course.id)") Delete Course
   span.row Total Units Registered: {{vm.counter}}
   .row.visible-print
     .col-sm-5
@@ -46,3 +48,5 @@ div(ng-controller="CourseSlipCtrl as vm").row
       span ____________________________&nbsp
       br
       span Level Adviser Signature/Date
+  .row.content.hidden-print
+    button.btn.btn-xs.btn-primary(ng-click="vm.print()") Print

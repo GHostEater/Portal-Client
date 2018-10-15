@@ -21,7 +21,7 @@ angular.module('b')
         templateUrl: 'app/hod/level_adviser_add.html',
         controller: "LevelAdviserAddCtrl",
         controllerAs: 'vm',
-        size: 'lg'
+        size: 'md'
       };
       $uibModal.open(options).result
         .then(function(){

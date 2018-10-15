@@ -13,8 +13,7 @@ angular.module('b')
       },
       course:{
         url: Host.host+'/course-review/course/',
-        method: 'get',
-        isArray: true
+        method: 'get'
       },
       student:{
         url: Host.host+'/course-review/student/',
@@ -23,6 +22,11 @@ angular.module('b')
       },
       lecturer:{
         url: Host.host+'/course-review/lecturer/',
+        method: 'get',
+        isArray: true
+      },
+      dept:{
+        url: Host.host+'/course-review/dept/',
         method: 'get',
         isArray: true
       }

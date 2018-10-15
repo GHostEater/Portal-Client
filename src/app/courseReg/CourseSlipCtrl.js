@@ -1,10 +1,12 @@
 /* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller("CourseSlipCtrl",function(CourseReg,Student,Semester,toastr,lodash,Session,CurrentUser,Access){
+  .controller("CourseSlipCtrl",function(CourseReg,Student,Semester,toastr,lodash,Session,CurrentUser,Access,$uibModal,$window){
     Access.student();
     var vm = this;
     vm.counter = 0;
     vm.student = CurrentUser.profile.student;
+    vm.deleteCourse = deleteCourse;
+    vm.print = print;
     Session.getCurrent().$promise
       .then(function (data) {
         vm.session = data;
@@ -25,5 +27,25 @@ angular.module("b")
             vm.counter += Number(vm.courses[i].course.unit);
           }
         });
+    }
+    function deleteCourse(id){
+      var options = {
+        templateUrl: 'app/courseReg/courseRegDelete.html',
+        controller: "CourseRegDeleteCtrl",
+        controllerAs: 'vm',
+        size: 'sm',
+        resolve:{
+          id: function(){
+            return id;
+          }
+        }
+      };
+      $uibModal.open(options).result
+        .then(function(){
+          getCourses();
+        });
+    }
+    function print(){
+      $window.print();
     }
   });

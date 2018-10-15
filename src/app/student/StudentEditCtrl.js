@@ -12,7 +12,11 @@ angular.module('b')
     vm.uploaded = false;
     vm.u = CurrentUser.profile;
     function get_student() {
-      vm.user = User.get({id:$stateParams.id});
+      User.get({id:$stateParams.id}).$promise
+        .then(function (data) {
+          vm.user = data;
+          vm.user.password = '';
+        });
       Student.get({user:$stateParams.id}).$promise
         .then(function (data) {
           vm.student = data;
@@ -26,7 +30,9 @@ angular.module('b')
 
     function submit() {
       if(vm.form.$valid){
+        if (vm.form.password.$pristine || vm.user.password === ''){
         delete vm.user.password;
+      }
         delete vm.user.img;
         User.patch(vm.user).$promise
           .then(function (data) {
@@ -47,6 +53,9 @@ angular.module('b')
       vm.student.major = vm.student.major.id;
       vm.student.mode_of_entry = vm.student.mode_of_entry.id;
       vm.student.level = vm.student.level.id;
+      if(vm.u.type === '7'){
+        vm.student.edit = true;
+      }
       Student.patch(vm.student).$promise
         .then(function (data) {
           vm.student = data;
@@ -54,7 +63,9 @@ angular.module('b')
             upload_file();
           }
           else{
-            toastr.success("Student Information Edited");
+            toastr.success("Student Profile Edited");
+            vm.uploaded = true;
+            $state.go("home");
           }
         })
         .catch(function () {

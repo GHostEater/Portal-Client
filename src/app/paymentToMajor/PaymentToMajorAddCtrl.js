@@ -8,6 +8,10 @@ angular.module('b')
     vm.payments = PaymentType.query();
     vm.levels = Level.query();
     vm.major = major;
+    vm.jme = false;
+    vm.de = false;
+    vm.conversion = false;
+    vm.pt = false;
 
     function selectPayment(id){
       vm.payment = lodash.find(vm.payments,{id:id});
@@ -21,7 +25,11 @@ angular.module('b')
       var data = {
         payment_type: vm.payment.id,
         major: vm.major.id,
-        level: vm.level.id
+        level: vm.level.id,
+        jme: vm.jme,
+        de: vm.de,
+        conversion: vm.conversion,
+        pt: vm.pt
       };
       PaymentToMajor.add(data).$promise
         .then(function(){

@@ -6,7 +6,7 @@ div(ng-controller="LogsCtrl as vm")
         h3.panel-title Filters
       .panel-body
         .form-group
-          .col-sm-4
+          .col-sm-3
             select.form-control(ng-model="vm.user")
               option(value="") All Users
               option(value="Admin") Admin
@@ -17,12 +17,14 @@ div(ng-controller="LogsCtrl as vm")
               option(value="Academic Affairs") Academic Affairs
               option(value="Exam Officer") Exam Officer
               option(value="Level Adviser") Level Adviser
-          .col-sm-4
+          .col-sm-3
             label.control-label From:
               input.form-control(type="date" ng-model="vm.date.min" placeholder="yyyy-mm-dd hh:mm:ss")
-          .col-sm-4
+          .col-sm-3
             label.control-label To:
               input.form-control(type="date" ng-model="vm.date.max" placeholder="yyyy-mm-dd hh:mm:ss")
+          .col-sm-3
+            button.btn.btn-primary(ng-click="vm.getLogs()") Go
   .table-responsive
     table.table.table-striped.table-bordered
       thead

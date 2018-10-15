@@ -71,7 +71,6 @@ angular.module("b")
               Hod.get({lecturer:id}).$promise
                 .then(function(data){
                   vm.data.hod = data;
-                  setUser();
                 })
                 .finally(function () {
                   getLevelAdviser(vm.lecturer.id);
@@ -81,7 +80,6 @@ angular.module("b")
               LevelAdviser.get({lecturer:id}).$promise
                 .then(function(data){
                   vm.data.levelAdviser = data;
-                  setUser();
                 }).finally(function () {
                 getExamOfficer(vm.lecturer.id);
               });
@@ -90,7 +88,6 @@ angular.module("b")
               ExamOfficer.get({lecturer:id}).$promise
                 .then(function(data){
                   vm.data.examOfficer = data;
-                  setUser();
                 }).finally(function () {
                 setUser();
               });

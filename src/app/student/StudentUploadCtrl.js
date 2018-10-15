@@ -4,6 +4,7 @@ angular.module('b')
     var vm = this;
     vm.uploadStudents = uploadStudents;
     function uploadStudents() {
+      var students = [];
       for(var i=0; i<vm.students.data.length-1; i++){
         var data = {
           username: $filter('matricNo')(vm.students.data[i][0]),
@@ -11,16 +12,20 @@ angular.module('b')
           first_name: vm.students.data[i][2]+' '+vm.students.data[i][3],
           date_birth: vm.students.data[i][4],
           email: vm.students.data[i][5],
-          sex: vm.students.data[i][6],
-          major: vm.students.data[i][7],
-          level: vm.students.data[i][8],
-          mode_of_entry: vm.students.data[i][9]
+          parent_email: vm.students.data[i][6],
+          sex: vm.students.data[i][7],
+          major: vm.students.data[i][8],
+          level: vm.students.data[i][9],
+          mode_of_entry: vm.students.data[i][10]
         };
-        Student.upload(data)
-          .$promise.then(function(){
-          SystemLog.add("Uploaded Student");
-          toastr.success("Student Uploaded");
-        });
+        students.push(data);
       }
+      vm.uploaded = students.length;
+      Student.upload(students).$promise
+        .then(function(data){
+          vm.processed = data.processed;
+          SystemLog.add("Uploaded Students");
+          toastr.success("Students Uploaded");
+        });
     }
   });

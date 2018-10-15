@@ -20,6 +20,7 @@ angular.module('b')
         vm.lvls = data;
         if(vm.user.levelAdviser){
           vm.levels = vm.user.levelAdviser.level;
+          vm.major = vm.user.levelAdviser.major;
         }
         else{
           vm.levels = data;
@@ -29,8 +30,11 @@ angular.module('b')
         }
       });
     if(vm.user.type === '6'){
-      vm.lecturer = vm.user.lecturer;
+      vm.college = vm.user.lecturer.dept.college;
       vm.dept = vm.user.lecturer.dept;
+    }
+    if(vm.user.type === '5'){
+      vm.college = vm.user.co.college;
     }
     function getStudents(){
       CourseResultGPA.dept({dept:vm.dept.id,session:vm.session.id}).$promise

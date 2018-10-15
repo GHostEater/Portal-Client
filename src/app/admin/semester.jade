@@ -1,0 +1,8 @@
+//Created by GHostEater on 18-Mar-18.
+div(ng-controller="SemesterCtrl as vm").row
+  .col-sm-12.text-center
+    h4 Current Semester is&nbsp
+      br
+      b(ng-show="vm.semester.semester == 1") 1st Semester
+      b(ng-show="vm.semester.semester == 2") 2nd Semester
+    button.btn.btn-warning(ng-click="vm.change()") Change Semester

@@ -3,8 +3,8 @@
  */
 angular.module('b')
   .factory("SystemLog", function(Host,$http,$q,Loc,Ranker,CurrentUser){
-    function getAll(){
-      return $http.get(Host.host+'/system-log/')
+    function getAll(min,max){
+      return $http.get(Host.host+'/system-log/',{params:{min:min,max:max}})
         .then(function(response){
           return response.data;
         })

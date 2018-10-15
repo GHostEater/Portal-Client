@@ -17,6 +17,18 @@ angular.module('b')
       },
       patch:{
         method: 'patch'
+      },
+      rawResultAndCgpa:{
+        method: 'get',
+        url: Host.host+'/gpa/raw-result-and-cgpa/'
+      },
+      rawResultAndCgpaSpecific:{
+        method: 'post',
+        url: Host.host+'/gpa/raw-result-and-cgpa-specific/'
+      },
+      releaseResultAndCgpa:{
+        method: 'get',
+        url: Host.host+'/gpa/release-result-and-cgpa/'
       }
     });
   });

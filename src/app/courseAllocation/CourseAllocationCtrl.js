@@ -1,26 +1,41 @@
 /* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('CourseAllocationCtrl',function (CourseAllocation,Session,Semester,lodash,CurrentUser,toastr,$uibModal,$window,Access) {
-    Access.lecturer();
+  .controller('CourseAllocationCtrl',function (CourseAllocation,Session,Semester,lodash,CurrentUser,toastr,$uibModal,$window,Access,Dept,College,CollegeOfficer,Hod) {
+    Access.notStudent();
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.sessions = Session.query();
     vm.session = Session.getCurrent();
     vm.semester = Semester.get();
-    vm.lecturer = vm.user.lecturer;
-    vm.allocate = allocate;
-    vm.remove = remove;
+    vm.depts = Dept.query();
+    vm.colleges = College.query();
+    vm.getHod = getHod;
     vm.getAllocations = getAllocations;
     vm.print = print;
+    vm.allocate = allocate;
+    vm.remove = remove;
+    if(vm.user.type === '5'){
+      vm.collegeOfficer = vm.user.co;
+      vm.college = vm.user.co.college;
+    }
+    if(vm.user.hod){
+      vm.hod = vm.user.hod;
+      vm.college = vm.user.hod.dept.college;
+      vm.dept = vm.user.hod.dept;
+    }
 
+    function getHod(){
+      Hod.query().$promise
+        .then(function (data) {
+          vm.hod = lodash.find(data,{dept:{id:vm.dept.id}});
+        });
+      getAllocations();
+    }
     function getAllocations() {
       CourseAllocation.query({session:vm.session.id}).$promise
         .then(function (data) {
-          vm.allocations = lodash.filter(data,{allocated_by:{id:vm.lecturer.id},course:{semester:Number(vm.semester.semester)}});
+          vm.allocations = lodash.filter(data,{allocated_by:{id:vm.hod.lecturer.id},course:{semester:Number(vm.semester.semester)}});
         });
-    }
-    function print(){
-      $window.print();
     }
     function allocate() {
       var options = {
@@ -50,5 +65,8 @@ angular.module('b')
         .then(function(){
           getAllocations();
         });
+    }
+    function print(){
+      $window.print();
     }
   });

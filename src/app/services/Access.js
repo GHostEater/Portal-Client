@@ -9,6 +9,12 @@ angular.module('b')
         toastr.error('Unauthorized Access');
       }
     }
+    function notStudent() {
+      if(CurrentUser.profile.type === '7' || (!CurrentUser.profile.id || !$rootScope.user.id)){
+        $state.go("login");
+        toastr.error('Unauthorized Access');
+      }
+    }
     function lecturer() {
       if(CurrentUser.profile.type !== '6'){
         $state.go("login");
@@ -31,6 +37,7 @@ angular.module('b')
       admin: admin,
       lecturer: lecturer,
       student: student,
-      general: general
+      general: general,
+      notStudent: notStudent
     };
   });

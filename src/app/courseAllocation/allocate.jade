@@ -4,25 +4,50 @@
 .modal-body
   form(name="vm.form").form-horizontal
     div(ng-show="vm.lecturerSelect == 0")
-      .row.content
-        form.content.col-sm-4
-          input.form-control(type="text" placeholder="Search" ng-model="vm.searchTerm")
-      .table-responsive
-        table.table.table-striped.table-condensed
-          thead
-            th Name
-            th College
-            th Department
-            th Action
-          tbody
-            tr(ng-repeat="lecturer in vm.lecturers | filter: vm.searchTerm")
-              td {{lecturer.user.last_name}}, {{lecturer.user.first_name}}
-              td {{lecturer.college.name}}
-              td {{lecturer.dept.name}}
-              td
-                button.btn.btn-xs.btn-primary(ng-click="vm.selectLecturer(lecturer.id)") Select
+      div(ng-show="!vm.lecturer")
+        h5.text-center Select Lecturer
+        .row.content
+          form.content.col-sm-4
+            input.form-control(type="text" placeholder="Search" ng-model="vm.searchTerm")
+        .table-responsive
+          table.table.table-striped.table-condensed
+            thead
+              th Name
+              th College
+              th Department
+              th Action
+            tbody
+              tr(ng-repeat="lecturer in vm.lecturers | filter: vm.searchTerm")
+                td {{lecturer.user.last_name}}, {{lecturer.user.first_name}}
+                td {{lecturer.dept.college.name}}
+                td {{lecturer.dept.name}}
+                td
+                  button.btn.btn-xs.btn-primary(ng-click="vm.selectLecturer(lecturer)") Select
+      h4(ng-show="vm.lecturer") Selected Lecturer: {{vm.lecturer.user.last_name}}, {{vm.lecturer.user.first_name}}
+      div(ng-show="vm.user.type == 1 && !vm.hod")
+        hr
+        h5.text-center Select Head of Department That Allocated Course
+        .row.content
+          form.content.col-sm-4
+            input.form-control(type="text" placeholder="Search" ng-model="vm.search")
+        .table-responsive
+          table.table.table-striped.table-condensed
+            thead
+              th Name
+              th College
+              th Department
+              th Action
+            tbody
+              tr(ng-repeat="hod in vm.hods | filter: vm.search")
+                td {{hod.lecturer.user.last_name}}, {{hod.lecturer.user.first_name}}
+                td {{hod.dept.college.name}}
+                td {{hod.dept.name}}
+                td
+                  button.btn.btn-xs.btn-primary(ng-click="vm.selectHod(hod)") Select
+      h4(ng-show="vm.user.type == 1 && vm.hod") Selected Head of Department: {{vm.hod.lecturer.user.last_name}}, {{vm.hod.lecturer.user.first_name}}
     div(ng-show="vm.lecturerSelect == 1")
       h4 Selected Lecturer: {{vm.lecturer.user.last_name}}, {{vm.lecturer.user.first_name}}
+      h4(ng-show="vm.user.type == 1") Selected Head of Department: {{vm.hod.lecturer.user.last_name}}, {{vm.hod.lecturer.user.first_name}}
       button.btn.btn-danger(ng-click="vm.deSelectLecturer()") Remove Selection
       .form-group
         .col-sm-10

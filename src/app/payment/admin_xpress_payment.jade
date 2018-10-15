@@ -1,0 +1,27 @@
+//Created by GHostEater on 19-Feb-18.
+div(ng-controller="AdminXpressPaymentCtrl as vm").row
+  h3.page-header PayXpress Payments
+  .row
+    .col-sm-6.content
+      input.form-control.input-sm(ng-model="vm.search" placeholder="Search")
+  .table-responsive
+    table.table.table-striped.table-bordered
+      thead
+        th Type
+        th Transaction ID
+        th Payment Reference Number
+        th Date
+        th Status
+      tbody
+        tr(ng-repeat="payment in vm.payments | filter:vm.search")
+          td {{payment.type}}
+          td {{payment.transaction_id}}
+          td {{payment.prn}}
+          td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+          td(ng-class="{'bg-success':payment.paid === true,'bg-danger':payment.paid === false && !payment.prn && payment.status != 'Pending','bg-warning':(payment.prn || payment.status == 'Pending') && payment.paid == false}").text-white
+            span(ng-show="payment.status") {{payment.status}}
+            br(ng-show="payment.status")
+            span(ng-show="!payment.status && payment.type == 'Web'") Canceled Transaction
+            span(ng-show="!payment.status && payment.type == 'eCashier'") Payment Reference Not Generated
+            br(ng-show="!payment.status")
+            span Paid: {{payment.paid}}
