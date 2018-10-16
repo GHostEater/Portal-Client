@@ -128,7 +128,7 @@ angular.module('b')
     }
     function submit2(){
       var hash_data = vm.payment.payment_type.merchant_id+vm.payment.rrr+vm.payment.payment_type.api_key;
-      Payment.hasher({enc:hash_data}).$promise
+      Payment.hasher({enc:hash_data,key:vm.payment.payment_type.api_key}).$promise
         .then(function (data) {
           vm.hash = data.hex;
           vm.remita = true;

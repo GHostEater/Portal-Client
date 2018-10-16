@@ -40,6 +40,10 @@ div(ng-controller="StudentPayCtrl as vm")
           div(ng-show="vm.payment.rrr && vm.payment.paid == false")
             h5 Order ID: {{vm.payment.order_id}}
             h5 Remita Retrieval Reference: {{vm.payment.rrr}}
+            p merch {{vm.payment.payment_type.merchant_id}}
+            p rrr {{vm.payment.rrr}}
+            p api {{vm.payment.payment_type.api_key}}
+            p hash {{vm.hash}}
             form(action="{{vm.remitaPay}}" name="SubmitRemitaForm" method="POST" target="_blank").remitaForm2
               input(name="merchantId" value="{{vm.payment.payment_type.merchant_id}}" type="hidden")
               input(name="hash" value="{{vm.hash}}" type="hidden")

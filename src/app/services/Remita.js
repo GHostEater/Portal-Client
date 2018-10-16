@@ -7,7 +7,7 @@ angular.module('b')
     var gen_rrr = "https://login.remita.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit";
     var post = "https://login.remita.net/remita/ecomm/init.reg";
     var pay = "https://login.remita.net/remita/ecomm/finalize.reg";
-    var status = "https://loginremita.net/remita/ecomm/";
+    var status = "https://login.remita.net/remita/ecomm/";
     var rrr_response = Host.host+"/remita-rrrgen-response/";
     var final_response = Host.host+"/remita-final-response/";
 
