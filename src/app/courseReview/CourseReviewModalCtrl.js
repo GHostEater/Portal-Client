@@ -3,25 +3,21 @@
  * Created by GHostEater on 08-Dec-17.
  */
 angular.module('b')
-  .controller('CourseReviewModalCtrl',function (Session,toastr,lodash,course,lecturer,CourseAllocation,CourseReview,CurrentUser,$uibModalInstance,SystemLog) {
+  .controller('CourseReviewModalCtrl',function (Session,toastr,lodash,course,lecturer,session,CourseAllocation,CourseReview,CurrentUser,$uibModalInstance,SystemLog) {
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.course = course;
     vm.lecturer = lecturer;
+    vm.session = session;
     vm.review = {};
     vm.tell = 0;
-    Session.getCurrent().$promise
-      .then(function(data){
-        vm.session = data;
-        getReview();
-      });
     function getReview() {
       CourseReview.student({student:vm.user.student.id,session:vm.session.id}).$promise
         .then(function (data) {
           vm.review = lodash.find(data,{course:{id:vm.course.id},lecturer:{id:vm.lecturer.id}});
           if(vm.review){vm.tell = 1;}
         });
-    }
+    }getReview();
     vm.ok = function() {
       if(vm.tell === 0){
         if(vm.form.$valid){

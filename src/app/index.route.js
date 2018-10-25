@@ -57,6 +57,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
 
     .state('student_payment',{url:'/student/payment/',templateUrl:'app/payment/student_payment.html'})
     .state('student_pay',{url:'/student/payment/pay/:payment/:amount/:level',templateUrl:'app/payment/student_pay.html'})
+    .state('tuition_fee_clearance',{url:'/student/payment/tuition-fee-clearance/',templateUrl:'app/student/tuition_fee_clearance.html'})
 
     .state('xpress_payment',{url:'/admin/payXpress-payments',templateUrl:'app/payment/admin_xpress_payment.html'})
     .state('payment_reports',{url:'/admin/payment-reports',templateUrl:'app/payment/admin_payment_reports.html'})

@@ -11,7 +11,6 @@ angular.module('b')
     vm.change_view = change_view;
     vm.processResult = processResult;
     vm.releaseResult = releaseResult;
-    vm.search_change = search_change;
     vm.overview_sheet = false;
     vm.broad_sheet = false;
     vm.res_comp = false;

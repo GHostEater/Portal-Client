@@ -57,6 +57,14 @@ angular.module('b')
       getUnPaidAdmission:{
         url: Host.host+"/admission-unpaid-list/",
         method: 'get'
+      },
+      access_fee_restrict:{
+        url: Host.host+'/payment/access-fee-restrict/',
+        method: 'get'
+      },
+      tuition_fee_clearance:{
+        url: Host.host+'/payment/tuition-fee-clearance/',
+        method: 'get'
       }
     });
   });

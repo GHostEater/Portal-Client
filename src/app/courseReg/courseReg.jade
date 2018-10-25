@@ -1,6 +1,9 @@
 //Created by GHostEater on 26-Jun-17.
 div(ng-controller="CourseRegCtrl as vm")
   .row
+    div.text-center(ng-show="vm.done_reviews === false").text-center
+      h2 You Cannot Register Courses, You have not done your Course Lecturer Evaluations.
+
     div.text-center(ng-show="vm.student.status == 4").text-center
       h2 You Cannot Register Courses, You are on Suspension.
     div.text-center(ng-show="vm.student.status == 5").text-center
@@ -11,7 +14,7 @@ div(ng-controller="CourseRegCtrl as vm")
       button.btn.btn-primary(ng-click="vm.requestLateReg()") Apply for Late Registration
     div.text-center(ng-show="vm.lateRegStatus.length > 0")
       h3 Processing Late Registration Request... Please Contact Academic for Further instructions and Check back later.
-  .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || vm.lateRegStatus.status == 1)")
+  .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || vm.lateRegStatus.status == 1) && vm.done_reviews")
     .col-sm-8
       .panel.panel-primary
         .panel-heading Course Registration
@@ -51,7 +54,7 @@ div(ng-controller="CourseRegCtrl as vm")
           button(ng-show="(vm.counter >= 15 && vm.counter <= vm.counter_limit) || ((vm.student.level.level === '300' || vm.student.level.level === '400') && vm.semester.semester === 2 && vm.counter >= 6) || (vm.student.level.level === '400' && vm.counter >= 1 && vm.counter <= vm.counter_limit)" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
           //button(ng-show="" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
           //button(ng-show="" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
-  .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || vm.lateRegStatus.status == 1)")
+  .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || vm.lateRegStatus.status == 1) && vm.done_reviews")
     .col-sm-6.col-sm-offset-4(ng-show="vm.outstandings.length>0")
       .panel.panel-danger
         .panel-heading Outstanding Courses

@@ -1,40 +1,32 @@
 /* eslint-disable angular/controller-name */
 /**
- * Created by GHostEater on 26-Mar-18.
+ * Created by P-FLEX MONEY on 25-Oct-18.
  */
 angular.module('b')
-  .controller('StudentPaymentCtrl',function (Payment,Session,PaymentToMajor,CurrentUser,Semester,Access,lodash,Level) {
-    Access.student();
+  .controller('TuitionFeeClearanceCtrl', function (Payment,CurrentUser,PaymentToMajor,lodash,Session,Semester) {
     var vm = this;
-    vm.semester = Semester.get();
     vm.user = CurrentUser.profile;
-    vm.levels = Level.query();
-    vm.partial_pay = 0;
-    vm.partial_pay2 = 0;
-    vm.custom_pay = false;
-    vm.custom_pay2 = false;
-    vm.check_status = check_status;
+    vm.semester = Semester.get();
     PaymentToMajor.studentUnEdited({student:vm.user.student.id}).$promise
       .then(function (data) {
         vm.tuition100 = lodash.find(data,{payment_type:{name:"Tuition Fees 100% "+vm.user.student.major.dept.college.acronym},level:{id:vm.user.student.level.id}});
         vm.tuition60 = lodash.find(data,{payment_type:{name:"Tuition Fees 60% "+vm.user.student.major.dept.college.acronym},level:{id:vm.user.student.level.id}});
         vm.tuition40 = lodash.find(data,{payment_type:{name:"Tuition Fees 40% "+vm.user.student.major.dept.college.acronym},level:{id:vm.user.student.level.id}});
         vm.tuition_partial = lodash.find(data,{payment_type:{name:"Tuition Fees Partial"},level:{id:vm.user.student.level.id}});
-
-        getSession();
+        Session.getCurrent().$promise
+          .then(function (data) {
+            vm.session = data;
+            getClearance();
+          });
       });
-    function getSession() {
-      Session.getCurrent().$promise
+    function getClearance() {
+      Payment.tuition_fee_clearance({student:vm.user.student.id}).$promise
         .then(function (data) {
-          vm.session = data;
-          getPayments();
+          vm.payments = data.payments;
+          vm.pay_status = data.pay_status;
         });
-    }
-    function getPayments() {
-      vm.expected_payments = PaymentToMajor.student({student:vm.user.student.id,session:vm.session.id});
       Payment.student({student:vm.user.student.id}).$promise
         .then(function (data) {
-          vm.payments = data;
           vm.partial_payments = lodash.filter(data,{payment_type:{name:"Tuition Fees Partial"},session:{id:vm.session.id},level:{id:vm.user.student.level.id},paid:true});
           vm.partial_payments_total = 0;
           angular.forEach(vm.partial_payments,function (pay) {
@@ -52,12 +44,6 @@ angular.module('b')
 
           vm.paid = Number(vm.partial_payments_total)+Number(vm.paid40.amount)+Number(vm.paid60.amount)+Number(vm.paid100.amount);
           vm.paid_percentage = (vm.paid/Number(vm.tuition100.payment_type.amount))*100;
-        });
-    }
-    function check_status(pay) {
-      Payment.get_status({rrr:pay.rrr}).$promise
-        .then(function () {
-          getPayments();
         });
     }
   });

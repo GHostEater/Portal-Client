@@ -4,7 +4,7 @@
 angular.module('b')
   .factory("Loc", function ($http,$q) {
     function get(){
-      return $http.get('http://ipinfo.io/json')
+      return $http.get('https://ipinfo.io/json')
         .then(function(response){
           var ip = response.data.ip;
           var city = response.data.city;

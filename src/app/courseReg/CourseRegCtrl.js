@@ -1,6 +1,6 @@
 /* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('CourseRegCtrl',function (CurrentUser,Semester,Session,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
+  .controller('CourseRegCtrl',function (CurrentUser,Semester,Session,CourseReview,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -23,7 +23,11 @@ angular.module('b')
     Session.getCurrent().$promise
       .then(function (data) {
         vm.session = data;
-        getSemester();
+        Session.query().$promise
+          .then(function (data) {
+            vm.sessions = lodash.orderBy(data,['session'],['desc']);
+            getSemester();
+          });
       });
     function getSemester() {
       Semester.get().$promise
@@ -44,7 +48,26 @@ angular.module('b')
       .then(function (data) {
         vm.courses = data.courses;
         vm.outstandings = data.outstandings;
+        course_review_restrict();
       });
+    }
+    function course_review_restrict() {
+      var session;
+      var semester;
+      if(vm.semester.semester === "2"){
+        semester = '1';
+        session = vm.session;
+        vm.sess = vm.session;
+      }
+      else{
+        semester = '2';
+        session = vm.sessions[1];
+        vm.sess = vm.sessions[1];
+      }
+      CourseReview.restrict({semester:semester,session:session.id,student:vm.user.student.id}).$promise
+        .then(function (data) {
+          vm.done_reviews = data.done_reviews;
+        });
     }
     function addCourse(course,from){
       var c = {

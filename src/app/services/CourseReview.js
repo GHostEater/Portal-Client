@@ -20,6 +20,11 @@ angular.module('b')
         method: 'get',
         isArray: true
       },
+      std:{
+        url: Host.host+'/course-review-student/',
+        method: 'get',
+        isArray: true
+      },
       lecturer:{
         url: Host.host+'/course-review/lecturer/',
         method: 'get',
@@ -29,6 +34,10 @@ angular.module('b')
         url: Host.host+'/course-review/dept/',
         method: 'get',
         isArray: true
+      },
+      restrict:{
+        url: Host.host+'/course-review-restrict/',
+        method: 'get'
       }
     });
   });

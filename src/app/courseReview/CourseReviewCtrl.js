@@ -11,7 +11,11 @@ angular.module('b')
     Session.getCurrent().$promise
       .then(function (data) {
         vm.session = data;
-        getSemester();
+        Session.query().$promise
+          .then(function (data) {
+            vm.sessions = lodash.orderBy(data,['session'],['desc']);
+            getSemester();
+          });
       });
     function getSemester() {
       Semester.get().$promise
@@ -22,20 +26,19 @@ angular.module('b')
     }
     function getCourses() {
       vm.lecturers = [];
-      CourseReg.student({student:vm.user.student.id}).$promise
-        .then(function (data) {
-          vm.courses = lodash.filter(data,{session:{id:vm.session.id}});
-          CourseAllocation.query({session:vm.session.id}).$promise
-            .then(function(data){
-              vm.alloc = data;
-              angular.forEach(vm.courses,function (course) {
-                vm.lect = lodash.filter(vm.alloc,{course:{id:course.course.id}});
-                angular.forEach(vm.lect,function (lect) {
-                  vm.lecturers.push(lect);
-                });
-              });
-            });
-        });
+      var semester = '1';
+      var session = {};
+      if(vm.semester.semester === "2"){
+        semester = '1';
+        session = vm.session;
+        vm.sess = vm.session;
+      }
+      else{
+        semester = '2';
+        session = vm.sessions[1];
+        vm.sess = vm.sessions[1];
+      }
+      vm.lecturers = CourseReview.std({session:session.id,semester:semester,student:vm.user.student.id});
     }
     function review(course,lecturer){
       var options = {
@@ -49,6 +52,9 @@ angular.module('b')
           },
           lecturer: function(){
             return lecturer;
+          },
+          session: function(){
+            return vm.sess;
           }
         }
       };

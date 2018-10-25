@@ -13,43 +13,17 @@ div(ng-controller="StudentPayCtrl as vm")
             h5 Order ID: {{vm.order_id}}
               button.btn.btn-sm.btn-primary(ng-click="vm.generate_order_id()" ng-show="!vm.order_id") Generate Order ID
 
-            //- form(action="{{vm.remitaPost}}" name="SubmitRemitaForm" method="POST" target="_blank").remitaForm
-            //-   input(name="merchantId" value="{{vm.payment_type.merchant_id}}" type="hidden")
-            //-   input(name="serviceTypeId" value="{{vm.payment_type.service_type_id}}" type="hidden")
-            //-   input(name="orderId" value="{{vm.order_id}}" type="hidden")
-            //-   input(name="hash" value="{{vm.hash}}" type="hidden")
-            //-   input(name="payerName" value="{{vm.user.last_name}} {{vm.user.first_name}}" type="hidden")
-            //-   input(name="payerEmail" value="{{vm.user.email}}" type="hidden")
-            //-   input(name="payerPhone" value="{{vm.user.student.user.phone}}" type="hidden")
-            //-   input(name="amt" value="{{vm.payment_type.amount}}" type="hidden")
-            //-   input(name="responseurl" value="{{vm.remitaFinalResponse}}" type="hidden")
-            //-   input(name="paymenttype" value="RRRGEN" type="hidden")
-              //- select.form-control.input-sm(title='Credit Card Type', name='paymenttype', autocomplete='off')
-              //-   option -- Select Payment Type --
-              //-   option(value='VERVE') Verve Card
-              //-   option(value='VISA') Visa
-              //-   option(value='MASTERCARD') MasterCard
-              //-   option(value='POCKETMONI') PocketMoni
-              //-   option(value='POS') POS
-              //-   option(value='ATM') ATM
-              //-   option(value='BANK_BRANCH') BANK BRANCH
-              //-   option(value='BANK_INTERNET') BANK INTERNET
-              //-   option(value='REMITA_PAY') Remita Account Transfer
             button.btn.btn-primary(ng-click="vm.generateRrr()" ng-show="vm.remita == false") Generate Remita Retrieval Reference
 
           div(ng-show="vm.payment.rrr && vm.payment.paid == false")
             h5 Order ID: {{vm.payment.order_id}}
             h5 Remita Retrieval Reference: {{vm.payment.rrr}}
-            p merch {{vm.payment.payment_type.merchant_id}}
-            p rrr {{vm.payment.rrr}}
-            p api {{vm.payment.payment_type.api_key}}
-            p hash {{vm.hash}}
             form(action="{{vm.remitaPay}}" name="SubmitRemitaForm" method="POST" target="_blank").remitaForm2
               input(name="merchantId" value="{{vm.payment.payment_type.merchant_id}}" type="hidden")
               input(name="hash" value="{{vm.hash}}" type="hidden")
               input(name="rrr" value="{{vm.payment.rrr}}" type="hidden")
               input(name="responseurl" value="{{vm.remitaFinalResponse}}" type="hidden")
-            button.btn.btn-success(ng-click="vm.submit2()" ng-show="vm.remita == false") Pay Via Remita
+              input.btn.btn-success(type='submit', name='submit_btn', value='Pay Via Remita', ng-show="vm.remita == false")
             button.btn.btn-success(ng-click="vm.check_status(vm.payment)" ng-show="vm.remita == false") Check Remita Transaction Status
           button.btn.btn-primary(ng-click="vm.reload()" ng-show="vm.remita == true") Refresh
           .row.content-vert

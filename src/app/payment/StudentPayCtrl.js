@@ -16,8 +16,6 @@ angular.module('b')
     vm.payment.paid = false;
     vm.payment.payment_type = {};
     vm.generate_order_id = generate_order_id;
-    vm.submit = submit;
-    vm.submit2 = submit2;
     vm.reload = reload;
     vm.check_status = check_status;
     vm.generateRrr = generateRrr;
@@ -49,14 +47,17 @@ angular.module('b')
           Payment.student({student:vm.user.student.id}).$promise
             .then(function (data) {
               vm.payments = data;
-              vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},paid:true});
+              vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
               if(!vm.payment){
-                vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},session:{id:vm.session.id}});
+                vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},session:{id:vm.session.id}});
                 if(!vm.payment){
                   vm.payment = {};
                   vm.payment.paid = false;
                   vm.payment.payment_type = {};
                 }
+              }
+              if(vm.payment.rrr){
+                hash_pay();
               }
               generate_order_id();
             });
@@ -71,68 +72,40 @@ angular.module('b')
         });
     }
     function generateRrr(){
-      var hash_data = vm.payment_type.merchant_id+vm.payment_type.service_type_id+vm.order_id+vm.payment_type.amount+vm.remitaFinalResponse+vm.payment_type.api_key;
-      Payment.hasher({enc:hash_data}).$promise
+      var request = {
+        payment_type: vm.payment_type.id,
+        student: vm.user.student.id,
+        session: vm.session.id,
+        level: vm.user.student.level.id,
+        order_id: vm.order_id,
+        status: "Pending",
+        date: new Date()
+      };
+      Payment.save(request).$promise
         .then(function (data) {
-          vm.hash = data.hex;
-          var da = {
-            payment_type: vm.payment_type.id,
-            student: vm.user.student.id,
-            session: vm.session.id,
+          vm.payment = data;
+          var request = {
+            payment: vm.payment.id,
+            payerName: vm.user.last_name+" "+vm.user.first_name,
+            payerEmail: vm.user.email,
+            payerPhone: vm.user.student.user.phone,
+            amount: vm.payment_type.amount,
+            matricNo: $filter('matricNo')(vm.user.username),
             level: vm.user.student.level.id,
-            order_id: vm.order_id,
-            status: "Pending",
-            date: new Date()
+            dept: vm.user.student.major.dept.name
           };
-          Payment.save(da).$promise
+          Payment.generate_rrr(request).$promise
             .then(function (data) {
               vm.payment = data;
-              var d = {
-                payment: vm.payment.id,
-                payerName: vm.user.last_name+" "+vm.user.first_name,
-                payerEmail: vm.user.email,
-                payerPhone: vm.user.student.user.phone,
-                amount: vm.payment_type.amount,
-                matricNo: $filter('matricNo')(vm.user.username),
-                level: vm.user.student.level.level,
-                dept: vm.user.student.major.dept.name
-              };
-              Payment.generate_rrr(d).$promise
-                .then(function (data) {
-                  vm.payment = data;
-                });
+              hash_pay();
             });
         });
     }
-    function submit(){
-      var hash_data = vm.payment_type.merchant_id+vm.payment_type.service_type_id+vm.order_id+vm.payment_type.amount+vm.remitaFinalResponse+vm.payment_type.api_key;
-        Payment.hasher({enc:hash_data}).$promise
-          .then(function (data) {
-            vm.hash = data.hex;
-            var da = {
-              payment_type: vm.payment_type.id,
-              student: vm.user.student.id,
-              session: vm.session.id,
-              level: vm.user.student.level.id,
-              order_id: vm.order_id,
-              status: "Pending",
-              date: new Date()
-            };
-            Payment.save(da).$promise
-              .then(function (data) {
-                vm.payment = data;
-                vm.remita = true;
-                $("form.remitaForm").submit();
-              });
-          });
-    }
-    function submit2(){
+    function hash_pay(){
       var hash_data = vm.payment.payment_type.merchant_id+vm.payment.rrr+vm.payment.payment_type.api_key;
-      Payment.hasher({enc:hash_data,key:vm.payment.payment_type.api_key}).$promise
+      Payment.hasher({enc:hash_data}).$promise
         .then(function (data) {
           vm.hash = data.hex;
-          vm.remita = true;
-          $("form.remitaForm2").submit();
         });
     }
     function check_status(pay) {

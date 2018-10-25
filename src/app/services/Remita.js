@@ -3,7 +3,6 @@
  */
 angular.module('b')
   .factory('Remita',function (Host) {
-
     var gen_rrr = "https://login.remita.net/remita/exapp/api/v1/send/api/echannelsvc/merchant/api/paymentinit";
     var post = "https://login.remita.net/remita/ecomm/init.reg";
     var pay = "https://login.remita.net/remita/ecomm/finalize.reg";

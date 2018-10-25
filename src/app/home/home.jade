@@ -6,6 +6,8 @@ div(ng-controller="HomeCtrl as vm")
     button.btn.btn-primary(ng-click="vm.sessionActions()") Session Actions
   .row(ng-show="vm.user.type === '7' && vm.allocation")
     p.text-center You have been Allocated Room: {{vm.allocation.room.name}} in {{vm.allocation.room.hostel.name}} for {{vm.session.session}} Session
+  .row(ng-show="vm.access_fee_paid === false").text-center
+    p Portal Access Fee must be paid to access features on the portal.
   .row(ng-show="vm.user.type === '7' && vm.student.edit === false").text-center
     p.text-center
       i This is Allowed Once! Subsequent edit of Personal Information will require visiting ICT for assistance.
