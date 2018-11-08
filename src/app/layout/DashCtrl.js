@@ -9,7 +9,9 @@ angular.module('b')
     Semester.get().$promise
       .then(function (data) {
         vm.semester = data;
-        AccessFee();
+        if(vm.user.student){
+          AccessFee();
+        }
       });
     function AccessFee() {
       Payment.access_fee_restrict({student:vm.user.student.id}).$promise

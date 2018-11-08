@@ -42,7 +42,12 @@ angular.module('b')
         templateUrl: 'app/courseAllocation/allocate.html',
         controller: "AllocateCtrl",
         controllerAs: 'vm',
-        size: 'lg'
+        size: 'lg',
+        resolve:{
+          dept: function(){
+            return vm.dept;
+          }
+        }
       };
       $uibModal.open(options).result
         .then(function () {

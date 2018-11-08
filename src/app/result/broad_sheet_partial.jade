@@ -37,6 +37,11 @@ table.table.table-striped.table-bordered
             span {{res.course.unit}} &nbsp
             span {{res.final}} &nbsp
             span {{res.grade}},
+        div(ng-repeat="res in student.outstandings")
+          div.col-sm-4
+            span {{res.course.code}} &nbsp
+            span {{res.course.unit}} &nbsp
+            span -- --,    
       td
         div(ng-repeat="res in student.resultFail")
           div.col-sm-6

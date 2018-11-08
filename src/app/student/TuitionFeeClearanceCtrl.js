@@ -3,9 +3,11 @@
  * Created by P-FLEX MONEY on 25-Oct-18.
  */
 angular.module('b')
-  .controller('TuitionFeeClearanceCtrl', function (Payment,CurrentUser,PaymentToMajor,lodash,Session,Semester) {
+  .controller('TuitionFeeClearanceCtrl', function (Access,Payment,CurrentUser,PaymentToMajor,lodash,Session,Semester,$window) {
+    Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
+    vm.print = print;
     vm.semester = Semester.get();
     PaymentToMajor.studentUnEdited({student:vm.user.student.id}).$promise
       .then(function (data) {
@@ -45,5 +47,8 @@ angular.module('b')
           vm.paid = Number(vm.partial_payments_total)+Number(vm.paid40.amount)+Number(vm.paid60.amount)+Number(vm.paid100.amount);
           vm.paid_percentage = (vm.paid/Number(vm.tuition100.payment_type.amount))*100;
         });
+    }
+    function print(){
+      $window.print();
     }
   });

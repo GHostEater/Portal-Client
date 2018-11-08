@@ -25,6 +25,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('adminResultSheet',{url:'/admin/result-sheet/',templateUrl:'app/academicAffairs/adminResultSheet.html'})
     .state('editRequest',{url:'/admin/result-edit-requests/',templateUrl:'app/academicAffairs/resultEditRequest.html'})
     .state('editLog',{url:'/admin/result-edit-logs/',templateUrl:'app/academicAffairs/resultEditLog.html'})
+    .state('uploadLog',{url:'/admin/result-upload-logs/',templateUrl:'app/academicAffairs/resultUploadLog.html'})
     .state('lateRegRequest',{url:'/admin/late-reg-requests/',templateUrl:'app/academicAffairs/lateRegRequest.html'})
 
     .state('studentList',{url:'/student-list/',templateUrl:'app/levelAdviser/studentList.html'})

@@ -20,6 +20,7 @@ angular.module("b")
       });
     }getRequests();
     function getDetails() {
+      vm.lecturer = vm.course.lecturer;
       var data = {
         course: vm.course.course.id,
         session: vm.session.id
@@ -62,7 +63,13 @@ angular.module("b")
         caArray.push(data);
       }
       vm.uploaded = caArray.length;
-      CourseResult.uploadCA(caArray).$promise
+      vm.req = {
+        ca: caArray,
+        lecturer: vm.lecturer.id,
+        session: vm.session.id,
+        course: vm.course.course.id
+      };
+      CourseResult.uploadCA(vm.req).$promise
         .then(function(data){
           SystemLog.add("Uploaded CA");
           toastr.success("CA Uploaded");
@@ -92,7 +99,13 @@ angular.module("b")
         examArray.push(data);
       }
       vm.uploaded = examArray.length;
-      CourseResult.uploadExam(examArray).$promise
+      vm.req = {
+        exam: examArray,
+        lecturer: vm.lecturer.id,
+        session: vm.session.id,
+        course: vm.course.course.id
+      };
+      CourseResult.uploadExam(vm.req).$promise
         .then(function(data){
           SystemLog.add("Uploaded Exam");
           toastr.success("Exam Uploaded");

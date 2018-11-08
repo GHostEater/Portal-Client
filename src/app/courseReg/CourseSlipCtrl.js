@@ -5,6 +5,7 @@ angular.module("b")
     var vm = this;
     vm.counter = 0;
     vm.student = CurrentUser.profile.student;
+    vm.user = CurrentUser.profile;
     vm.deleteCourse = deleteCourse;
     vm.print = print;
     Session.getCurrent().$promise

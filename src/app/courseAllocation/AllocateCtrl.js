@@ -1,6 +1,6 @@
 /* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller('AllocateCtrl',function(CourseAllocation,toastr,$uibModalInstance,lodash,CurrentUser,Lecturer,Hod,Course,Session,SystemLog){
+  .controller('AllocateCtrl',function(CourseAllocation,toastr,$uibModalInstance,dept,lodash,CurrentUser,Lecturer,Hod,Course,Session,SystemLog){
     var vm = this;
     vm.user = CurrentUser.profile;
     vm.lecturerSelect = 0;
@@ -9,11 +9,11 @@ angular.module("b")
     vm.deSelectLecturer = deSelectLecturer;
     vm.lecturers = Lecturer.query();
     vm.hods = Hod.query();
-    vm.dept = vm.user.hod.dept;
+    vm.dept = dept;
     vm.session = Session.getCurrent();
     Course.query().$promise
       .then(function (data) {
-        vm.courses = lodash.filter(data,{dept:{name:vm.user.hod.dept.name}});
+        vm.courses = lodash.filter(data,{dept:{name:vm.dept.name}});
       });
     if(vm.user.hod){
       vm.hod = vm.user.hod;

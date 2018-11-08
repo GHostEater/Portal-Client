@@ -1,0 +1,43 @@
+div(ng-controller="ResultUploadLogCtrl as vm")
+  .row.content
+    .panel.panel-info
+      .panel-heading
+        h3.panel-title Filters
+      .panel-body
+        .form-group
+          .col-sm-3
+            select.form-control.input-sm(ng-model="vm.result_type")
+              option(value="") All
+              option(value="CA") CA
+              option(value="Exam") Exam
+          .col-sm-3
+            label.control-label From:
+              input.form-control.input-sm(type="date" ng-model="vm.date.min" placeholder="yyyy-mm-dd hh:mm:ss")
+          .col-sm-3
+            label.control-label To:
+              input.form-control.input-sm(type="date" ng-model="vm.date.max" placeholder="yyyy-mm-dd hh:mm:ss")
+          .col-sm-3
+            button.btn.btn-sm.btn-primary(ng-click="vm.getLogs()") Go
+  .row
+    .col-sm-4.content-vert
+      form
+        input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.searchTerm")
+  .table-responsive
+    table.table.table-striped.table-bordered
+      thead
+        th S/N
+        th Name
+        th Course
+        th Result Type
+        th Session
+        th Date
+        th Uploaded
+      tbody
+        tr(ng-repeat="(key,log) in vm.logs | orderBy: '-date' | filter: {upload_type:vm.result_type} | filter:vm.searchTerm | rangeFilter:vm.date")
+          td {{key + 1}}
+          td {{log.lecturer.user.last_name}}, {{log.lecturer.user.first_name}}
+          td {{log.course.code}}
+          td {{log.upload_type}}
+          td {{log.session.session}}
+          td {{log.date|date:'dd-MMM-yyyy hh:mm:ssa'}}
+          td(ng-bind-html="log.uploaded | matricNo")
