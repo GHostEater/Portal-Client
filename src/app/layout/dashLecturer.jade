@@ -1,0 +1,31 @@
+.panel.panel-default.text-center
+  .panel-heading
+    .panel-title Dashboard for Lecturer
+      br
+      span(ng-show="user.hod") (Head of Department)
+      br(ng-show="user.hod")
+      span(ng-show="user.levelAdviser") (Level Adviser)
+      br(ng-show="user.levelAdviser")
+      span(ng-show="user.examOfficer") (Exam Officer)
+  .panel-body
+    ul.nav.nav-pills.nav-stacked
+      li(ui-sref-active="active")
+        a(ui-sref='lecturerCourses') My Courses
+    ul.nav.nav-pills.nav-stacked(ng-show="user.hod")
+      li(ui-sref-active="active")
+        a(ui-sref='courseAllocation') Course Allocation
+      li(ui-sref-active="active")
+        a(ui-sref='level_advisers') Level Advisers
+      li(ui-sref-active="active")
+        a(ui-sref='exam_officer') Exam Officer
+    ul.nav.nav-pills.nav-stacked(ng-show="user.levelAdviser")
+    ul.nav.nav-pills.nav-stacked(ng-show="user.examOfficer")
+    ul.nav.nav-pills.nav-stacked(ng-show="user.examOfficer || user.levelAdviser")
+    ul.nav.nav-pills.nav-stacked(ng-show="user.examOfficer || user.hod")
+    ul.nav.nav-pills.nav-stacked(ng-show="user.examOfficer || user.levelAdviser || user.hod")
+      li(ui-sref-active="active")
+        a(ui-sref='studentList') Student List
+      li(ui-sref-active="active")
+        a(ui-sref='results') Results
+      li(ui-sref-active="active")
+        a(ui-sref='gradList') Graduating List

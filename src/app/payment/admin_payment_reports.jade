@@ -1,0 +1,58 @@
+//Created by GHostEater on 26-Apr-18.
+div(ng-controller="AdminPaymentReportsCtrl as vm")
+  .row.hidden-print
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.payment_type" ng-options="payment_type as payment_type.name for payment_type in vm.payment_types track by payment_type.id")
+        option(value='') Select Payment Type
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+        option(value='') Select College
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
+        option(value='') Select Department
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.dept.name}} track by major.id")
+        option(value="") Select Major
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+        option(value="") Select Level
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
+        option(value="") Select Session
+  .row.hidden-print
+    .col-sm-12
+      button.btn.btn-sm.btn-primary(ng-click="vm.getPaid()") Paid List
+      button.btn.btn-sm.btn-primary(ng-click="vm.getUnPaid()") UnPaid List
+  .row.hidden-print
+    .col-sm-12.content-vert
+      input.form-control.input-sm(ng-model="vm.search" placeholder="Search")
+  .row
+    span Department: {{vm.major.dept.name}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLevel: {{vm.level.level}}
+  .row
+    span Programme: B.Sc &nbsp
+    span(ng-show="vm.major.dept.college.name === 'College of Management and Social Sciences'") (Hons.)
+    span {{vm.major.name}}
+  .row
+    span {{vm.payment_type.name}}
+    span(ng-show="vm.payments") $nbsp Paid List
+    span(ng-show="vm.students") $nbsp UnPaid List
+  .row
+    span Session {{vm.session.session}}
+  .table-responsive(ng-show="vm.payments")
+    table.table.table-striped.table-bordered
+      thead
+        th Student
+        th Level of Payment
+        th Date of Payment
+      tbody
+        tr(ng-repeat="payment in vm.payments | filter:vm.search")
+          td {{payment.student.user.username | matricNo}} {{payment.student.user.last_name}}, {{payment.student.user.first_name}}
+          td {{payment.level.level}}
+          td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+  .table-responsive(ng-show="vm.students")
+    table.table.table-striped.table-bordered
+      thead
+        th Student
+      tbody
+        tr(ng-repeat="student in vm.students | filter:vm.search")
+          td {{student.user.username | matricNo}} {{student.user.last_name}}, {{student.user.first_name}}

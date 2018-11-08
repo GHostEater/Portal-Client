@@ -1,0 +1,9 @@
+//Created by GHostEater on 18-Mar-18.
+.modal-header
+  .modal-title Edit Session
+.modal-body
+  form(name="vm.form").form-horizontal
+    input.form-control.input-sm(type="text" ng-model="vm.session.session" placeholder="Session" required)
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

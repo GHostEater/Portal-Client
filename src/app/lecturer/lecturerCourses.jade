@@ -1,0 +1,20 @@
+//Created by GHostEater on 23-Apr-16.
+div(ng-controller="LecturerCoursesCtrl as vm")
+  .col-sm-12
+    form.content.col-sm-4
+      input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.searchTerm")
+    table.table.table-striped.table-bordered
+      thead
+        th Course Code
+        th Course Title
+        th Unit
+        th Level
+        th Actions
+      tbody
+        tr(ng-repeat="allocation in vm.allocations | orderBy: '+code' | filter: vm.searchTerm")
+          td {{allocation.course.code}}
+          td {{allocation.course.title}}
+          td {{allocation.course.unit}}
+          td {{allocation.course.level.level}}
+          td
+            a(ui-sref="courseDetail({id:allocation.id})").btn.btn-xs.btn-primary View Details

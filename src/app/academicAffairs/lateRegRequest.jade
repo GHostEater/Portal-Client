@@ -1,0 +1,21 @@
+//Created by GHostEater on 13-Jul-17.
+div(ng-controller="LateRegRequestCtrl as vm")
+  .row
+    section.col-sm-6
+      .panel.panel-info
+        .panel-heading
+          .panel-title Pending Late Registration Requests
+        .panel-body
+          table.table.table-condensed.table-striped.table-bordered
+            thead
+              th S/N
+              th Name
+              th Matric No
+              th Actions
+            tbody
+              tr(ng-repeat="(key,request) in vm.requests")
+                td {{key + 1}}
+                td {{request.student.user.last_name | uppercase}}, {{request.student.user.first_name}}
+                td {{request.student.user.username | matricNo}}
+                td
+                  button.btn.btn-sm.btn-success(ng-click="vm.processLate(request)") Approve

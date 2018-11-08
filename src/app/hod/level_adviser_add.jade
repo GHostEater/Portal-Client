@@ -1,0 +1,21 @@
+//Created by GHostEater on 03-Mar-18.
+.modal-header
+  h3.modal-title Add Level Adviser
+.modal-body
+  form(name="vm.form")
+    select.form-control.input-sm(required ng-model="vm.lecturer" ng-options="lecturer as lecturer.user.last_name+' '+lecturer.user.first_name for lecturer in vm.lecturers track by lecturer.id")
+      option(value="") Select Lecturer
+    select.form-control.input-sm(required ng-model="vm.major" ng-options="major as major.name for major in vm.majors track by major.id")
+      option(value="") Select Major
+    .form-group
+      label.control-label 100 Level
+        input.form-control.input-sm(type="checkbox" ng-model="vm.l100")
+      label.control-label 200 Level
+        input.form-control.input-sm(type="checkbox" ng-model="vm.l200")
+      label.control-label 300 Level
+        input.form-control.input-sm(type="checkbox" ng-model="vm.l300")
+      label.control-label 400 Level
+        input.form-control.input-sm(type="checkbox" ng-model="vm.l400")
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

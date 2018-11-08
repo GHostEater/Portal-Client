@@ -1,0 +1,35 @@
+div(ng-controller='StudentUploadCtrl as vm')
+  .row
+    .col-sm-6
+      csv-upload(ng-model='vm.students')
+    .col-sm-6
+      button.btn.btn-primary(ng-click='vm.uploadStudents()') Upload Students
+  .row
+    .col-sm-6(ng-show="vm.uploaded")
+      p Uploaded Students = {{vm.uploaded}}
+    .col-sm-6(ng-show="vm.processed")
+      p Processed Students = {{vm.processed}}
+  div(ng-show='vm.students')
+    .table-responsive
+      table.table.table-bordered
+        thead
+          th Name
+          th Registration No
+          th Date of Birth
+          th E-Mail
+          th Parent E-Mail
+          th Gender
+          th Major
+          th Level
+          th Mode of Entry
+        tbody
+          tr(ng-repeat='student in vm.students.data | limitTo: vm.students.data.length - 1')
+            td {{student[1]}}, {{student[2]}} {{student[3]}}
+            td {{student[0] | matricNo}}
+            td {{student[4]}}
+            td {{student[5]}}
+            td {{student[6]}}
+            td {{student[7]}}
+            td {{student[8]}}
+            td {{student[9]}}
+            td {{student[10]}}

@@ -1,0 +1,12 @@
+//   Created by GHostEater on 5/25/2016.
+.modal-header
+    h3.modal-title Edit Exam Score
+.modal-body
+    form(name="vm.form").form-horizontal
+        .form-group
+            .col-sm-10
+                input.form-control(type="text" name="exam" required ng-model="vm.result.exam" placeholder="Exam Score")
+.modal-footer
+    button.btn.btn-primary(ng-click="vm.ok()") Confirm
+    button.btn.btn-default(ng-click="$dismiss()") Cancel
+

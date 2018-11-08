@@ -1,0 +1,36 @@
+//Created by GHostEater on 09-Nov-17.
+.modal-header
+  h3.modal-title {{vm.header}}
+.modal-body
+  form(name="vm.form").form-horizontal
+    div(ng-show="vm.studentSelect == 0")
+      .row.content
+        form.content.col-sm-4
+          input.form-control(type="text" placeholder="Search" ng-model="vm.search")
+      .table-responsive
+        table.table.table-striped.table-condensed
+          thead
+            th Matric No
+            th Name
+            th College
+            th Department
+            th Level
+            th Action
+          tbody
+            tr(ng-repeat="student in vm.students | filter: vm.search")
+              td {{student.user.username | matricNo}}
+              td {{student.user.last_name}}, {{student.user.first_name}}
+              td {{student.major.dept.college.name}}
+              td {{student.major.dept.name}}
+              td {{student.level.level}}
+              td
+                button.btn.btn-sm.btn-primary(ng-click="vm.selectStudent(student)") Select
+    div(ng-show="vm.studentSelect == 1")
+      h4 Selected Student: {{vm.student.user.last_name}}, {{vm.student.user.first_name}}
+      button.btn.btn-sm.btn-danger(ng-click="vm.deSelectStudent()") Remove Selection
+      .form-group
+        select.form-control.input-sm(ng-options="room as room.name for room in vm.rooms | filter:{hostel:vm.hostel} track by room.id" ng-model="vm.room" required)
+          option(value='') Select Room
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

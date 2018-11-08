@@ -1,0 +1,17 @@
+div(ng-controller="DashCtrl as vm")
+  div(ng-show="user.type == 1").hidden-print
+    section(ng-include="'app/layout/dashAdmin.html'")
+  div(ng-show='user.type == 2').hidden-print
+    section(ng-include="'app/layout/dashAcademicAffairs.html'")
+  div(ng-show='user.type == 3').hidden-print
+    section(ng-include="'app/layout/dashBursar.html'")
+  div(ng-show='user.type == 4').hidden-print
+    section(ng-include="'app/layout/dashStudentAffairs.html'")
+  div(ng-show='user.type == 5').hidden-print
+    section(ng-include="'app/layout/dashCollegeOfficer.html'")
+  div(ng-show='user.type == 6').hidden-print
+    section(ng-include="'app/layout/dashLecturer.html'")
+  div(ng-show='user.type == 7').hidden-print
+    section(ng-include="'app/layout/dashStudent.html'")
+  div(ng-show='user.type == 8').hidden-print
+    section(ng-include="'app/layout/dashDean.html'")

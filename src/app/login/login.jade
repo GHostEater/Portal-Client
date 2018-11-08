@@ -1,0 +1,12 @@
+//Created by GHostEater on 19-Feb-16.
+div(ng-controller="LoginController as vm")
+  .row
+    section.col-sm-4.col-sm-offset-4.text-center
+      form(name="vm.form")
+        .panel.panel-success
+          .panel-heading Login
+          .panel-body
+            small.text-danger(ng-show="vm.error === true") Username/Password is Incorrect
+            input.form-control(type="text" ng-model="vm.username" placeholder="Username" required)
+            input.form-control(type="password" ng-model="vm.password" placeholder="Password" required)
+            button.btn.btn-primary.form-control(ng-click="vm.login(vm.username,vm.password)") Login

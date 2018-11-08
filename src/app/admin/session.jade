@@ -1,0 +1,21 @@
+//Created by GHostEater on 18-Mar-18.
+div(ng-controller="SessionCtrl as vm")
+  .row.content-vert
+    .col-sm-12
+      button.btn.btn-primary(ng-click="vm.add()") Add Session
+  .table-responsive
+    table.table.table-bordered.table-striped
+      thead
+        th Session
+        th Current
+        th For Admission
+        th Actions
+      tbody
+        tr(ng-repeat="session in vm.sessions")
+          td {{session.session}}
+          td(ng-class="{'bg-success':session.is_current === true,'bg-danger':session.is_current === false}").text-white {{session.is_current}}
+          td(ng-class="{'bg-success':session.is_admission === true,'bg-danger':session.is_admission === false}").text-white {{session.is_admission}}
+          td
+            button.btn.btn-xs.btn-primary(ng-click="vm.set_current(session)") Set as Current
+            button.btn.btn-xs.btn-primary(ng-click="vm.set_admission(session)") Set as Admission
+            button.btn.btn-xs.btn-warning(ng-click="vm.edit(session)") Edit

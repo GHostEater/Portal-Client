@@ -1,0 +1,34 @@
+//Created by GHostEater on 17-Aug-16.
+div(ng-controller="ResultEditLogCtrl as vm")
+  form.content.col-sm-4
+    input.form-control(type="text" placeholder="Search" ng-model="vm.searchTerm")
+  table.table.table-condensed.table-striped.table-bordered
+    thead
+      th S/N
+      th Result Type
+      th Previous Score
+      th New Score
+      th Lecturer
+      th Student
+      th Date Edited
+      th Session
+      th Semester
+    tbody
+      tr(ng-repeat="(key,log) in vm.logs | orderBy: '-session.session' | filter: vm.searchTerm")
+        td {{key + 1}}
+        td {{log.type}}
+        td {{log.prev_score}}
+        td {{log.new_score}}
+        td {{log.edited_by.user.last_name | uppercase}}, {{log.edited_by.user.first_name}}
+          br
+          span {{log.edited_by.college.acronym}}
+          br
+          span {{log.edited_by.dept.name}}
+        td {{log.result.student.user.last_name | uppercase}}, {{log.result.student.user.first_name}}
+          br
+          span {{log.result.student.user.username | matricNo}}
+        td {{log.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+        td {{log.result.session.session}}
+        td
+          span(ng-show="log.result.course.semester == 1") 1st Semester
+          span(ng-show="log.result.course.semester == 2") 2nd Semester

@@ -1,0 +1,42 @@
+//Created by GHostEater on 10-May-16.
+div(ng-controller="ResultComputationCtrl as vm")
+  .row.content.hidden-print
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.lecturer.dept.name}} track by major.id")
+        option(value="") Select Major
+    .col-sm-2
+      select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+        option(value="") Select Level
+    button.btn.btn-primary.btn-sm(ng-click="vm.getResults()") Load Results
+    button.btn.btn-warning.btn-sm(ng-click="vm.processResult()" ng-show="vm.user.examOfficer && vm.students.length > 0") Process Results
+    button.btn.btn-warning.btn-sm(ng-click="vm.releaseResult()" ng-show='vm.user.examOfficer && vm.status.status === true && vm.students.length > 0') Release Results
+  .row.content
+    p {{vm.session.session}} Session
+    p {{vm.semester.semester}}
+      span(ng-show="vm.semester.semester == 1") st Semester
+      span(ng-show="vm.semester.semester == 2") nd Semester
+  .panel.panel-info(ng-repeat="student in vm.students")
+    .panel-heading {{student.info.user.last_name}}, {{student.info.user.first_name}} {{student.info.user.username | matricNo}}
+    .panel-body
+      .well
+        table.table.table-striped
+          thead
+            th Course Code
+            th Course Title
+            th Unit
+            th Score 100%
+            th Grade
+          tbody
+            tr(ng-repeat="result in student.result | orderBy:'+code'")
+              td {{result.course.code}}
+              td {{result.course.title}}
+              td {{result.course.unit}}
+              td {{result.final}}
+              td {{result.grade}}
+        span TNU: {{student.tnu}}&nbsp
+        span TCP: {{student.tcp}}&nbsp
+        span GPA: {{student.gpa | number:2}}&nbsp
+        span CTNU: {{student.ctnu}}&nbsp
+        span CTCP: {{student.ctcp}}&nbsp
+        span CGPA: {{student.cgpa | number:2}}&nbsp
+        span TCE: {{student.tce}}

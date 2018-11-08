@@ -1,0 +1,101 @@
+//Created by GHostEater on 26-Mar-18.
+div(ng-controller="StudentPaymentCtrl as vm").row
+  .col-sm-6(ng-show="vm.expected_payments.length > 0")
+    .panel.panel-primary
+      .panel-heading
+        .panel-title Expected Payments
+      .panel-body
+        .table-responsive
+          table.table.table-striped.table-bordered
+            thead
+              th Name
+              th Amount
+              th Level
+              th Action
+            tbody
+              tr(ng-repeat="payment in vm.expected_payments")
+                td {{payment.payment_type.name}}
+                td ₦{{payment.payment_type.amount | number:'0'}}
+                td {{payment.level.level}}
+                td
+                  button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:payment.payment_type.id,level:payment.level.id})") Pay
+  .col-sm-6
+    .panel.panel-info
+      .panel-heading
+        .panel-title Tuition Fee Information Central For {{vm.session.session}} Session
+      .panel-body
+        p Paid: ₦{{vm.paid | number:'0'}} ({{vm.paid_percentage | number:'2'}}%)
+        p UnPaid: ₦{{vm.pay_remaining | number:'0'}} ({{vm.pay_remaining_percentage | number:'2'}}%)
+        .row.content-vert
+          .col-md-4
+            button.btn.btn-sm.btn-primary(ng-show="vm.tuition100.payment_type.amount <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition100.payment_type.id})") Pay 100% (₦{{vm.tuition100.payment_type.amount | number:'0'}})
+          .col-md-4
+            button.btn.btn-sm.btn-primary(ng-show="vm.tuition60.payment_type.amount <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition60.payment_type.id})") Pay 60% (₦{{vm.tuition60.payment_type.amount | number:'0'}})
+          .col-md-4
+            button.btn.btn-sm.btn-primary(ng-show="vm.tuition40.payment_type.amount <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition40.payment_type.id})") Pay 40% (₦{{vm.tuition40.payment_type.amount | number:'0'}})
+        hr
+        .row.content-vert
+          .col-sm-12
+            button.btn.btn-sm.btn-primary(ng-show="5000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:5000})") Pay ₦5,000
+            button.btn.btn-sm.btn-primary(ng-show="10000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:10000})") Pay ₦10,000
+            button.btn.btn-sm.btn-primary(ng-show="20000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:20000})") Pay ₦20,000
+            button.btn.btn-sm.btn-primary(ng-show="30000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:30000})") Pay ₦30,000
+            button.btn.btn-sm.btn-primary(ng-show="50000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:50000})") Pay ₦50,000
+            button.btn.btn-sm.btn-primary(ng-show="100000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:100000})") Pay ₦100,000
+            button.btn.btn-sm.btn-primary(ng-show="200000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:200000})") Pay ₦200,000
+            button.btn.btn-sm.btn-primary(ng-show="300000 <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:300000})") Pay ₦300,000
+            button.btn.btn-sm.btn-primary(ng-show="vm.pay_remaining > 0" ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:vm.pay_remaining})") Pay Remaining (₦{{vm.pay_remaining | number:'0'}})
+        .row.content-vert(ng-show="vm.pay_remaining > 0")
+          .col-sm-12
+            button.btn.btn-sm.btn-primary(ng-click="vm.custom_pay = true") Enter Amount
+        .row.content-vert(ng-show="vm.custom_pay === true")
+          .col-sm-12
+            label.control-label Enter Amount
+              input.form-control.input-sm(type="number" ng-model="vm.partial_pay")
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:vm.partial_pay})") Pay
+        hr
+        .row.content-vert
+          .col-sm-12
+            button.btn.btn-sm.btn-primary(ng-click="vm.custom_pay2 = true") Pay Previously Owed
+        .row.content-vert(ng-show="vm.custom_pay2 === true")
+          .col-sm-12
+            label.control-label Enter Amount
+              input.form-control.input-sm(type="number" ng-model="vm.partial_pay2")
+            select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+              option(value="") Select Level
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.tuition_partial.payment_type.id,amount:vm.partial_pay2,level:vm.level.id})") Pay
+  .col-sm-12
+    .panel.panel-info
+      .panel-heading
+        .panel-title Payment History
+      .panel-body
+        .row.content-vert
+          .col-sm-6
+            input.form-control.input-sm(ng-model="vm.search" placeholder="Search")
+        .table-responsive
+          table.table.table-striped.table-bordered
+            thead
+              th Name
+              th Order ID
+              th Remita Retrieval Reference
+              th Amount
+              th Session
+              th Date
+              th Status
+              th Action
+            tbody
+              tr(ng-repeat="payment in vm.payments | filter:vm.search")
+                td {{payment.payment_type.name}}
+                td {{payment.order_id}}
+                td {{payment.rrr}}
+                td(ng-show="payment.amount") ₦{{payment.amount | number:'0'}}
+                td(ng-hide="payment.amount") ₦{{payment.payment_type.amount | number:'0'}}
+                td {{payment.session.session}}
+                td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+                td(ng-class="{'bg-success':payment.paid === true,'bg-danger':payment.paid === false && !payment.rrr && payment.status != 'Pending','bg-warning':(payment.rrr || payment.status == 'Pending') && payment.paid == false}").text-white
+                  span(ng-show="payment.status") {{payment.status}}
+                  br(ng-show="payment.status")
+                  br(ng-show="!payment.status")
+                  span Paid: {{payment.paid}}
+                td
+                  button.btn.btn-xs.btn-success(ng-click="vm.check_status(payment)" ng-show="payment.paid === false") Check Transaction Status

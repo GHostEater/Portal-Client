@@ -1,0 +1,51 @@
+//Created by GHostEater on 01-May-16.
+div(ng-controller="CourseSlipCtrl as vm").row
+  .col-sm-12
+    .row.visible-print
+      .col-sm-1
+        img(src="img/logo.png" width="50px")
+      .col-sm-10.text-center
+        h2 SUMMIT UNIVERSITY, OFFA
+        h4 {{vm.student.major.dept.college.name}}
+      .row
+        .col-sm-2.col-sm-offset-10
+          img.img-responsive(ng-src="{{vm.student.user.img}}")
+      .row
+        span.col-sm-4 Session: {{vm.session.session}}
+        span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}
+        span(ng-show="vm.semester.semester == 1") st Semester
+        span(ng-show="vm.semester.semester == 2") nd Semester
+
+      span.row Department: {{vm.student.major.dept.name}}
+      span.row Major: {{vm.student.major.name}}
+      span.row Name:&nbsp
+        b {{vm.student.user.last_name | uppercase}},&nbsp
+        span {{vm.student.user.first_name}}
+      span.row Matric Number: {{vm.student.user.username | matricNo}}
+  table.table.table-striped.table-bordered.table-condensed
+    thead
+      th Course Code
+      th Course Title
+      th Unit
+      th Type
+      th.hidden-print Action
+    tbody
+      tr(ng-repeat="course in vm.courses | orderBy: '+code'")
+        td {{course.course.code}}
+        td {{course.course.title}}
+        td {{course.course.unit}}
+        td {{course.course.type}}
+        td.hidden-print
+          button.btn.btn-xs.btn-danger(ng-click="vm.deleteCourse(course.id)") Delete Course
+  span.row Total Units Registered: {{vm.counter}}
+  .row.visible-print
+    .col-sm-5
+      span ________________________&nbsp
+      br
+      span Student's Signature/Date
+    .col-sm-5.col-sm-offset-2
+      span ____________________________&nbsp
+      br
+      span Level Adviser Signature/Date
+  .row.content.hidden-print
+    button.btn.btn-xs.btn-primary(ng-click="vm.print()") Print

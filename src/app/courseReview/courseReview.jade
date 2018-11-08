@@ -1,0 +1,13 @@
+//Created by GHostEater on 08-Dec-17.
+div(ng-controller="CourseReviewCtrl as vm")
+  table.table.table-striped.table-bordered.table-condensed
+    thead
+      th Course
+      th Lecturer
+      th Action
+    tbody
+      tr(ng-repeat="lecturer in vm.lecturers | orderBy: '+code'")
+        td {{lecturer.course.code}} {{lecturer.course.title}}
+        td {{lecturer.lecturer.user.last_name}}, {{lecturer.lecturer.user.first_name}}
+        td
+          button.btn.btn-sm.btn-primary(ng-click="vm.review(lecturer.course,lecturer.lecturer)") Evaluate Lecturer

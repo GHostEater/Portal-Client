@@ -1,0 +1,43 @@
+//Created by GHostEater on 09-Nov-17.
+div(ng-controller="RoomAllocationCtrl as vm")
+  .row.hidden-print
+    .col-sm-4
+      select.form-control.input-sm(ng-model='vm.hostel' ng-change="vm.reset()" ng-options="hostel as hostel.name for hostel in vm.hostels track by hostel.id")
+        option(value='') Select Hostel
+    .col-sm-4
+      select.form-control.input-sm(ng-model='vm.session' ng-change="vm.reset()" ng-options="session as session.session for session in vm.sessions track by session.id")
+        option(value='') Select Session
+    .col-sm-4
+      button.btn.btn-sm.btn-primary(ng-click='vm.get_allocations()') Go
+  div(ng-show="vm.allocations")
+    .row.hidden-print
+      .col-sm-12.content-vert
+        button.btn.btn-primary(ng-click='vm.allocate()') Allocate Room in {{vm.hostel.name}}
+    .row.text-center
+      h3 {{vm.hostel.name}} Room Allocations for {{vm.session.session}} Session
+    div(ng-repeat="room in vm.rooms | orderBy:'+name' | filter:{hostel:vm.hostel}")
+      h4
+        em Room: {{room.name}}
+      .table-responsive
+        table.table.table-striped.table-bordered
+          thead
+            th S/N
+            th Image
+            th Matric No
+            th Name
+            th Department
+            th College
+            th Level
+            th.hidden-print(ng-show="vm.user.studentAffairs.rank == 1") Actions
+          tbody
+            tr(ng-repeat="(key,alloc) in vm.allocations | orderBy:'+student.last_name' | filter:{room:{id:room.id}}")
+              td {{key + 1}}
+              td
+                img(ng-src="{{alloc.student.img}}" width="50px" height="50px")
+              td {{alloc.student.user.username | matricNo}}
+              td {{alloc.student.user.last_name | uppercase}}, {{alloc.student.user.first_name}}
+              td {{alloc.student.major.dept.name}}
+              td {{alloc.student.major.dept.college.name}}
+              td {{alloc.student.level.level}}
+              td.hidden-print(ng-show="vm.user.studentAffairs.rank == 1")
+                button.btn.btn-xs.btn-danger(ng-click="vm.remove(alloc)") Delete

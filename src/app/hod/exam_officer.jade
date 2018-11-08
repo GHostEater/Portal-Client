@@ -1,0 +1,8 @@
+//Created by GHostEater on 05-Mar-18.
+div(ng-controller="ExamOfficerCtrl as vm").row
+  .col-sm-12(ng-show="vm.exam_officer")
+    h4 Exam Officer is {{vm.exam_officer.lecturer.user.last_name}}, {{vm.exam_officer.lecturer.user.first_name}}
+    button.btn.btn-sm.btn-warning(ng-click="vm.replace()") Replace Exam Officer
+  .col-sm-12(ng-show="!vm.exam_officer")
+    h4 No Exam Officer Selected
+    button.btn.btn-sm.btn-primary(ng-click="vm.add()") Select Exam Officer

@@ -1,0 +1,162 @@
+//Created by GHostEater on 01-Mar-18.
+div(ng-controller="StudentEditCtrl as vm").row
+  .col-sm-12.text-center
+    img.img-responsive.center-block(ng-src="{{vm.user.img}}" width="100px")
+    h4 {{vm.user.last_name}}, {{vm.user.first_name}} {{vm.user.username | matricNo}}
+  .col-sm-12
+    form(name="vm.form").form-horizontal
+      .form-group(ng-show="vm.u.type == 1")
+        .col-sm-4
+          input.input-sm.form-control(type="text" name="matricNo" ng-model="vm.user.username" placeholder="Matric Number")
+      .form-group(ng-show="vm.u.type == 1 || vm.student.edit === false")
+        .col-sm-4
+          input.input-sm.form-control(type="password" name="password" ng-model="vm.user.password" placeholder="Password")
+      .form-group(ng-show="vm.u.type == 1")
+        .col-sm-4
+          input.input-sm.form-control(type="text" name="last_name" ng-model="vm.user.last_name" placeholder="Last Name")
+        .col-sm-8
+          input.input-sm.form-control(type="text" name="first_name" ng-model="vm.user.first_name" placeholder="First Name")
+      .form-group(ng-show="vm.u.type == 1")
+        .col-sm-12
+          select.input-sm.form-control(name="sex" ng-model="vm.user.sex")
+            option(value="") Select Gender
+            option(value="Male") Male
+            option(value="Female") Female
+      .form-group
+        .col-sm-12
+          select.input-sm.form-control(name="bloodGroup" ng-model="vm.user.blood_group")
+            option(value="") Select Blood Group
+            option(value="O+") O+
+            option(value="O-") O-
+            option(value="A+") A+
+            option(value="A-") A-
+            option(value="B+") B+
+            option(value="B-") B-
+            option(value="AB+") AB+
+            option(value="AB-") AB-
+      .form-group
+        .col-sm-12
+          select.input-sm.form-control(name="genotype" ng-model="vm.user.genotype")
+            option(value="") Select Genotype
+            option(value="AA") AA
+            option(value="AS") AS
+            option(value="SS") SS
+            option(value="CS") CS
+            option(value="AC") AC
+      .form-group
+        .col-sm-6
+          input.input-sm.form-control(type="text" name="email" ng-model="vm.user.email" placeholder="E-mail")
+        .col-sm-4
+          input.input-sm.form-control(type="text" name="phoneNumber" ng-model="vm.user.phone" placeholder="Phone Number")
+      .form-group
+        .col-sm-12
+          input.input-sm.form-control(type="text" name="dateBirth" ng-model="vm.user.date_birth" placeholder="Date of Birth (YYYY-MM-DD)")
+      .form-group
+        .col-sm-3
+          input.input-sm.form-control(type="text" name="nationality" ng-model="vm.user.nationality" placeholder="Nationality")
+        .col-sm-3
+          input.input-sm.form-control(type="text" name="stateOrigin" ng-model="vm.user.state_origin" placeholder="State Of Origin")
+        .col-sm-3
+          input.input-sm.form-control(type="text" name="town" ng-model="vm.user.town" placeholder="Town")
+        .col-sm-3
+          input.input-sm.form-control(type="text" name="lga" ng-model="vm.user.lga" placeholder="Local Government Area")
+      .form-group
+        .col-sm-12
+          input.input-sm.form-control(type="text" name="religion" ng-model="vm.user.religion" placeholder="Religion")
+      .form-group
+        .col-sm-12
+          input.input-sm.form-control(type="text" name="address" ng-model="vm.user.address" placeholder="Address")
+      .form-group
+        .col-sm-12
+          input.input-sm.form-control(type="text" name="nextOfKin" ng-model="vm.user.next_kin" placeholder="Next of Kin")
+        .col-sm-12
+          input.input-sm.form-control(type="text" name="nextOfKinAddress" ng-model="vm.user.next_kin_address" placeholder="Next of Kin Address")
+        .col-sm-12
+          input.input-sm.form-control(type="text" name="parentNo" ng-model="vm.student.parent_no" placeholder="Parent Phone Number")
+        .col-sm-12(ng-hide="vm.u.type == 7")
+          input.input-sm.form-control(type="text" name="parentEmail" ng-model="vm.student.parent_email" placeholder="Parent E-Mail Address")
+      .form-group(ng-hide="vm.u.type == 7")
+        .col-sm-4
+          select.input-sm.form-control(ng-model="vm.student.major.dept.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+            option(value='') Select College
+        .col-sm-4
+          select.input-sm.form-control(ng-model="vm.student.major.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.student.major.dept.college} track by dept.id")
+            option(value='') Select Department
+        .col-sm-4
+          select.input-sm.form-control(ng-model="vm.student.major" ng-options="major as major.name for major in vm.majors | filter:{dept:vm.student.major.dept} track by major.id")
+            option(value='') Select Major
+      .form-group(ng-hide="vm.u.type == 7")
+        .col-sm-4
+          select.input-sm.form-control(ng-model="vm.student.level" ng-options="level as level.level for level in vm.levels track by level.id")
+            option(value='') Select Level
+        .col-sm-4
+          select.input-sm.form-control(ng-model="vm.student.mode_of_entry" ng-options="mode_of_entry as mode_of_entry.name for mode_of_entry in vm.mode_of_entrys track by mode_of_entry.id")
+            option(value='') Select Mode Of Entry
+        .col-sm-4
+          select.input-sm.form-control(name="programme_type" ng-model="vm.student.programme_type")
+            option(value="") Select Programme Type
+            option(value="Full Time") Full Time
+            option(value="Part Time") Part Time
+            option(value="Executive") Executive
+      .form-group
+        .col-sm-12
+          select.input-sm.form-control(name="oLevel" ng-model="vm.student.olevel")
+            option(value="") Select O' Level Type
+            option(value="WAEC") WAEC
+            option(value="NECO") NECO
+            option(value="WAEC/GCE") WAEC/GCE
+            option(value="NECO/GCE") NECO/GCE
+            option(value="WAEC/NECO") WAEC/NECO
+            option(value="NABTEB") NABTEB
+            option(value="NABTEB/WAEC") NABTEB/WAEC
+            option(value="NABTEB/NECO") NABTEB/NECO
+            option(value="NABTEB/GCE") NABTEB/GCE
+      .form-group(ng-hide="vm.u.type == 7")
+        .col-sm-12
+          select.input-sm.form-control(name="status" ng-model="vm.student.status")
+            option(value="") Select Student Status
+            option(value="1") Normal
+            option(value="2") Exchange
+            option(value="3") Leave
+            option(value="4") Sick
+            option(value="5") Suspension
+            option(value="6") Deferment
+            option(value="7") Withdrawn
+            option(value="8") Graduated
+      .col-sm-12
+        .panel.panel-info
+          .panel-heading
+            .panel-title File Uploads
+          .panel-body
+            .row.content-vert
+              .col-sm-12(ng-show="vm.p && vm.cropped === false")
+                div
+                  h5 Crop Image
+                  .crop-area
+                    img-crop(image="vm.p | ngfDataUrl" result-image="vm.pass" ng-init="vm.pass=''" area-type='square')
+                  button.btn.btn-sm.btn-primary(ng-click="vm.cropped = true") Finish Cropping
+              .col-sm-12(ng-show="vm.change_pass === false")
+                img(ng-src="{{vm.user.img}}" width="100px")
+                br
+                span Passport Photograph
+                br
+                button.btn.btn-xs.btn-warning(ng-click="vm.change_pass = true") Replace Passport Photograph
+              .col-sm-12(ng-show="vm.change_pass === true")
+                img(src="{{vm.pass}}" width="100px" ng-show="vm.p && vm.cropped === true")
+                .col-sm-6
+                  label.control-label Passport Photograph(MAX= 200KB)
+                .col-sm-4
+                  input(type="file" ngf-select ng-model="vm.p" name="file" accept="image/*" ngf-max-size="200KB" ngf-model-invalid="errorFile" ng-click="vm.cropped = false")
+                .col-sm-12
+                  button.btn.btn-sm.btn-default(ng-click="vm.change_pass = false") Cancel
+      .col-sm-12
+        .text-center
+          button.btn.btn-primary(ng-click="vm.submit()") Save
+  .col-sm-12(ng-show="vm.file.progress && vm.uploaded === false")
+    span Upload Progress
+    div(class="progress progress-striped active")
+      div(class="progress-bar" style="width: {{vm.img.progress}}%")
+  .col-sm-12(ng-show="vm.errorMsg")
+    div(class="alert alert-danger")
+      strong Oh snap! Something broke... Try uploading files again.
+    button.btn.btn-primary(ng-click="vm.upload_file()") Upload Files Again

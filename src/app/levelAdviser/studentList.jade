@@ -1,0 +1,32 @@
+//Created by GHostEater on 26-Jun-17.
+div(ng-controller="StudentListCtrl as vm")
+  .col-sm-12
+    form.col-sm-4
+      input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.searchTerm")
+  table.table.table-condensed.table-striped.table-bordered
+    thead
+      th Matric No
+      th Name
+      th College
+      th Department
+      th Major
+      th Level
+      th Mode of Entry
+      th E-mail
+      th Actions
+    tbody
+      tr(ng-repeat="student in vm.students | orderBy: '+username' | filter: vm.searchTerm")
+        td {{student.user.username | matricNo}}
+        td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+        td {{student.major.dept.college.name}}
+        td {{student.major.dept.name}}
+        td {{student.major.name}}
+        td {{student.level.level}}
+        td {{student.mode_of_entry.name}}
+        td {{student.user.email}}
+        td
+          a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.user.id})" ng-show="vm.user.levelAdviser") View Details
+          a.btn.btn-xs.btn-primary(ui-sref="student_edit({id:student.user.id})" ng-show="vm.user.levelAdviser") Edit
+          a.btn.btn-xs.btn-primary(ui-sref="adminCourseSlip({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Course Registration Details
+          a.btn.btn-xs.btn-primary(ui-sref="studentTranscript({userId:student.user.id})" ng-show="vm.user.levelAdviser") View Transcript
+          a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})" ng-show="vm.user.examOfficer || vm.user.levelAdviser") View Result

@@ -1,0 +1,170 @@
+//Created by GHostEater on 11-Dec-17.
+div(ng-controller="AdminCourseReviewCtrl as vm")
+  .row
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.session' ng-options="session as session.session for session in vm.sessions track by session.id")
+        option(value='') Select Session
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.college' ng-options="college as college.acronym for college in vm.colleges track by college.id")
+        option(value='') Select College
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.dept' ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
+        option(value='') Select Department
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.course' ng-options="course as course.code for course in vm.courses | filter:{dept:{id:vm.dept.id}} track by course.id")
+        option(value='') Select Course
+    .col-sm-2
+      select.form-control.input-sm(ng-model='vm.lecturer' ng-options="lecturer as lecturer.user.last_name+' '+lecturer.user.first_name for lecturer in vm.lecturers track by lecturer.id")
+        option(value='') Select Lecturer
+    .col-sm-2
+      button.btn.btn-sm.btn-primary(ng-click='vm.getReviews(vm.course,vm.lecturer)') Go
+  .row.content-vert(ng-show="vm.reviews")
+    .col-sm-3
+      button.btn.btn-sm.btn-warning(ng-click="vm.exportToExcel('#table')") Export
+  .row(ng-show="vm.reviews")
+    .col-sm-12
+      table.table.table-striped.table-bordered.table-condensed#table
+        thead
+          tr
+            th(colspan=30).text-center
+              h4 Evaluation of {{vm.reviews[0].lecturer.user.last_name}}, {{vm.reviews[0].lecturer.user.first_name}} on {{vm.course.code}} {{vm.session.session}} Session
+          tr
+            th(colspan=30).text-center
+              h4 Total = {{vm.total}}
+              h4 Maximum Total = 145
+              h4 Percentage = {{vm.total_percentage | number:'2'}}%
+          tr
+            th(colspan=30).text-center
+              h4 Average Scores
+          tr
+            th Assessment 1
+            th Assessment 2
+            th Assessment 3
+            th Assessment 4
+            th Assessment 5
+            th Assessment 6
+            th Assessment 7
+            th Assessment 8
+            th Assessment 9
+            th Assessment 10
+            th Assessment 11
+            th Assessment 12
+            th Assessment 13
+            th Assessment 14
+            th Assessment 15
+            th Assessment 16
+            th Assessment 17
+            th Assessment 18
+            th Assessment 19
+            th Assessment 20
+            th Assessment 21
+            th Assessment 22
+            th Assessment 23
+            th Assessment 24
+            th Assessment 25
+            th Assessment 26
+            th Assessment 27
+            th Assessment 28
+            th Assessment 29
+          tr
+            td {{vm.avg_scores.q1}}
+            td {{vm.avg_scores.q2}}
+            td {{vm.avg_scores.q3}}
+            td {{vm.avg_scores.q4}}
+            td {{vm.avg_scores.q5}}
+            td {{vm.avg_scores.q6}}
+            td {{vm.avg_scores.q7}}
+            td {{vm.avg_scores.q8}}
+            td {{vm.avg_scores.q9}}
+            td {{vm.avg_scores.q10}}
+            td {{vm.avg_scores.q11}}
+            td {{vm.avg_scores.q12}}
+            td {{vm.avg_scores.q13}}
+            td {{vm.avg_scores.q14}}
+            td {{vm.avg_scores.q15}}
+            td {{vm.avg_scores.q16}}
+            td {{vm.avg_scores.q17}}
+            td {{vm.avg_scores.q18}}
+            td {{vm.avg_scores.q19}}
+            td {{vm.avg_scores.q20}}
+            td {{vm.avg_scores.q21}}
+            td {{vm.avg_scores.q22}}
+            td {{vm.avg_scores.q23}}
+            td {{vm.avg_scores.q24}}
+            td {{vm.avg_scores.q25}}
+            td {{vm.avg_scores.q26}}
+            td {{vm.avg_scores.q27}}
+            td {{vm.avg_scores.q28}}
+            td {{vm.avg_scores.q29}}
+          tr
+            th(colspan=30).text-center
+              h4 List of Scores
+          tr
+            th S/N
+            //th Matric Number
+            //th Name
+            //th Gender
+            th Assessment 1
+            th Assessment 2
+            th Assessment 3
+            th Assessment 4
+            th Assessment 5
+            th Assessment 6
+            th Assessment 7
+            th Assessment 8
+            th Assessment 9
+            th Assessment 10
+            th Assessment 11
+            th Assessment 12
+            th Assessment 13
+            th Assessment 14
+            th Assessment 15
+            th Assessment 16
+            th Assessment 17
+            th Assessment 18
+            th Assessment 19
+            th Assessment 20
+            th Assessment 21
+            th Assessment 22
+            th Assessment 23
+            th Assessment 24
+            th Assessment 25
+            th Assessment 26
+            th Assessment 27
+            th Assessment 28
+            th Assessment 29
+        tbody
+          tr(ng-repeat="(key,review) in vm.reviews")
+            td {{key+1}}
+            //td {{review.student.user.username | matricNo}}
+            //td {{review.student.user.last_name | uppercase}}, {{review.student.user.first_name}}
+            //td {{review.student.user.sex}}
+            td {{review.q1}}
+            td {{review.q2}}
+            td {{review.q3}}
+            td {{review.q4}}
+            td {{review.q5}}
+            td {{review.q6}}
+            td {{review.q7}}
+            td {{review.q8}}
+            td {{review.q9}}
+            td {{review.q10}}
+            td {{review.q11}}
+            td {{review.q12}}
+            td {{review.q13}}
+            td {{review.q14}}
+            td {{review.q15}}
+            td {{review.q16}}
+            td {{review.q17}}
+            td {{review.q18}}
+            td {{review.q19}}
+            td {{review.q20}}
+            td {{review.q21}}
+            td {{review.q22}}
+            td {{review.q23}}
+            td {{review.q24}}
+            td {{review.q25}}
+            td {{review.q26}}
+            td {{review.q27}}
+            td {{review.q28}}
+            td {{review.q29}}

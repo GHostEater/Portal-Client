@@ -1,0 +1,79 @@
+//Created by GHostEater on 08-Aug-18.
+div(ng-controller="ResultsCtrl as vm").row
+  .col-sm-12
+    .row.visible-print.text-center
+      span.col-sm-4
+        img(src="img/logo.png" width="50px")
+      span.col-sm-8
+        h3 SUMMIT UNIVERSITY, OFFA
+        h4 {{vm.session.session}} &nbsp
+          span(ng-show="vm.semester.semester == 1") First Semester Examination Results
+          span(ng-show="vm.semester.semester == 2") Second Semester Examination Results
+    .row
+      span Department: {{vm.dept.name}}
+      br
+      span Level: {{vm.level.level}}
+    .row
+      span Programme: B.Sc &nbsp
+      span(ng-show="vm.college.name === 'College of Management and Social Sciences'") (Hons.)
+      span {{vm.major.name}}
+    .row.hidden-print
+      .col-sm-2(ng-show="vm.user.type == 1 || vm.user.type == 2")
+        select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+          option(value='') Select College
+      .col-sm-2(ng-show="vm.user.type == 1 || vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 8")
+        select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
+          option(value='') Select Department
+      .col-sm-2(ng-show="vm.user.type == 1 || vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 8 || vm.user.examOfficer || vm.user.hod")
+        select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.dept.name}} track by major.id")
+          option(value="") Select Major
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+          option(value="") Select Level
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
+          option(value="") Select Session
+      .col-sm-2
+        select.form-control.input-sm(ng-model="vm.semester.semester")
+          option(value="1") 1st Semester
+          option(value="2") 2nd Semester
+    .row.hidden-print
+      .col-sm-3
+        label.control-label Search Specific Matric Numbers
+          input.form-control.input-sm(type="checkbox" ng-model="vm.search_special")
+      .col-sm-9(ng-show="vm.search_special === true")
+        input.form-control.input-sm(type="text" ng-model="vm.student" placeholder="Enter Matric Numbers Separated by Comma (NAS/1305,NAS/1708)")
+      .col-sm-2
+        button.btn.btn-sm.btn-primary(ng-click="vm.getResults()") Go
+    .row.hidden-print.text-center.content-vert
+      .col-sm-12
+        .btn-group
+          button.btn.btn-primary(ng-click="vm.change_view('overview')" ng-class="{'active':vm.active === 'overview'}") Overview Sheet
+          button.btn.btn-primary(ng-click="vm.change_view('broad')" ng-class="{'active':vm.active === 'broad'}") Broad Sheet
+          button.btn.btn-primary(ng-click="vm.change_view('result')" ng-class="{'active':vm.active === 'result'}") Result Sheet
+          button.btn.btn-primary(ng-show="vm.user.type == 1 || vm.user.examOfficer || vm.user.hod" ng-click="vm.change_view('res_comp')" ng-class="{'active':vm.active === 'res_comp'}") Result Computation
+    .row.content.hidden-print
+      button.btn.btn-sm.btn-primary(ng-click="vm.print()") Print
+    .row.sm-content(ng-show="vm.overview_sheet")
+      div(ng-include="'app/result/overview_sheet_partial.html'")
+    .row.sm-content(ng-show="vm.broad_sheet")
+      div(ng-include="'app/result/broad_sheet_partial.html'")
+    .row.sm-content(ng-show="vm.res_comp")
+      div(ng-include="'app/result/result_comp_partial.html'")
+    .row.visible-print
+      .col-sm-4.content-vert
+        span {{vm.level_adviser.lecturer.user.last_name | uppercase}}, {{vm.level_adviser.lecturer.user.first_name}}
+        br
+        span ___________________________________
+        br
+        span Level Adviser {{vm.level.level}} Level Signature/Date
+      .col-sm-4.content-vert
+        span {{vm.hod.lecturer.user.last_name | uppercase}}, {{vm.hod.lecturer.user.first_name}}
+        br
+        span ___________________________________&nbsp
+        br
+        span Head of {{vm.hod.dept.name}}'s Signature/Date
+      .col-sm-4.content-vert
+        span Dean of College: ____________________________
+        br
+        span Signature/Date

@@ -1,0 +1,44 @@
+//Created by GHostEater on 01-Aug-17.
+div(ng-controller="PaymentToMajorCtrl as vm")
+  .row
+    .col-sm-3(ng-show="vm.user.type == 1 || vm.user.type == 3")
+      select.form-control.input-sm(ng-model='vm.college' ng-options="college as college.acronym for college in vm.colleges track by college.id")
+        option(value='') Select College
+    .col-sm-3
+      select.form-control.input-sm(ng-model='vm.dept' ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
+        option(value='') Select Department
+    .col-sm-3
+      select.form-control.input-sm(ng-model='vm.major' ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.dept.name}} track by major.id")
+        option(value='') Select Major
+    .col-sm-3
+      button.btn.btn-sm.btn-primary(ng-click='vm.getMajorPayments(vm.major.id)') Go
+  .row(ng-show='vm.majorPayments')
+    .col-sm-12.content-vert
+      button.btn.btn-primary(ng-click='vm.add(vm.major)') Add Payment to {{vm.major.name}}
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading
+          h3.panel-title {{vm.major.name}} Payments
+        .panel-body
+          section(ng-repeat='level in vm.levels')
+            h3.text-center {{level.level}} Level
+            .table-responsive
+              table.table.table-bordered.table-striped
+                thead
+                  th Name
+                  th Amount
+                  th JME
+                  th D/E
+                  th Conversion
+                  th Part Time
+                  th Actions
+                tbody
+                  tr(ng-repeat='payment in vm.majorPayments | filter:{level:{id:level.id}}')
+                    td {{payment.payment_type.name}}
+                    td {{payment.payment_type.amount | number:2}}
+                    td.text-white(ng-class="{'bg-success':payment.jme == true,'bg-danger':payment.jme == false}") {{payment.jme}}
+                    td.text-white(ng-class="{'bg-success':payment.de == true,'bg-danger':payment.de == false}") {{payment.de}}
+                    td.text-white(ng-class="{'bg-success':payment.conversion == true,'bg-danger':payment.conversion == false}") {{payment.conversion}}
+                    td.text-white(ng-class="{'bg-success':payment.pt == true,'bg-danger':payment.pt == false}") {{payment.pt}}
+                    td
+                      button.btn.btn-xs.btn-danger(ng-click="vm.remove(payment.id)") Delete

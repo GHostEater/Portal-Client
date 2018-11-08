@@ -1,0 +1,42 @@
+//Created by GHostEater on 01-Mar-18.
+div(ng-controller="AdminStudentListCtrl as vm").row
+  .row
+    .col-sm-3(ng-show="vm.user.type == 2 || vm.user.type == 1")
+      select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+        option(value='') Select College
+    .col-sm-3(ng-show="vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 1 || vm.user.type == 8")
+      select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college} track by dept.id")
+        option(value='') Select Department
+    .col-sm-2
+      button.btn.btn-sm.btn-primary(ng-click="vm.getStudents()") Go
+  .col-sm-4.content-vert
+    form
+      input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.searchTerm")
+  .col-sm-12
+    table.table.table-condensed.table-striped.table-bordered
+      thead
+        th Matric No
+        th Name
+        th College
+        th Department
+        th Major
+        th Level
+        th Mode of Entry
+        th E-mail
+        th Actions
+      tbody
+        tr(ng-repeat="student in vm.students | orderBy: '+username' | filter: vm.searchTerm")
+          td {{student.user.username | matricNo}}
+          td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
+          td {{student.major.dept.college.name}}
+          td {{student.major.dept.name}}
+          td {{student.major.name}}
+          td {{student.level.level}}
+          td {{student.mode_of_entry.name}}
+          td {{student.user.email}}
+          td
+            a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.user.id})") View Details
+            a.btn.btn-xs.btn-primary(ui-sref="student_edit({id:student.user.id})") Edit
+            a.btn.btn-xs.btn-primary(ui-sref="adminCourseSlip({userId:student.user.id})" ng-show="vm.user.type == 1") View Course Registration Details
+            a.btn.btn-xs.btn-primary(ui-sref="studentTranscript({userId:student.user.id})" ng-show="vm.user.type == 1 || 2") View Transcript
+            a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})") View Result

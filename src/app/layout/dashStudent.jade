@@ -1,0 +1,18 @@
+.panel.panel-default.text-center
+  .panel-heading
+    .panel-title Dashboard for Student
+  .panel-body
+    ul.nav.nav-pills.nav-stacked(ng-show="vm.access_fee_paid")
+      li(ui-sref-active="active")
+        a(ui-sref='courseReg') Course Registration
+      li(ui-sref-active="active")
+        a(ui-sref='courseSlip') Course Slip
+      li(ui-sref-active="active")
+        a(ui-sref='tuition_fee_clearance') Eligibility and Clearance
+      li(ui-sref-active="active" ng-hide="vm.user.student.level.level == 100")
+        a(ui-sref='courseReview') Course Lecturer Evaluations
+      li(ui-sref-active="active")
+        a(ui-sref='studentResult') Result
+    ul.nav.nav-pills.nav-stacked
+      li(ui-sref-active="active")
+        a(ui-sref='student_payment') Payments
