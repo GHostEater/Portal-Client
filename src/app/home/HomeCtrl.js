@@ -1,9 +1,10 @@
 /* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('HomeCtrl', function (CurrentUser,Session,LevelAdviser,RoomAllocation,lodash,Access,Student,Payment) {
+  .controller('HomeCtrl', function (CurrentUser,Session,LevelAdviser,RoomAllocation,lodash,Access,Student,Payment,Semester) {
     Access.general();
     var vm = this;
     vm.user = CurrentUser.profile;
+    vm.semester = Semester.get();
     Session.getCurrent().$promise
       .then(function (data) {
         vm.session = data;
@@ -17,6 +18,11 @@ angular.module('b')
             Payment.access_fee_restrict({student:vm.user.student.id}).$promise
               .then(function (data) {
                 vm.access_fee_paid = data.paid;
+              });
+            Payment.tuition_fee_clearance({student:vm.user.student.id}).$promise
+              .then(function (data) {
+                vm.payments = data.payments;
+                vm.pay_status = data.pay_status;
               });
           }AccessFee();
         }

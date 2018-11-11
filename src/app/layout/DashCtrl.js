@@ -18,5 +18,10 @@ angular.module('b')
         .then(function (data) {
           vm.access_fee_paid = data.paid;
         });
+      Payment.tuition_fee_clearance({student:vm.user.student.id}).$promise
+        .then(function (data) {
+          vm.payments = data.payments;
+          vm.pay_status = data.pay_status;
+        });
     }
   });
