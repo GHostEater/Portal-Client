@@ -3,9 +3,9 @@
     .panel-title Dashboard for Student
   .panel-body
     ul.nav.nav-pills.nav-stacked(ng-show="vm.access_fee_paid")
-      li(ui-sref-active="active")
+      li(ui-sref-active="active" ng-show="(vm.pay_status.p60 && vm.semester.semester == 1) || (vm.pay_status.p100 && vm.semester.semester == 2)")
         a(ui-sref='courseReg') Course Registration
-      li(ui-sref-active="active")
+      li(ui-sref-active="active" ng-show="(vm.pay_status.p60 && vm.semester.semester == 1) || (vm.pay_status.p100 && vm.semester.semester == 2)")
         a(ui-sref='courseSlip') Course Slip
       li(ui-sref-active="active")
         a(ui-sref='tuition_fee_clearance') Eligibility and Clearance
