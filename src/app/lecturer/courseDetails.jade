@@ -13,24 +13,9 @@ div(ng-controller="CourseDetailsCtrl as vm")
       h5 Total Students: {{vm.students.length}}
       .col-sm-2
         table.table.table-bordered.table-striped
-          tr
-            th A
-            td {{vm.a}}
-          tr
-            th B
-            td {{vm.b}}
-          tr
-            th C
-            td {{vm.c}}
-          tr
-            th D
-            td {{vm.d}}
-          tr
-            th E
-            td {{vm.e}}
-          tr
-            th F
-            td {{vm.f}}
+          tr(ng-repeat="course_grade in vm.course_grades | orderBy:'+grade'")
+            th {{course_grade.grade}}
+            td {{course_grade.count}}
       .table-responsive
         table.table.table-bordered.table-striped
           thead

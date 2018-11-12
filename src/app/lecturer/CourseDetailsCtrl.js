@@ -28,12 +28,7 @@ angular.module("b")
       CourseReg.getRegAndRawResult(data).$promise
         .then(function (data) {
           vm.passPercentage = data.pass_percentage;
-          vm.a = data.a;
-          vm.b = data.b;
-          vm.c = data.c;
-          vm.d = data.d;
-          vm.e = data.e;
-          vm.f = data.f;
+          vm.course_grades = data.course_grades;
           vm.students = data.students;
         });
     }
