@@ -64,7 +64,7 @@ angular.module('b')
         });
     }
     function generate_order_id() {
-      var order_id = "FUO-" + Random.string(13);
+      var order_id = "SUNO-" + Random.string(13);
       Payment.order({order: order_id}).$promise
         .then(function () {})
         .catch(function () {
