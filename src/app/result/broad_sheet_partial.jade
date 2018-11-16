@@ -69,7 +69,7 @@ table.table.table-striped.table-bordered
         span(ng-show="student.status === 0 && student.gp_status <= 3") PCSO
         span(ng-show="student.prob === 1 && student.gp_status >= 3") PROBATION
         span(ng-show="student.withdraw === 1 && student.gp_status >= 3") WITHDRAWAL
-        span(ng-show="student.cgpa >= 4.50") &nbspFountain Scholar
+        span(ng-show="student.cgpa >= 4.50") &nbspSummit Scholar
       td.hidden-print
         a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
         a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
