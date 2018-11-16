@@ -3,7 +3,7 @@
  * Created by GHostEater on 26-Mar-18.
  */
 angular.module('b')
-  .controller('StudentPaymentCtrl',function (Payment,Session,PaymentToMajor,CurrentUser,Semester,Access,lodash,Level) {
+  .controller('StudentPaymentCtrl',function (Payment,Session,PaymentType,PaymentToMajor,PaymentWaving,CurrentUser,Semester,Access,lodash,Level) {
     Access.student();
     var vm = this;
     vm.semester = Semester.get();
@@ -14,13 +14,15 @@ angular.module('b')
     vm.custom_pay = false;
     vm.custom_pay2 = false;
     vm.check_status = check_status;
-    PaymentToMajor.studentUnEdited({student:vm.user.student.id}).$promise
+    PaymentType.query().$promise
       .then(function (data) {
-        vm.tuition100 = lodash.find(data,{payment_type:{name:"Tuition Fees 100% "+vm.user.student.major.dept.college.acronym},level:{id:vm.user.student.level.id}});
-        vm.tuition60 = lodash.find(data,{payment_type:{name:"Tuition Fees 60% "+vm.user.student.major.dept.college.acronym},level:{id:vm.user.student.level.id}});
-        vm.tuition40 = lodash.find(data,{payment_type:{name:"Tuition Fees 40% "+vm.user.student.major.dept.college.acronym},level:{id:vm.user.student.level.id}});
-        vm.tuition_partial = lodash.find(data,{payment_type:{name:"Tuition Fees Partial"},level:{id:vm.user.student.level.id}});
-
+        vm.tuition_fee = lodash.find(data,{tuition:true});
+      });
+    PaymentType.tuition_student({student:vm.user.student.id}).$promise
+      .then(function (data) {
+        vm.tuition_total = data.total;
+        vm.tuition_first = data.first;
+        vm.tuition_second = data.second;
         getSession();
       });
     function getSession() {
@@ -31,27 +33,45 @@ angular.module('b')
         });
     }
     function getPayments() {
+      PaymentWaving.student({student:vm.user.student.id}).$promise
+        .then(function (data) {
+          vm.waved_payments = data;
+        });
       vm.expected_payments = PaymentToMajor.student({student:vm.user.student.id,session:vm.session.id});
       Payment.student({student:vm.user.student.id}).$promise
         .then(function (data) {
           vm.payments = data;
-          vm.partial_payments = lodash.filter(data,{payment_type:{name:"Tuition Fees Partial"},session:{id:vm.session.id},level:{id:vm.user.student.level.id},paid:true});
-          vm.partial_payments_total = 0;
-          angular.forEach(vm.partial_payments,function (pay) {
-            vm.partial_payments_total += Number(pay.amount);
+          vm.tuition_payments = lodash.filter(vm.payments,{payment_type:{tuition:true},level:{id:vm.user.student.level.id},paid:true});
+          vm.tuition_payments_total = 0;
+          angular.forEach(vm.tuition_payments,function (pay) {
+            vm.tuition_payments_total += Number(pay.amount);
           });
-          vm.paid60 = lodash.find(data,{payment_type:{name:"Tuition Fees 60% "+vm.user.student.major.dept.college.acronym},session:{id:vm.session.id},level:{id:vm.user.student.level.id},paid:true});
-          vm.paid40 = lodash.find(data,{payment_type:{name:"Tuition Fees 40% "+vm.user.student.major.dept.college.acronym},session:{id:vm.session.id},level:{id:vm.user.student.level.id},paid:true});
-          vm.paid100 = lodash.find(data,{payment_type:{name:"Tuition Fees 100% "+vm.user.student.major.dept.college.acronym},session:{id:vm.session.id},level:{id:vm.user.student.level.id},paid:true});
-          if(!vm.paid60){vm.paid60={amount:0};}
-          if(!vm.paid40){vm.paid40={amount:0};}
-          if(!vm.paid100){vm.paid100={amount:0};}
+          if(vm.tuition_payments_total >= vm.tuition_first){
+            vm.paid_first = true;
+          }
+          if(vm.tuition_payments_total >= vm.tuition_second){
+            vm.paid_second = true;
+          }
+          if(vm.tuition_payments_total >= vm.tuition_total){
+            vm.paid_total = true;
+          }
+          if(!vm.paid_first){vm.paid_first=false;}
+          if(!vm.paid_second){vm.paid_second=false;}
+          if(!vm.paid_total){vm.paid_total=false;}
 
-          vm.pay_remaining = Number(vm.tuition100.payment_type.amount) - (Number(vm.partial_payments_total)+Number(vm.paid40.amount)+Number(vm.paid60.amount)+Number(vm.paid100.amount));
-          vm.pay_remaining_percentage = (vm.pay_remaining/Number(vm.tuition100.payment_type.amount))*100;
+          vm.pay_remaining = Number(vm.tuition_total) - Number(vm.tuition_payments_total);
+          vm.pay_remaining_percentage = (vm.pay_remaining/Number(vm.tuition_total))*100;
 
-          vm.paid = Number(vm.partial_payments_total)+Number(vm.paid40.amount)+Number(vm.paid60.amount)+Number(vm.paid100.amount);
-          vm.paid_percentage = (vm.paid/Number(vm.tuition100.payment_type.amount))*100;
+          vm.paid = Number(vm.tuition_payments_total);
+          vm.paid_percentage = (vm.paid/Number(vm.tuition_total))*100;
+
+          if(lodash.find(vm.waved_payments,{payment_type:{tuition:true},level:{id:vm.user.student.level.id}})){
+            vm.pay_remaining = 0;
+            vm.pay_remaining_percentage = (vm.pay_remaining/Number(vm.tuition_total))*100;
+
+            vm.paid = Number(vm.tuition_total);
+            vm.paid_percentage = (vm.paid/Number(vm.tuition_total))*100;
+          }
         });
     }
     function check_status(pay) {

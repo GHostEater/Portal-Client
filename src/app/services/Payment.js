@@ -43,20 +43,24 @@ angular.module('b')
         method: 'post'
       },
       getPaid:{
-        url: Host.host+"/student-paid-list/",
-        method: 'get'
+        url: Host.host+"/payment/student-paid-list/",
+        method: 'get',
+        isArray: true
       },
       getUnPaid:{
-        url: Host.host+"/student-unpaid-list/",
-        method: 'get'
+        url: Host.host+"/payment/student-unpaid-list/",
+        method: 'get',
+        isArray: true
       },
       getPaidAdmission:{
-        url: Host.host+"/admission-paid-list/",
-        method: 'get'
+        url: Host.host+"/payment/application-paid-list/",
+        method: 'get',
+        isArray: true
       },
       getUnPaidAdmission:{
-        url: Host.host+"/admission-unpaid-list/",
-        method: 'get'
+        url: Host.host+"/payment/application-unpaid-list/",
+        method: 'get',
+        isArray: true
       },
       access_fee_restrict:{
         url: Host.host+'/payment/access-fee-restrict/',
