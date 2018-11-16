@@ -15,18 +15,20 @@ div(ng-controller="AdminPaymentReportsAdmissionCtrl as vm")
       input.form-control.input-sm(ng-model="vm.search" placeholder="Search")
   .row
     span {{vm.payment_type.name}}
-    span(ng-show="vm.payments") $nbsp Paid List
-    span(ng-show="vm.students") $nbsp UnPaid List
+    span(ng-show="vm.payments") &nbsp Paid List
+    span(ng-show="vm.students") &nbsp UnPaid List
   .row
     span Session {{vm.session.session}}
   .table-responsive(ng-show="vm.payments")
     table.table.table-striped.table-bordered
       thead
         th Applicant
+        th Amount
         th Date of Payment
       tbody
         tr(ng-repeat="payment in vm.payments | filter:vm.search")
           td {{payment.application.last_name}}, {{payment.application.first_name}}
+          td ₦{{payment.amount | number:'0'}}
           td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
   .table-responsive(ng-show="vm.students")
     table.table.table-striped.table-bordered
@@ -34,4 +36,4 @@ div(ng-controller="AdminPaymentReportsAdmissionCtrl as vm")
         th Applicant
       tbody
         tr(ng-repeat="student in vm.students | filter:vm.search")
-          td {{payment.application.last_name}}, {{payment.application.first_name}}
+          td {{student.last_name}}, {{student.first_name}}

@@ -1,10 +1,10 @@
 //Created by GHostEater on 01-Mar-18.
 div(ng-controller="AdminStudentListCtrl as vm").row
   .row
-    .col-sm-3(ng-show="vm.user.type == 2 || vm.user.type == 1")
+    .col-sm-3(ng-show="vm.user.type == 2 || vm.user.type == 1 || vm.user.type == 3")
       select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
         option(value='') Select College
-    .col-sm-3(ng-show="vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 1 || vm.user.type == 8")
+    .col-sm-3(ng-show="vm.user.type == 2 || vm.user.type == 5 || vm.user.type == 1 || vm.user.type == 8 || vm.user.type == 3")
       select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:vm.college} track by dept.id")
         option(value='') Select Department
     .col-sm-2
@@ -39,4 +39,5 @@ div(ng-controller="AdminStudentListCtrl as vm").row
             a.btn.btn-xs.btn-primary(ui-sref="student_edit({id:student.user.id})") Edit
             a.btn.btn-xs.btn-primary(ui-sref="adminCourseSlip({userId:student.user.id})" ng-show="vm.user.type == 1") View Course Registration Details
             a.btn.btn-xs.btn-primary(ui-sref="studentTranscript({userId:student.user.id})" ng-show="vm.user.type == 1 || 2") View Transcript
-            a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})") View Result
+            a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.user.id})" ng-show="vm.user.type == 1 || 2") View Result
+            a.btn.btn-xs.btn-primary(ui-sref="admin_student_payment({user:student.user.id})" ng-show="vm.user.type == 1 || 3") View Payment Details

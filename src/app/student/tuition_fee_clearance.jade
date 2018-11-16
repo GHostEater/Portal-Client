@@ -30,7 +30,7 @@ div(ng-controller="TuitionFeeClearanceCtrl as vm").row
         span.col-sm-10 Level: {{vm.user.student.level.level}}
   .col-sm-12.text-center
     h3 ELIGIBILITY CARD
-    h5 Tuition Fee Clearance for {{vm.session.session}} Session
+    h5 {{vm.tuition_fee.name}} Clearance for {{vm.session.session}} Session
     p Paid: ₦{{vm.paid | number:'0'}} ({{vm.paid_percentage | number:'2'}}%)
     p(ng-show="vm.pay_remaining_percentage>0") UnPaid: ₦{{vm.pay_remaining | number:'0'}} ({{vm.pay_remaining_percentage | number:'2'}}%)
     .row
@@ -38,12 +38,12 @@ div(ng-controller="TuitionFeeClearanceCtrl as vm").row
         table.table.table-bordered.table-striped
           tr
             th First Semester
-            td(ng-show="vm.pay_status.p40 || vm.pay_status.p60 || vm.pay_status.p100") Cleared
-            td(ng-show="vm.pay_status.p40 === false") Not Cleared
+            td(ng-show="vm.pay_status.p_first || vm.pay_status.paid_total") Cleared
+            td(ng-show="vm.pay_status.p_first === false") Not Cleared
           tr(ng-show="vm.semester.semester == 2")
             th Second Semester
-            td(ng-show="vm.pay_status.p100") Cleared
-            td(ng-show="vm.pay_status.p100 === false") Not Cleared
+            td(ng-show="vm.pay_status.p_total") Cleared
+            td(ng-show="vm.pay_status.p_total === false") Not Cleared
   .col-sm-12
     h4.text-center Payments for {{vm.session.session}} Session
     .table-responsive
@@ -67,5 +67,19 @@ div(ng-controller="TuitionFeeClearanceCtrl as vm").row
             td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
             td(ng-class="{'bg-success':payment.paid === true,'bg-danger':payment.paid === false && !payment.rrr && payment.status != 'Pending','bg-warning':(payment.rrr || payment.status == 'Pending') && payment.paid == false}").text-white
               span Paid: {{payment.paid}}
+  .col-sm-12(ng-show="vm.waved_payments")
+    h4.text-center Waved Payments
+    .table-responsive
+      table.table.table-striped.table-bordered
+        thead
+          th Name
+          th Amount
+          th Level
+        tbody
+          tr(ng-repeat="payment in vm.waved_payments | filter:vm.search")
+            td {{payment.payment_type.name}}
+            td(ng-hide="payment.payment_type.tuition") ₦{{payment.payment_type.amount | number:'0'}}
+            td(ng-show="payment.payment_type.tuition") ₦{{vm.tuition_total | number:'0'}}
+            td {{payment.level.level}}
   .row.content.hidden-print
     button.btn.btn-sm.btn-primary(ng-click="vm.print()") Print
