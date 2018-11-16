@@ -14,6 +14,8 @@ angular.module('b')
     vm.levels = Level.query();
     vm.getPaid = getPaid;
     vm.getUnPaid = getUnPaid;
+    vm.paid_list = false;
+    vm.unpaid_list = false;
 
     PaymentType.student().$promise
       .then(function (data) {
@@ -21,8 +23,8 @@ angular.module('b')
       });
 
     function getPaid() {
-      delete vm.payments;
-      delete vm.students;
+      vm.paid_list = true;
+      vm.unpaid_list = false;
       var request = {
         session: vm.session.id,
         major: vm.major.id,
@@ -31,12 +33,12 @@ angular.module('b')
       };
       Payment.getPaid(request).$promise
         .then(function (data) {
-          vm.payments = data;
+          vm.students = data;
         });
     }
     function getUnPaid() {
-      delete vm.payments;
-      delete vm.students;
+      vm.paid_list = false;
+      vm.unpaid_list = true;
       var request = {
         session: vm.session.id,
         major: vm.major.id,
