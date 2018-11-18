@@ -28,11 +28,11 @@ div(ng-controller="StudentPaymentCtrl as vm").row
         p UnPaid: ₦{{vm.pay_remaining | number:'0'}} ({{vm.pay_remaining_percentage | number:'2'}}%)
         .row.content-vert
           .col-sm-12
-            button.btn.btn-sm.btn-primary(ng-show="vm.tuition_total <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_fee.id})") Pay 100% (₦{{vm.tuition_total | number:'0'}})
+            button.btn.btn-sm.btn-primary(ng-show="vm.tuition_total <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_fee.id,amount:vm.tuition_total})") Pay 100% (₦{{vm.tuition_total | number:'0'}})
           .col-sm-12
-            button.btn.btn-sm.btn-primary(ng-show="vm.tuition_first <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_fee.id})") Pay First Semester (₦{{vm.tuition_first | number:'0'}})
+            button.btn.btn-sm.btn-primary(ng-show="vm.tuition_first <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_fee.id,amount:vm.tuition_first})") Pay First Semester (₦{{vm.tuition_first | number:'0'}})
           .col-sm-12
-            button.btn.btn-sm.btn-primary(ng-show="vm.tuition_second <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_fee.id})") Pay Second Semester (₦{{vm.tuition_second | number:'0'}})
+            button.btn.btn-sm.btn-primary(ng-show="vm.tuition_second <= vm.pay_remaining" ui-sref="student_pay({payment:vm.tuition_fee.id,amount:vm.tuition_second})") Pay Second Semester (₦{{vm.tuition_second | number:'0'}})
         hr
         .row.content-vert
           .col-sm-12
