@@ -20,6 +20,7 @@ angular.module('b').run(runBlock).run(run);
 
     $rootScope.school_name = "Portal";
     $rootScope.school_long_name = "Portal";
+    $rootScope.school_med_name = "Portal";
     $rootScope.school_short_name = "Portal";
     $rootScope.school_slogan = "The Best Portal System";
     $rootScope.school_reciept_name = "PRT-";
