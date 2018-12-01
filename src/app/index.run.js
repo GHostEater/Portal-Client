@@ -18,9 +18,9 @@ angular.module('b').run(runBlock).run(run);
       }
     };
 
-    $rootScope.school_name = "Portal";
-    $rootScope.school_long_name = "Portal";
-    $rootScope.school_short_name = "Portal";
-    $rootScope.school_slogan = "University of Nasrul-Lahi-Il-Fatih Society";
-    $rootScope.school_reciept_name = "PRT-";
+    $rootScope.school_name = "Summit";
+    $rootScope.school_long_name = "Summit University, Offa";
+    $rootScope.school_short_name = "Summit";
+    $rootScope.school_slogan = "";
+    $rootScope.school_reciept_name = "SUNO-";
   }
