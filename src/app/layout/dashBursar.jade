@@ -3,12 +3,16 @@
     h3.panel-title Dashboard for Bursar
   .panel-body
     ul.nav.nav-pills.nav-stacked
-      li(ui-sref-active="active")
-        a(ui-sref='paymentToMajor') Payment To Major
-      li(ui-sref-active="active")
-        a(ui-sref='payment_reports') Payment Reports
-      li(ui-sref-active="active")
-        a(ui-sref='payment_reports_admission') Admission Payment Reports
+      uib-accordion(close-others="true")
+        div(uib-accordion-group).panel-default
+          uib-accordion-heading Payments
+          ul.nav.nav-pills.nav-stacked
+            li(ui-sref-active="active")
+              a(ui-sref='paymentToMajor') Payment To Major
+            li(ui-sref-active="active")
+              a(ui-sref='payment_reports') Payment Reports
+            li(ui-sref-active="active")
+              a(ui-sref='payment_reports_admission') Admission Payment Reports
       li(ui-sref-active="active")
         a(ui-sref='admin_student_list') Student List
       //li(ui-sref-active="active")

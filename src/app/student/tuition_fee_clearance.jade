@@ -5,8 +5,8 @@ div(ng-controller="TuitionFeeClearanceCtrl as vm").row
       .col-sm-1
         img.center-block(src="img/logo.png" width="30px")
       .col-sm-10.text-center
-        h4 FOUNTAIN UNIVERSITY, OSOGBO
-        h5 (University of Nasrul-Lahi-Il-Fatih Society)
+        h4 {{school_long_name}}
+        h5(ng-show="school_slogan != ''") ({{school_slogan}})
         h6 {{vm.user.student.major.dept.college.name}}
       .row
         .col-sm-2.col-sm-offset-10

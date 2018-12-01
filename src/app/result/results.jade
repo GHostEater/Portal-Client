@@ -5,7 +5,7 @@ div(ng-controller="ResultsCtrl as vm").row
       span.col-sm-4
         img(src="img/logo.png" height="40px")
       span.col-sm-8
-        h3 FOUNTAIN UNIVERSITY, OSOGBO
+        h3 {{school_long_name}}
         h4 {{vm.session.session}} &nbsp
           span(ng-show="vm.semester.semester == 1") First Semester Examination Results
           span(ng-show="vm.semester.semester == 2") Second Semester Examination Results

@@ -101,9 +101,6 @@ div(ng-controller="AdminCourseReviewCtrl as vm")
               h4 List of Scores
           tr
             th S/N
-            //th Matric Number
-            //th Name
-            //th Gender
             th Assessment 1
             th Assessment 2
             th Assessment 3
@@ -136,9 +133,6 @@ div(ng-controller="AdminCourseReviewCtrl as vm")
         tbody
           tr(ng-repeat="(key,review) in vm.reviews")
             td {{key+1}}
-            //td {{review.student.user.username | matricNo}}
-            //td {{review.student.user.last_name | uppercase}}, {{review.student.user.first_name}}
-            //td {{review.student.user.sex}}
             td {{review.q1}}
             td {{review.q2}}
             td {{review.q3}}

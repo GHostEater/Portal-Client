@@ -25,9 +25,9 @@ div(ng-controller="CourseAllocationCtrl as vm")
       .col-sm-12
         img.center-block(src="img/logo.png" height="50px")
       .col-sm-12.text-center
-        h3 FOUNTAIN UNIVERSITY, OSOGBO
-        h5
-          i (University of Nasrul-Lahi-Il-Fatih Society)
+        h3 {{school_long_name | uppercase}}
+        h5(ng-show="school_slogan != ''")
+          i ({{school_slogan}})
         h4 {{vm.college.name}}
         h4 {{vm.dept.name}}
         .col-sm-12
