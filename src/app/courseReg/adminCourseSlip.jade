@@ -5,9 +5,9 @@ div(ng-controller="AdminCourseSlipCtrl as vm")
       .col-sm-1
         img(src="img/logo.png")
       .col-sm-11.text-center
-        h2 FOUNTAIN UNIVERSITY, OSOGBO
-        h3 (University of Nasrul-Lahi-Il-Fatih Society)
-        h4 {{vm.student.major.dept.college.name}}
+        h4 {{school_long_name | uppercase}}
+        h5(ng-show="school_slogan != ''") ({{school_slogan}})
+        h6 {{vm.student.major.dept.college.name}}
     .row
       span.col-sm-4 Session: {{vm.session.session}}
       span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}

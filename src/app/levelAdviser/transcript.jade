@@ -4,8 +4,8 @@ div(ng-controller="TranscriptCtrl as vm")
     .col-sm-12
       img.center-block(src="img/logo.png")
     .col-sm-12.text-center
-      h2 FOUNTAIN UNIVERSITY, OSOGBO
-      h3 (University of Nasrul-Lahi-Il-Fatih Society)
+      h2 {{school_long_name}}
+      h3(ng-show="school_slogan != ''") ({{school_slogan}})
       h4 {{vm.lecturer.dept.college.name}}
       h4 {{vm.lecturer.dept.name}}
   .row

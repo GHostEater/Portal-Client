@@ -100,6 +100,7 @@ angular.module("b")
               $rootScope.flex = 'yes';
               $rootScope.session = Session.getCurrent();
               $rootScope.semester = Semester.get();
+              $rootScope.$broadcast('paymentMade');
               $state.go('home');
             }
           });

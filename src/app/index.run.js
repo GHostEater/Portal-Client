@@ -5,7 +5,6 @@ angular.module('b').run(runBlock).run(run);
   function run($rootScope,Student,Session,Semester,CurrentUser,User) {
     $rootScope.user = CurrentUser.profile;
     $rootScope.flex = 'yes';
-    $rootScope.date = new Date();
     $rootScope.session = Session.getCurrent();
     $rootScope.semester = Semester.get();
     Student.autoWithdraw();
@@ -18,4 +17,10 @@ angular.module('b').run(runBlock).run(run);
         $rootScope.flex = 'yes';
       }
     };
+
+    $rootScope.school_name = "Portal";
+    $rootScope.school_long_name = "Portal";
+    $rootScope.school_short_name = "Portal";
+    $rootScope.school_slogan = "University of Nasrul-Lahi-Il-Fatih Society";
+    $rootScope.school_reciept_name = "PRT-";
   }

@@ -20,9 +20,6 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('room',{url:'/room/',templateUrl:'app/studentAffairs/room.html'})
     .state('roomAllocation',{url:'/room-allocation/',templateUrl:'app/studentAffairs/roomAllocation.html'})
 
-    .state('adminOverviewSheet',{url:'/admin/overview-sheet/',templateUrl:'app/academicAffairs/adminOverviewSheet.html'})
-    .state('adminBroadSheet',{url:'/admin/broad-sheet/',templateUrl:'app/academicAffairs/adminBroadSheet.html'})
-    .state('adminResultSheet',{url:'/admin/result-sheet/',templateUrl:'app/academicAffairs/adminResultSheet.html'})
     .state('editRequest',{url:'/admin/result-edit-requests/',templateUrl:'app/academicAffairs/resultEditRequest.html'})
     .state('editLog',{url:'/admin/result-edit-logs/',templateUrl:'app/academicAffairs/resultEditLog.html'})
     .state('uploadLog',{url:'/admin/result-upload-logs/',templateUrl:'app/academicAffairs/resultUploadLog.html'})

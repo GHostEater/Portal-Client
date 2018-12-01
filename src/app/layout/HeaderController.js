@@ -5,9 +5,14 @@
 (function () {
     'use strict';
 angular.module("b")
-  .controller("HeaderController",function(CurrentUser,$rootScope,$window,SystemLog){
+  .controller("HeaderController",function(CurrentUser,$rootScope,$window,SystemLog,$interval){
     var vm = this;
+    $rootScope.date = Date.now();
     vm.user = CurrentUser.profile;
+    function tick() {
+      $rootScope.date = Date.now();
+    }
+    $interval(tick,1000);
 
     vm.logOut = function(){
       SystemLog.add("Logout");
