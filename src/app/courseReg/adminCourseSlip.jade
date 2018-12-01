@@ -3,10 +3,11 @@ div(ng-controller="AdminCourseSlipCtrl as vm")
   .col-sm-12
     .row.visible-print
       .col-sm-1
-        img(src="img/logo.png" width="50px")
+        img(src="img/logo.png")
       .col-sm-11.text-center
-        h2 SUMMIT UNIVERSITY, OFFA
-        h4 {{vm.student.major.dept.college.name}}
+        h4 {{school_long_name | uppercase}}
+        h5(ng-show="school_slogan != ''") ({{school_slogan}})
+        h6 {{vm.student.major.dept.college.name}}
     .row
       span.col-sm-4 Session: {{vm.session.session}}
       span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}

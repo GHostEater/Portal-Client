@@ -4,9 +4,9 @@ div(ng-controller="GraduatingListCtrl as vm")
     span.col-sm-4
       img(src="img/logo.png" height="50px")
     span.col-sm-8
-      h3 FOUNTAIN UNIVERSITY, OSOGBO
-      h4
-        i (University of Nasrul-Lahi-Il-Fatih Society)
+      h3 {{school_long_name | uppercase}}
+      h4(ng-show="school_slogan != ''")
+        i ({{school_slogan}})
       h4 {{vm.session.session}} Session
   .row.visible-print
     span College: {{vm.college.name}}

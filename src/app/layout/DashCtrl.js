@@ -3,7 +3,7 @@
  * Created by P-FLEX MONEY on 25-Oct-18.
  */
 angular.module('b')
-  .controller('DashCtrl',function (CourseReview,Payment,Session,Semester,CurrentUser) {
+  .controller('DashCtrl',function (CourseReview,Payment,Session,Semester,CurrentUser,$rootScope) {
     var vm = this;
     vm.user = CurrentUser.profile;
     Semester.get().$promise
@@ -22,4 +22,7 @@ angular.module('b')
           vm.pay_status = data.pay_status;
         });
     }
+    $rootScope.$on('paymentMade',function(){
+      AccessFee();
+    })
   });

@@ -3,7 +3,7 @@
  * Created by GHostEater on 26-Apr-18.
  */
 angular.module('b')
-  .controller('StudentPayCtrl',function (PaymentType,Access,lodash,Host,$sce,$window,Random,$state,$filter,Payment,$stateParams,Session,$location,Remita,toastr,CurrentUser) {
+  .controller('StudentPayCtrl',function (PaymentType,Access,lodash,Host,$sce,$window,Random,$state,$filter,Payment,$stateParams,Session,$location,Remita,toastr,CurrentUser,$rootScope) {
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -64,7 +64,7 @@ angular.module('b')
         });
     }
     function generate_order_id() {
-      var order_id = "SUNO-" + Random.string(13);
+      var order_id = $rootScope.school_reciept_name + Random.string(13);
       Payment.order({order: order_id}).$promise
         .then(function () {})
         .catch(function () {
@@ -79,26 +79,18 @@ angular.module('b')
         level: vm.user.student.level.id,
         order_id: vm.order_id,
         status: "Pending",
-        date: new Date()
+        date: new Date(),
+        payerName: vm.user.last_name+" "+vm.user.first_name,
+        payerEmail: vm.user.email,
+        payerPhone: vm.user.student.user.phone,
+        amount: vm.payment_type.amount,
+        matricNo: $filter('matricNo')(vm.user.username),
+        dept: vm.user.student.major.dept.name
       };
-      Payment.save(request).$promise
+      Payment.generate_rrr(request).$promise
         .then(function (data) {
           vm.payment = data;
-          var request = {
-            payment: vm.payment.id,
-            payerName: vm.user.last_name+" "+vm.user.first_name,
-            payerEmail: vm.user.email,
-            payerPhone: vm.user.student.user.phone,
-            amount: vm.payment_type.amount,
-            matricNo: $filter('matricNo')(vm.user.username),
-            level: vm.user.student.level.id,
-            dept: vm.user.student.major.dept.name
-          };
-          Payment.generate_rrr(request).$promise
-            .then(function (data) {
-              vm.payment = data;
-              hash_pay();
-            });
+          hash_pay();
         });
     }
     function hash_pay(){
@@ -115,19 +107,7 @@ angular.module('b')
         });
     }
     function reload(){
-      var payment ='';
-      var amount = '';
-      var level = '';
-      if($stateParams.payment){
-        payment = $stateParams.payment;
-      }
-      if($stateParams.amount){
-        amount = $stateParams.amount;
-      }
-      if($stateParams.level){
-        level = $stateParams.level;
-      }
-      $location.url('/student/payment/pay/'+payment+'/'+amount+'/'+level);
-      $window.location.reload();
+      getPayment();
+      $rootScope.$broadcast('paymentMade');
     }
   });

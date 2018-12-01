@@ -23,9 +23,11 @@ div(ng-controller="CourseAllocationCtrl as vm")
         button.btn.btn-sm.btn-primary(ng-click="vm.getAllocations()") Go
     .row.visible-print
       .col-sm-12
-        img.center-block(src="img/logo.png" width="50px")
+        img.center-block(src="img/logo.png" height="50px")
       .col-sm-12.text-center
-        h3 SUMMIT UNIVERSITY, OFFA
+        h3 {{school_long_name | uppercase}}
+        h5(ng-show="school_slogan != ''")
+          i ({{school_slogan}})
         h4 {{vm.college.name}}
         h4 {{vm.dept.name}}
         .col-sm-12

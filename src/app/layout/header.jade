@@ -6,7 +6,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller="HeaderController as vm
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(ui-sref="login") Summit University Portal
+      a.navbar-brand(ui-sref="login") {{school_short_name}} Portal
     #navbar.navbar-collapse.collapse
       form.navbar-form.navbar-left
         span Current Session: {{session.session}}
@@ -14,6 +14,8 @@ nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller="HeaderController as vm
         span Current Semester:&nbsp
         span(ng-show="semester.semester == 1") 1st
         span(ng-show="semester.semester == 2") 2nd
+      form.navbar-form.navbar-left
+        span Current Date: {{date | date:"dd-MMMM-yyyy hh:mm:ssa"}}
       form.navbar-form.navbar-right
         div(ng-show="vm.user.loggedIn")
           span Hello {{vm.user.last_name | uppercase}}, {{vm.user.first_name}}&nbsp

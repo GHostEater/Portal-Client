@@ -3,25 +3,31 @@ div(ng-controller="CourseSlipCtrl as vm").row
   .col-sm-12
     .row.visible-print
       .col-sm-1
-        img(src="img/logo.png" width="50px")
-      .col-sm-10.text-center
-        h2 SUMMIT UNIVERSITY, OFFA
-        h4 {{vm.student.major.dept.college.name}}
+        img.center-block(src="img/logo.png" width="30px")
+      .col-sm-11.text-center
+        h4 {{school_long_name | uppercase}}
+        h5(ng-show="school_slogan != ''") ({{school_slogan}})
+        h6 {{vm.student.major.dept.college.name}}
       .row
         .col-sm-2.col-sm-offset-10
-          img.img-responsive(ng-src="{{vm.student.user.img}}")
+          img.img-responsive.center-block(ng-src="{{vm.user.student.user.img}}" width="60px")
       .row
         span.col-sm-4 Session: {{vm.session.session}}
         span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}
-        span(ng-show="vm.semester.semester == 1") st Semester
-        span(ng-show="vm.semester.semester == 2") nd Semester
+          span(ng-show="vm.semester.semester == 1") st Semester
+          span(ng-show="vm.semester.semester == 2") nd Semester
 
-      span.row Department: {{vm.student.major.dept.name}}
-      span.row Major: {{vm.student.major.name}}
-      span.row Name:&nbsp
-        b {{vm.student.user.last_name | uppercase}},&nbsp
-        span {{vm.student.user.first_name}}
-      span.row Matric Number: {{vm.student.user.username | matricNo}}
+      .row
+        span.col-sm-4 Department: {{vm.user.student.major.dept.name}}
+        span.col-sm-4.col-sm-offset-4 Major: {{vm.user.student.major.name}}
+      .row
+        span.col-sm-10 Name:&nbsp
+          b {{vm.user.student.user.last_name | uppercase}},&nbsp
+          span {{vm.user.student.user.first_name}}
+      .row
+        span.col-sm-10 Matric Number: {{vm.user.student.user.username | matricNo}}
+      .row
+        span.col-sm-10 Level: {{vm.user.student.level.level}}
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code
@@ -43,6 +49,8 @@ div(ng-controller="CourseSlipCtrl as vm").row
       span ________________________&nbsp
       br
       span Student's Signature/Date
+  br
+  .row.visible-print
     .col-sm-5.col-sm-offset-2
       span ____________________________&nbsp
       br
