@@ -1,7 +1,7 @@
 //Created by GHostEater on 22-Jun-17.
 div(ng-controller="HomeCtrl as vm")
   h4.text-center
-    em Welcome to Fountain University Portal System
+    em Welcome to {{school_med_name}} Portal System
   .row(ng-show="vm.user.type === '1' && vm.session.actions == 0")
     button.btn.btn-primary(ng-click="vm.sessionActions()") Session Actions
   div(ng-show="vm.user.type === '7'")
