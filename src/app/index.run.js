@@ -20,6 +20,7 @@ angular.module('b').run(runBlock).run(run);
 
     $rootScope.school_name = "Summit";
     $rootScope.school_long_name = "Summit University, Offa";
+    $rootScope.school_med_name = "Summit University";
     $rootScope.school_short_name = "Summit";
     $rootScope.school_slogan = "";
     $rootScope.school_reciept_name = "SUNO-";
