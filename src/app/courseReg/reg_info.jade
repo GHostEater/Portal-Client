@@ -1,0 +1,28 @@
+//Created by P-FLEX MONEY on 03-Dec-18.
+div(ng-controller="RegInfoCtrl as vm")
+  h4.text-center Registration Information for {{vm.session.session}} Session
+  p LOGIN
+    ul
+      li Student LOGIN on the Portal.
+      li Student Updates their Profile.
+      li Student Pays the University Fees.
+      li Student prints out Register Courses page and submits to level adviser for confirmation.
+      li Based on the level adviser’s validation a student submits online registered courses and makes payment for College, departmental; and course registration fees.
+      li Student finally prints out the registered courses, fee payments and submits to the level adviser.
+
+.row
+  .col-sm-6.text-right
+    a.btn.btn-primary(ui-sref="reg_info_fresh") Fresh Students
+  .col-sm-6
+    a.btn.btn-primary(ui-sref="reg_info_returning") Returning Students
+  .col-sm-12.text-center
+    a.btn.btn-success(ui-sref="login") Proceed to Login
+
+.row.content-vert
+  p
+    a Click here to view {{school_med_name}} Dress Code
+    br
+    span Thank you for choosing {{school_med_name}}
+    br
+    span {{school_short_name}} Leads, Others Follow
+

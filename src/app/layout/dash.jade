@@ -1,4 +1,36 @@
-div(ng-controller="DashCtrl as vm")
+div(ng-controller="DashCtrl as vm").hidden-print
+  div(ng-show="user.id")
+    span Date: {{date | date:"dd-MMMM-yyyy hh:mm:ssa"}}
+    br
+    span Role:&nbsp
+    span(ng-show="user.type == 1") Admin
+    span(ng-show="user.type == 2") Academic Affairs
+    span(ng-show="user.type == 3") Bursar
+    span(ng-show="user.type == 4") Student Affairs
+    span(ng-show="user.type == 5") College Officer
+    span(ng-show="user.type == 6") Lecturer
+    span(ng-show="user.type == 7") Student
+    span(ng-show="user.type == 8") Dean
+    br
+    span Current Session: {{session.session}}
+    br
+    span Current Semester:&nbsp
+    span(ng-show="semester.semester == 1") 1st
+    span(ng-show="semester.semester == 2") 2nd
+    br
+    span(ng-show="user.type == 7") Login ID: {{user.username | matricNo}}
+    span(ng-show="user.type != 7") Login ID: {{user.username}}
+
+  .panel.panel-default.text-center(ng-show="!user.id")
+    .panel-heading
+      .panel-title Dashboard
+    .panel-body
+      ul.nav.nav-pills.nav-stacked
+        li(ui-sref-active="active")
+          a(ui-sref='reg_info_fresh') Information for Fresh Students
+        li(ui-sref-active="active")
+          a(ui-sref='reg_info_returning') Information for Returning Students
+
   div(ng-show="user.type == 1").hidden-print
     section(ng-include="'app/layout/dashAdmin.html'")
   div(ng-show='user.type == 2').hidden-print

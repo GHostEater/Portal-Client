@@ -1,10 +1,9 @@
 angular.module('b')
-  .factory('VerifyToken', function (CurrentUser,$q,$window) {
+  .factory('VerifyToken', function (CurrentUser,$q) {
     function responseError(rejection) {
       if(CurrentUser.profile.loggedIn){
         if(rejection.status === 401){
           CurrentUser.logOut();
-          $window.location.reload();
         }
       }
       return $q.reject(rejection);

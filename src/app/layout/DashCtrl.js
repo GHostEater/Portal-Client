@@ -3,7 +3,7 @@
  * Created by P-FLEX MONEY on 25-Oct-18.
  */
 angular.module('b')
-  .controller('DashCtrl',function (CourseReview,Payment,Session,Semester,CurrentUser,$rootScope) {
+  .controller('DashCtrl',function (CourseReview,Payment,Session,Semester,CurrentUser,$rootScope,PaymentType,lodash) {
     var vm = this;
     vm.user = CurrentUser.profile;
     Semester.get().$promise
@@ -12,6 +12,10 @@ angular.module('b')
         if(vm.user.student){
           AccessFee();
         }
+      });
+    PaymentType.query().$promise
+      .then(function (data) {
+        vm.tuition_fee = lodash.find(data,{tuition:true});
       });
     function AccessFee() {
       Payment.access_fee_restrict({student:vm.user.student.id}).$promise

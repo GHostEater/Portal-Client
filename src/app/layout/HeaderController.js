@@ -5,7 +5,7 @@
 (function () {
     'use strict';
 angular.module("b")
-  .controller("HeaderController",function(CurrentUser,$rootScope,$window,SystemLog,$interval){
+  .controller("HeaderController",function(CurrentUser,$rootScope,$state,SystemLog,$interval){
     var vm = this;
     $rootScope.date = Date.now();
     vm.user = CurrentUser.profile;
@@ -16,10 +16,8 @@ angular.module("b")
 
     vm.logOut = function(){
       SystemLog.add("Logout");
-      CurrentUser.logOut();
       delete vm.user;
-      delete $rootScope.user;
-      $window.location.reload();
+      CurrentUser.logOut();
     };
   });
 })();

@@ -1,0 +1,52 @@
+//Created by GHostEater on 26-Apr-18.
+div(ng-controller="ReceiptCtrl as vm")
+  .row.visible-print
+    .col-sm-12
+      img.center-block(src="img/logo.png" width="30px")
+    .col-sm-12.text-center
+      h4 {{school_long_name | uppercase}}
+      h5(ng-show="school_slogan != ''") ({{school_slogan}})
+  .row
+    .col-sm-6.col-sm-offset-3
+      h3.text-center Remita Payment Receipt
+      div(ng-show="vm.payment.paid == true")
+        h5.text-center Transaction Approved
+
+      table.table.table-bordered
+        tr
+          th Name
+          td {{ vm.payment.student.user.last_name }}, {{ vm.payment.student.user.first_name }}
+        tr
+          th Matric No
+          td {{ vm.payment.student.user.username | matricNo }}
+        tr
+          th Department
+          td {{vm.payment.student.major.dept.name}}
+        tr
+          th Level
+          td {{vm.payment.student.level.level}}
+        tr
+          th Phone
+          td {{ vm.payment.student.user.phone }}
+        tr
+          th Email
+          td {{ vm.payment.student.user.email }}
+        tr
+          th Payment Made
+          td {{ vm.payment.payment_type.name }}
+        tr
+          th Order ID
+          td {{ vm.payment.order_id }}
+        tr
+          th Remita Retrieval Reference
+          td {{ vm.payment.rrr }}
+        tr
+          th Date
+          td {{vm.payment.date | date:"dd-MMMM-yyyy hh:mm:ssa"}}
+        tr
+          th Amount
+          td ₦{{ vm.payment.amount | number:'0' }}
+
+  .row.hidden-print
+    .col-sm-12
+      button.btn.btn-sm.btn-primary(ng-click="vm.print()") Print
