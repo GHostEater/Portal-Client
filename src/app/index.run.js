@@ -24,4 +24,5 @@ angular.module('b').run(runBlock).run(run);
     $rootScope.school_short_name = "FUO";
     $rootScope.school_slogan = "University of Nasrul-Lahi-Il-Fatih Society";
     $rootScope.school_reciept_name = "FUO-";
+    $rootScope.school_site = "https://fuo.edu.ng";
   }
