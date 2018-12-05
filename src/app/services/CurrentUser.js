@@ -3,7 +3,7 @@
  */
 angular.module("b")
   .factory("CurrentUser",function(localStorage,$rootScope,$window){
-    var USER_INFO = "portalUser";
+    var USER_INFO = "summitPortalUser";
 
     function initialize(){
       var user = {

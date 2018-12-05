@@ -18,11 +18,11 @@ angular.module('b').run(runBlock).run(run);
       }
     };
 
-    $rootScope.school_name = "Portal";
-    $rootScope.school_long_name = "Portal University, World";
-    $rootScope.school_med_name = "Portal University";
-    $rootScope.school_short_name = "Portal";
-    $rootScope.school_slogan = "The Best Portal System";
-    $rootScope.school_reciept_name = "PRT-";
-    $rootScope.school_site = "https://portal.com";
+    $rootScope.school_name = "Summit";
+    $rootScope.school_long_name = "Summit University, Offa";
+    $rootScope.school_med_name = "Summit University";
+    $rootScope.school_short_name = "Summit";
+    $rootScope.school_slogan = "";
+    $rootScope.school_reciept_name = "SUNO-";
+    $rootScope.school_site = "https://summituniversity.edu.ng";
   }
