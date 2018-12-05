@@ -11,6 +11,7 @@ angular.module('b')
     vm.jme = false;
     vm.de = false;
     vm.conversion = false;
+    vm.ft = false;
     vm.pt = false;
 
     function selectPayment(id){
@@ -29,6 +30,7 @@ angular.module('b')
         jme: vm.jme,
         de: vm.de,
         conversion: vm.conversion,
+        ft: vm.ft,
         pt: vm.pt
       };
       PaymentToMajor.add(data).$promise

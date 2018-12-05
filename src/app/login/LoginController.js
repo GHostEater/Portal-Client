@@ -4,7 +4,7 @@
 angular.module("b")
   .controller("LoginController",function(Auth,$state,$filter,CurrentUser,toastr,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Dean,Session,Semester,SystemLog,StudentAffairs){
     var vm = this;
-    $rootScope.flex = 'no';
+    $rootScope.flex = 'yes';
     vm.user = CurrentUser.profile;
     vm.semester = Semester.get();
     vm.login = login;

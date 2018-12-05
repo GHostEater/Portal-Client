@@ -30,6 +30,7 @@ div(ng-controller="PaymentToMajorCtrl as vm")
                   th JME
                   th D/E
                   th Conversion
+                  th Full Time Time
                   th Part Time
                   th Actions
                 tbody
@@ -39,6 +40,7 @@ div(ng-controller="PaymentToMajorCtrl as vm")
                     td.text-white(ng-class="{'bg-success':payment.jme == true,'bg-danger':payment.jme == false}") {{payment.jme}}
                     td.text-white(ng-class="{'bg-success':payment.de == true,'bg-danger':payment.de == false}") {{payment.de}}
                     td.text-white(ng-class="{'bg-success':payment.conversion == true,'bg-danger':payment.conversion == false}") {{payment.conversion}}
+                    td.text-white(ng-class="{'bg-success':payment.ft == true,'bg-danger':payment.ft == false}") {{payment.ft}}
                     td.text-white(ng-class="{'bg-success':payment.pt == true,'bg-danger':payment.pt == false}") {{payment.pt}}
                     td
                       button.btn.btn-xs.btn-danger(ng-click="vm.remove(payment.id)") Delete

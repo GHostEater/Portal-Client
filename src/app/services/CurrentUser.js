@@ -2,7 +2,7 @@
  * Created by GHostEater on 19-Feb-16.
  */
 angular.module("b")
-  .factory("CurrentUser",function(localStorage){
+  .factory("CurrentUser",function(localStorage,$rootScope,$window){
     var USER_INFO = "portalUser";
 
     function initialize(){
@@ -70,6 +70,9 @@ angular.module("b")
     }
     function logOut(){
       localStorage.remove(USER_INFO);
+      initialize();
+      delete $rootScope.user;
+      $window.location.reload();
     }
     var profile = initialize();
     return{

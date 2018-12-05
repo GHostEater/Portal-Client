@@ -3,16 +3,32 @@
     .panel-title Dashboard for Student
   .panel-body
     ul.nav.nav-pills.nav-stacked(ng-show="vm.access_fee_paid")
-      li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
-        a(ui-sref='courseReg') Course Registration
-      li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
-        a(ui-sref='courseSlip') Course Slip
+      li.dropdown
+        a.dropdown-toggle(data-toggle="dropdown") Course Registration
+        ul.dropdown-menu
+          li(ui-sref-active="active")
+            a(ui-sref='reg_info_fresh') Information for Fresh Students
+          li(ui-sref-active="active")
+            a(ui-sref='reg_info_returning') Information for Returning Students
+          li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
+            a(ui-sref='courseReg') Register Courses
+          li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
+            a(ui-sref='courseSlip') View/Print Completed Course Form
       li(ui-sref-active="active")
         a(ui-sref='tuition_fee_clearance') Eligibility and Clearance
       li(ui-sref-active="active" ng-hide="vm.user.student.level.level == 100")
-        a(ui-sref='courseReview') Course Lecturer Evaluations
+        a(ui-sref='courseReview') Lecturers Assessment
       li(ui-sref-active="active")
-        a(ui-sref='studentResult') Result
+        a(ui-sref='studentResult') View/Print Result
     ul.nav.nav-pills.nav-stacked
+      li.dropdown
+        a.dropdown-toggle(data-toggle="dropdown") Payments
+        ul.dropdown-menu
+          li(ui-sref-active="active")
+            a(ui-sref='student_payment') Current Charges & {{vm.tuition_fee.name}} Information
+          li(ui-sref-active="active")
+            a(ui-sref='payment_history') Payment History
+          li(ui-sref-active="active")
+            a(ui-sref='payment_validation') Payment Re-Validation
       li(ui-sref-active="active")
-        a(ui-sref='student_payment') Payments
+        a(ui-sref='student_setup') Personal Setup

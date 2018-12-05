@@ -28,7 +28,7 @@ angular.module('b')
       }
     }
     function general() {
-      if(!CurrentUser.profile.id || !$rootScope.user.id){
+      if(CurrentUser.profile.id === "" || null || undefined){
         $state.go("login");
         toastr.error('Unauthorized Access');
       }

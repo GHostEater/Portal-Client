@@ -2,11 +2,12 @@
 div(ng-controller="LoginController as vm")
   .row
     section.col-sm-4.col-sm-offset-4.text-center
+      p Note: Your Login ID is your Matriculation Number or your Application Form Number (if you don't have Matriculation Number Yet)
       form(name="vm.form")
         .panel.panel-success
           .panel-heading Login
           .panel-body
-            small.text-danger(ng-show="vm.error === true") Username/Password is Incorrect
-            input.form-control(type="text" ng-model="vm.username" placeholder="Username" required)
+            small.text-danger(ng-show="vm.error === true") Login ID/Password is Incorrect
+            input.form-control(type="text" ng-model="vm.username" placeholder="Login ID" required)
             input.form-control(type="password" ng-model="vm.password" placeholder="Password" required)
             button.btn.btn-primary.form-control(ng-click="vm.login(vm.username,vm.password)") Login
