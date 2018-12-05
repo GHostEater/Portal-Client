@@ -13,7 +13,6 @@ angular.module('b')
     vm.partial_pay2 = 0;
     vm.custom_pay = false;
     vm.custom_pay2 = false;
-    vm.check_status = check_status;
     PaymentType.query().$promise
       .then(function (data) {
         vm.tuition_fee = lodash.find(data,{tuition:true});
@@ -72,12 +71,6 @@ angular.module('b')
             vm.paid = Number(vm.tuition_total);
             vm.paid_percentage = (vm.paid/Number(vm.tuition_total))*100;
           }
-        });
-    }
-    function check_status(pay) {
-      Payment.get_status({rrr:pay.rrr}).$promise
-        .then(function () {
-          getPayments();
         });
     }
   });

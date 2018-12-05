@@ -1,0 +1,43 @@
+//Created by P-FLEX MONEY on 03-Dec-18.
+div(ng-controller="PaymentHistoryCtrl as vm").row
+  .col-sm-12
+    .panel.panel-info
+      .panel-heading
+        .panel-title Payment History
+      .panel-body
+        .row.content-vert
+          .col-sm-6
+            input.form-control.input-sm(ng-model="vm.search" placeholder="Search")
+        .table-responsive
+          table.table.table-striped.table-bordered
+            thead
+              th Name
+              th Order ID
+              th Remita Retrieval Reference
+              th Amount
+              th Session
+              th Level
+              th Date
+              th Status
+              th Action
+            tbody
+              tr(ng-repeat="payment in vm.payments | filter:vm.search")
+                td {{payment.payment_type.name}}
+                td {{payment.order_id}}
+                td {{payment.rrr}}
+                td(ng-show="payment.amount") ₦{{payment.amount | number:'0'}}
+                td(ng-hide="payment.amount") ₦{{payment.payment_type.amount | number:'0'}}
+                td {{payment.session.session}}
+                td {{payment.level.level}}
+                td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+                td(ng-class="{'bg-success':payment.paid === true,'bg-danger':payment.paid === false && !payment.rrr && payment.status != 'Pending','bg-warning':(payment.rrr || payment.status == 'Pending') && payment.paid == false}").text-white
+                  span(ng-show="payment.status") {{payment.status}}
+                  br(ng-show="payment.status")
+                  br(ng-show="!payment.status")
+                  span Paid: {{payment.paid}}
+                td
+                  div(ng-show="payment.paid === false")
+                    button.btn.btn-xs.btn-success(ng-click="vm.check_status(payment)" ) Re-Validate Transaction
+                    a.btn.btn-xs.btn-primary(ui-sref="payment_reference({id:payment.id})") View/Print Payment Reference
+                  div(ng-show="payment.paid === true")
+                    a.btn.btn-xs.btn-primary(ui-sref="payment_receipt({id:payment.id})") View/Print Payment Receipt
