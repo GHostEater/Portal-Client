@@ -1,6 +1,6 @@
 //Created by GHostEater on 24-Apr-17.
 div(ng-controller="ResultEditRequestCtrl as vm").row
-  section.col-sm-6
+  section.col-sm-12
     .panel.panel-info
       .panel-heading
         .panel-title Pending Edit Requests
@@ -47,3 +47,29 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
                 td {{request.handled_by.last_name | uppercase}}, {{request.handled_by.first_name}}
                 td
                   button.btn.btn-sm.btn-danger(ng-click="vm.disable(request.id)") Disable Edit
+                  button.btn.btn-sm.btn-danger(ng-click="vm.process(request.id,2,vm.user.id)") Decline
+  section.col-sm-6
+    .panel.panel-warning
+      .panel-heading
+        .panel-title Declined Edit Requests
+      .panel-body
+        .table-responsive
+          table.table.table-condensed.table-striped.table-bordered
+            thead
+              th S/N
+              th Name
+              th Department
+              th College
+              th Date
+              th Handled By
+              th Actions
+            tbody
+              tr(ng-repeat="(key,request) in vm.requests | orderBy: '+status' | filter:{status:2,lecturer:{dept:{college:{name:vm.user.dean.college.name}}}}")
+                td {{key + 1}}
+                td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
+                td {{request.lecturer.dept.name}}
+                td {{request.lecturer.dept.college.acronym}}
+                td {{request.date | date:'dd-MMM-yyyy hh:mm:ss a'}}
+                td {{request.handled_by.last_name | uppercase}}, {{request.handled_by.first_name}}
+                td
+                  button.btn.btn-sm.btn-success(ng-click="vm.process(request.id,1,vm.user.id)") Approve
