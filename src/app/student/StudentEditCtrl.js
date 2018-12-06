@@ -3,10 +3,11 @@
  * Created by GHostEater on 01-Mar-18.
  */
 angular.module('b')
-  .controller('StudentEditCtrl',function ($stateParams,CurrentUser,Student,User,Access,College,Major,Dept,ModeOfEntry,Level,Upload,Host,$timeout,toastr,$state) {
+  .controller('StudentEditCtrl',function ($stateParams,CurrentUser,Student,User,Access,College,Major,Dept,ModeOfEntry,Level,Upload,Host,$timeout,toastr,$window) {
     Access.general();
     var vm = this;
     vm.change_pass = false;
+    vm.change_sign = false;
     vm.submit = submit;
     vm.upload_file = upload_file;
     vm.uploaded = false;
@@ -65,7 +66,7 @@ angular.module('b')
           else{
             toastr.success("Student Profile Edited");
             vm.uploaded = true;
-            $state.go("home");
+            $window.location.back();
           }
         })
         .catch(function () {
@@ -79,7 +80,8 @@ angular.module('b')
         url: Host.host+'/user/'+vm.user.id+'/',
         method: 'patch',
         data: {
-          img: Upload.dataUrltoBlob(vm.pass, vm.p.name)
+          img: Upload.dataUrltoBlob(vm.pass, vm.p.name),
+          sign: vm.sign
         }
       });
       vm.img.upload.then(function (response) {
@@ -88,7 +90,7 @@ angular.module('b')
           toastr.success("Files uploaded");
           toastr.success("Student Profile Edited");
           vm.uploaded = true;
-          $state.go("home");
+          $window.location.back();
         });
         },
         function (response) {
