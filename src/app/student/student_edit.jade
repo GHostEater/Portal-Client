@@ -8,9 +8,12 @@ div(ng-controller="StudentEditCtrl as vm").row
       .form-group(ng-show="vm.u.type == 1")
         .col-sm-4
           input.input-sm.form-control(type="text" name="matricNo" ng-model="vm.user.username" placeholder="Matric Number")
-      .form-group(ng-show="vm.u.type == 1 || vm.student.edit === false")
+      .form-group
         .col-sm-4
           input.input-sm.form-control(type="password" name="password" ng-model="vm.user.password" placeholder="Password")
+      .form-group
+        .col-sm-4
+          input.input-sm.form-control(type="tex" name="mail_prefix" ng-model="vm.user.mail_prefix" placeholder="Institution Mail Username")
       .form-group(ng-show="vm.u.type == 1")
         .col-sm-4
           input.input-sm.form-control(type="text" name="last_name" ng-model="vm.user.last_name" placeholder="Last Name")
@@ -71,7 +74,7 @@ div(ng-controller="StudentEditCtrl as vm").row
           input.input-sm.form-control(type="text" name="nextOfKin" ng-model="vm.user.next_kin" placeholder="Next of Kin")
         .col-sm-12
           input.input-sm.form-control(type="text" name="nextOfKinAddress" ng-model="vm.user.next_kin_address" placeholder="Next of Kin Address")
-        .col-sm-12
+        .col-sm-12(ng-hide="vm.u.type == 7")
           input.input-sm.form-control(type="text" name="parentNo" ng-model="vm.student.parent_no" placeholder="Parent Phone Number")
         .col-sm-12(ng-hide="vm.u.type == 7")
           input.input-sm.form-control(type="text" name="parentEmail" ng-model="vm.student.parent_email" placeholder="Parent E-Mail Address")
@@ -149,6 +152,20 @@ div(ng-controller="StudentEditCtrl as vm").row
                   input(type="file" ngf-select ng-model="vm.p" name="file" accept="image/*" ngf-max-size="200KB" ngf-model-invalid="errorFile" ng-click="vm.cropped = false")
                 .col-sm-12
                   button.btn.btn-sm.btn-default(ng-click="vm.change_pass = false") Cancel
+              .col-sm-12(ng-show="vm.change_sign === false")
+                img(ng-src="{{vm.sign}}" width="300px")
+                br
+                span Signature Photograph
+                br
+                button.btn.btn-xs.btn-warning(ng-click="vm.change_sign = true") Replace Signature Photograph
+              .col-sm-12(ng-show="vm.change_sign === true")
+                img(ngf-thumbnail="vm.sign" width="100px")
+                .col-sm-8
+                  label.control-label Signature Photograph(MAX= 200KB)
+                .col-sm-4
+                  input(type="file" ngf-select ng-model="vm.sign" name="file" accept="image/*" ngf-max-size="200KB" ngf-model-invalid="errorFile")
+                .col-sm-12
+                  button.btn.btn-sm.btn-default(ng-click="vm.change_sign = false") Cancel
       .col-sm-12
         .text-center
           button.btn.btn-primary(ng-click="vm.submit()") Save
