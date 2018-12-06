@@ -2,7 +2,7 @@
 div(ng-controller="StudentResultViewController as vm")
   .row(ng-show="vm.user.examOfficer")
     .col-sm-12
-      button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.user.lecturer.id)" ng-show="vm.perm.status == null") Request Edit Privileges
+      button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.user.lecturer.id)" ng-show="vm.perm.status == null || vm.perm.status == 2") Request Edit Privileges
   .panel.panel-info(ng-repeat="(key,res) in vm.results | orderBy:'-session'")
     .panel-heading
       h3.panel-title
