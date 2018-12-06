@@ -1,6 +1,6 @@
 //Created by GHostEater on 6/12/2016.
 div(ng-controller="StudentResultViewController as vm")
-  .row(ng-hide="vm.user.type === '1' || vm.user.type === '2' || vm.user.type === '8' || ((vm.user.hod || vm.user.levelAdviser) && !vm.user.examOfficer)")
+  .row(ng-show="vm.user.examOfficer")
     .col-sm-12
       button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.user.lecturer.id)" ng-show="vm.perm.status == null") Request Edit Privileges
   .panel.panel-info(ng-repeat="(key,res) in vm.results | orderBy:'-session'")
