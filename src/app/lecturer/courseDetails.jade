@@ -3,7 +3,7 @@ div(ng-controller="CourseDetailsCtrl as vm")
   .row.content
     .col-sm-4
       input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.search")
-    button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.user.lecturer.id)" ng-show="vm.perm.status == null && vm.user.type != '1'") Request Edit Privileges
+    button.btn.btn-sm.btn-warning(ng-click="vm.request(vm.user.lecturer.id)" ng-show="(vm.perm.status == null || vm.perm.status == 2) && vm.user.type != '1'") Request Edit Privileges
     button.btn.btn-sm.btn-primary(ng-click="vm.getDetails()") Load Course Details
   .panel.panel-primary
     .panel-heading Course Details for {{vm.course.course.code}} {{vm.course.course.title}} {{vm.session.session}} Session
