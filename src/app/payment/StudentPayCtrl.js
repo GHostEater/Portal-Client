@@ -19,6 +19,7 @@ angular.module('b')
     vm.reload = reload;
     vm.check_status = check_status;
     vm.generateRrr = generateRrr;
+    vm.back = back;
 
     Session.getCurrent().$promise
       .then(function (data) {
@@ -47,17 +48,42 @@ angular.module('b')
           Payment.student({student:vm.user.student.id}).$promise
             .then(function (data) {
               vm.payments = data;
-              vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
-              if(!vm.payment){
-                vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},session:{id:vm.session.id}});
-                if(!vm.payment){
-                  vm.payment = {};
-                  vm.payment.paid = false;
-                  vm.payment.payment_type = {};
-                }
+              if(vm.payment_type.tuition === true){
+                Payment.tuition_fee_clearance({student:vm.user.student.id}).$promise
+                  .then(function (data) {
+                    vm.pay_status = data.pay_status;
+                    if(vm.pay_status.p_total === true){
+                      vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
+                    }
+                    else if(vm.pay_status.p_total === false){
+                      vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id}});
+                      if(!vm.payment){
+                        vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},order_id:vm.order_id,level:{id:vm.user.student.level.id},paid:true});
+                        if(!vm.payment){
+                          vm.payment = {};
+                          vm.payment.paid = false;
+                          vm.payment.payment_type = {};
+                        }
+                      }
+                    }
+                    if(vm.payment.rrr){
+                      hash_pay();
+                    }
+                  });
               }
-              if(vm.payment.rrr){
-                hash_pay();
+              else{
+                vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
+                if(!vm.payment){
+                  vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id}});
+                  if(!vm.payment){
+                    vm.payment = {};
+                    vm.payment.paid = false;
+                    vm.payment.payment_type = {};
+                  }
+                }
+                if(vm.payment.rrr){
+                  hash_pay();
+                }
               }
               generate_order_id();
             });
@@ -109,5 +135,8 @@ angular.module('b')
     function reload(){
       getPayment();
       $rootScope.$broadcast('paymentMade');
+    }
+    function back() {
+      $window.history.back();
     }
   });

@@ -38,6 +38,6 @@ div(ng-controller="PaymentHistoryCtrl as vm").row
                 td
                   div(ng-show="payment.paid === false")
                     button.btn.btn-xs.btn-success(ng-click="vm.check_status(payment)" ) Re-Validate Transaction
-                    a.btn.btn-xs.btn-primary(ui-sref="payment_reference({id:payment.id})") View/Print Payment Reference
+                    a.btn.btn-xs.btn-primary(ui-sref="payment_reference({id:payment.id})") View/Print Remita Payment Reference
                   div(ng-show="payment.paid === true")
                     a.btn.btn-xs.btn-primary(ui-sref="payment_receipt({id:payment.id})") View/Print Payment Receipt
