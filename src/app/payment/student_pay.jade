@@ -23,13 +23,14 @@ div(ng-controller="StudentPayCtrl as vm")
               input(name="hash" value="{{vm.hash}}" type="hidden")
               input(name="rrr" value="{{vm.payment.rrr}}" type="hidden")
               input(name="responseurl" value="{{vm.remitaFinalResponse}}" type="hidden")
-              input.btn.btn-success(type='submit', name='submit_btn', value='Pay Via Remita', ng-show="vm.remita == false")
-            button.btn.btn-success(ng-click="vm.check_status(vm.payment)" ng-show="vm.remita == false") Check Remita Transaction Status
-          button.btn.btn-primary(ng-click="vm.reload()" ng-show="vm.remita == true") Refresh
+              input.btn.btn-success(type='submit', name='submit_btn', value='Pay Via Remita')
+            button.btn.btn-success(ng-click="vm.check_status(vm.payment)") Check Remita Transaction Status
+            a.btn.btn-primary(ui-sref="payment_reference({id:vm.payment.id})") View/Print Remita Payment Reference
           .row.content-vert
-            a.btn.btn-primary(ui-sref="student_payment" ng-show="vm.remita == true") Go Back to Payments
+            a.btn.btn-primary(ng-click="vm.back()") Go Back
 
     .col-sm-6.col-sm-offset-3.text-center(ng-show="vm.payment.paid === true")
       h4 {{vm.payment_type.name}}: ₦{{vm.payment_type.amount_orig | number:'0'}}
       h4 You have already paid for this
-      a.btn.btn-primary(ui-sref="student_payment") Go Back to Payments
+      a.btn.btn-primary(ng-click="vm.back()") Go Back
+      a.btn.btn-primary(ui-sref="payment_receipt({id:vm.payment.id})") View/Print Receipt
