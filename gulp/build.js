@@ -122,7 +122,7 @@ function getFtpConnection() {
  *
  * Usage: `FTP_USER=someuser FTP_PWD=somepwd gulp ftp-deploy`
  */
-gulp.task('ftp-deploy', function() {
+gulp.task('ftp-deploy', ['build'], function() {
   var conn = getFtpConnection();
 
   return gulp
