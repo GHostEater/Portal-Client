@@ -96,9 +96,9 @@ gulp.task('clean', function () {
 });
 
 /** Configuration **/
-var user = 'fuoedung';
-var password = 'Adeniyi3116#';
-var host = '216.120.247.65';
+var user = 'ipadqqdkl6w7';
+var password = 'Adeshin@10788';
+var host = 'summituniversity.edu.ng';
 var port = 21;
 var p = path.join(conf.paths.dist,'./**/*');
 var localFilesGlob = [p];
