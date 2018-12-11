@@ -49,7 +49,8 @@
     "main-bower-files": "~2.9.0",
     "phantomjs": "~1.9.18",
     "uglify-save-license": "~0.4.1",
-    "wiredep": "~2.2.2"
+    "wiredep": "~2.2.2",
+    "vinyl-ftp": "latest"
   },
   "engines": {
     "node": ">=0.10.0"
