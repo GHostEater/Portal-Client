@@ -3,7 +3,7 @@
  * Created by P-FLEX MONEY on 03-Dec-18.
  */
 angular.module('b')
-  .controller('PaymentValidationCtrl', function (Payment,CurrentUser,Access) {
+  .controller('PaymentValidationCtrl', function (Payment,CurrentUser,Access,$rootScope) {
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -23,6 +23,7 @@ angular.module('b')
       Payment.get_status({rrr:pay.rrr}).$promise
         .then(function () {
           getPayments();
+          $rootScope.$broadcast('paymentMade');
         });
     }
   });

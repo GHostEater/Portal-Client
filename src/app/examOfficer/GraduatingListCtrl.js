@@ -40,11 +40,11 @@ angular.module('b')
       CourseResultGPA.dept({dept:vm.dept.id,session:vm.session.id}).$promise
         .then(function (data) {
           vm.gps = data;
-          vm.students = lodash.filter(vm.gps,{status:1,student:{major:vm.major,level:vm.level}});
+          vm.students = lodash.filter(vm.gps,{status:1,student:{major:{id:vm.major.id},level:{id:vm.level.id}}});
         });
        Hod.query().$promise
         .then(function (data) {
-          vm.hod = lodash.find(data,{dept:vm.dept});
+          vm.hod = lodash.find(data,{dept:{id:vm.dept.id}});
         });
     }
     vm.print = function(){

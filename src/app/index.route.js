@@ -13,6 +13,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('result_release_status',{url:'/admin/result-release-status/',templateUrl:'app/admin/result_release_status.html'})
     .state('semester',{url:'/admin/semester/',templateUrl:'app/admin/semester.html'})
     .state('session',{url:'/admin/session/',templateUrl:'app/admin/session.html'})
+    .state('id_card',{url:'/admin/id-card/',templateUrl:'app/admin/id_card.html'})
 
     .state('paymentToMajor',{url:'/payment-to-major/',templateUrl:'app/paymentToMajor/paymentToMajor.html'})
 
@@ -46,6 +47,8 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('courseReg',{url:'/student/course-registration/',templateUrl:'app/courseReg/courseReg.html'})
     .state('courseSlip',{url:'/student/course-slip/',templateUrl:'app/courseReg/courseSlip.html'})
     .state('adminCourseSlip',{url:'/admin/course-slip/:userId/',templateUrl:'app/courseReg/adminCourseSlip.html'})
+
+    .state('acceptance',{url:'/student/acceptance-form/',templateUrl:'app/student/acceptance_form.html'})
 
     .state('studentResult',{url:'/student/result/',templateUrl:'app/student/result.html'})
     .state('courseReview',{url:'/student/course-lecturer-evaluations/',templateUrl:'app/courseReview/courseReview.html'})

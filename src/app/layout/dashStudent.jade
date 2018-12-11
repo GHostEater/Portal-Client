@@ -18,6 +18,8 @@
         a(ui-sref='tuition_fee_clearance') Eligibility and Clearance
       li(ui-sref-active="active" ng-hide="vm.user.student.level.level == 100")
         a(ui-sref='courseReview') Lecturers Assessment
+      li(ui-sref-active="active" ng-show="vm.user.student.level.level == 100")
+        a(ui-sref='acceptance') Acceptance Form
       li(ui-sref-active="active")
         a(ui-sref='studentResult') View/Print Result
     ul.nav.nav-pills.nav-stacked

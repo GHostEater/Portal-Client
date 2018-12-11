@@ -6,7 +6,8 @@ div(ng-controller="StudentPayCtrl as vm")
         .panel-heading
           .panel-title {{vm.payment_type.name}} Payment
         .panel-body
-          h5 {{vm.payment_type.name}}: ₦{{vm.payment_type.amount_orig | number:'0'}}
+          h5(ng-show="vm.charges === 0") {{vm.payment_type.name}}: ₦{{vm.payment_type.amount | number:'0'}}
+          h5(ng-show="vm.charges != 0") {{vm.payment_type.name}}: ₦{{vm.payment_type.amount_orig | number:'0'}}
           h5(ng-show="vm.charges != 0") Processing Fee: ₦{{vm.charges | number:'0'}}
           h5(ng-show="vm.charges != 0") Total: ₦{{vm.payment_type.amount | number:'0'}}
           div(ng-show="!vm.payment.rrr")
@@ -26,6 +27,7 @@ div(ng-controller="StudentPayCtrl as vm")
               input.btn.btn-success(type='submit', name='submit_btn', value='Pay Via Remita')
             button.btn.btn-success(ng-click="vm.check_status(vm.payment)") Check Remita Transaction Status
             a.btn.btn-primary(ui-sref="payment_reference({id:vm.payment.id})") View/Print Remita Payment Reference
+            button.btn.btn-primary(ng-click="vm.reload()") Refresh
           .row.content-vert
             a.btn.btn-primary(ng-click="vm.back()") Go Back
 

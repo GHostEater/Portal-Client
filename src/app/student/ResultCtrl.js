@@ -3,7 +3,8 @@
  * Created by GHostEater on 09-May-16.
  */
 angular.module("b")
-  .controller("ResultCtrl",function(CurrentUser,Student,CourseResult,CourseResultGPA,Level,lodash){
+  .controller("ResultCtrl",function(CurrentUser,Student,CourseResult,CourseResultGPA,Level,lodash,Access){
+    Access.student();
     var vm = this;
     vm.res = [];
     vm.user = CurrentUser.profile;
