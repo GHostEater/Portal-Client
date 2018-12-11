@@ -1,0 +1,36 @@
+//Created by P-FLEX MONEY on 11-Dec-18.
+div(ng-controller="AcceptanceFormCtrl as vm").row
+  .col-sm-12.hidden-print
+    a.btn.btn-primary(href="https://fuo.edu.ng/failities/#/admission-status/{{vm.user.email}}" target="__blank") View Admission Status/Pay Acceptance Fee
+  .row.visible-print.text-center
+    span.col-sm-4
+      img(src="img/logo.png" height="40px")
+    span.col-sm-8
+      h3 {{school_long_name}}
+  .col-sm-12.text-center
+    h3 ACCEPTANCE FORM
+  .col-sm-12
+    p The Registrar,
+      br
+      span Fountain University,
+      br
+      span Osogbo
+
+    p Dear Sir,
+    p I&nbsp
+      b {{vm.user.last_name}}, {{vm.user.first_name}}&nbsp
+      span hereby accept the offer of provisional admission to pursue a degree programme in {{vm.user.student.major.name}} in {{vm.user.student.major.dept.college.name}} of the University
+    p I attach herewith a photocopy of the Receipt of Payment for&nbsp
+      b Acceptance Fee&nbsp
+      span for my Admission into the University for {{session.session}} Academic Session
+  .col-sm-6.text-center
+    p __________________________________
+      br
+      span Signature of Student
+  .col-sm-6.text-center
+    p __________________________________
+      br
+      span Date
+  .col-sm-12.hidden-print
+    button.btn.btn-sm.btn-primary(ng-click="vm.print()") Print
+
