@@ -3,6 +3,8 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var gutil = require('gulp-util');
+var ftp = require('vinyl-ftp');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -91,6 +93,42 @@ gulp.task('other', function () {
 
 gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
+});
+
+/** Configuration **/
+var user = 'fuoedung';
+var password = 'Adeniyi3116#';
+var host = '216.120.247.65';
+var port = 21;
+var p = path.join(conf.paths.dist,'./**/*');
+var localFilesGlob = [p];
+var remoteFolder = '/public_html/portal';
+
+// helper function to build an FTP connection based on our configuration
+function getFtpConnection() {
+  return ftp.create({
+    host: host,
+    port: port,
+    user: user,
+    password: password,
+    parallel: 5,
+    log: gutil.log
+  })
+}
+
+/**
+ * Deploy task.
+ * Copies the new files to the server
+ *
+ * Usage: `FTP_USER=someuser FTP_PWD=somepwd gulp ftp-deploy`
+ */
+gulp.task('ftp-deploy', function() {
+  var conn = getFtpConnection();
+
+  return gulp
+    .src(localFilesGlob, { base: './dist', buffer: false })
+    .pipe(conn.newer(remoteFolder)) // only upload newer files
+    .pipe(conn.dest(remoteFolder))
 });
 
 gulp.task('build', ['html', 'fonts', 'other']);
