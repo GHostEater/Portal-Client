@@ -96,13 +96,13 @@ gulp.task('clean', function () {
 });
 
 /** Configuration **/
-var user = 'ipadqqdkl6w7';
-var password = 'Adeshin@10788';
-var host = 'summituniversity.edu.ng';
+var user = "ghost@summituniversity.edu.ng";
+var password = "punch8";
+var host = '160.153.128.3';
 var port = 21;
 var p = path.join(conf.paths.dist,'./**/*');
 var localFilesGlob = [p];
-var remoteFolder = '/public_html/portal';
+var remoteFolder = '/portal';
 
 // helper function to build an FTP connection based on our configuration
 function getFtpConnection() {
@@ -123,6 +123,15 @@ function getFtpConnection() {
  * Usage: `FTP_USER=someuser FTP_PWD=somepwd gulp ftp-deploy`
  */
 gulp.task('ftp-deploy', ['build'], function() {
+  var conn = getFtpConnection();
+
+  return gulp
+    .src(localFilesGlob, { base: './dist', buffer: false })
+    .pipe(conn.newer(remoteFolder)) // only upload newer files
+    .pipe(conn.dest(remoteFolder))
+});
+
+gulp.task('ftp-deploy-only', function() {
   var conn = getFtpConnection();
 
   return gulp
