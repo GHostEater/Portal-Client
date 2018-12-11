@@ -56,13 +56,26 @@ angular.module('b')
                       vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
                     }
                     else if(vm.pay_status.p_total === false){
-                      vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id}});
+                      vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:false});
                       if(!vm.payment){
                         vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},order_id:vm.order_id,level:{id:vm.user.student.level.id},paid:true});
                         if(!vm.payment){
                           vm.payment = {};
                           vm.payment.paid = false;
                           vm.payment.payment_type = {};
+                          PaymentType.tuition_student({student:vm.user.student.id}).$promise
+                            .then(function (data) {
+                              vm.tuition_total = data.total;
+                              vm.tuition_payments = lodash.filter(vm.payments,{payment_type:{tuition:true},level:{id:vm.user.student.level.id},paid:true});
+                              vm.tuition_payments_total = 0;
+                              angular.forEach(vm.tuition_payments,function (pay) {
+                                vm.tuition_payments_total += Number(pay.amount);
+                              });
+                              vm.pay_remaining = Number(vm.tuition_total) - Number(vm.tuition_payments_total);
+                              if(vm.pay_remaining < Number(vm.payment_type.amount)){
+                                vm.payment_type.amount = vm.pay_remaining;
+                              }
+                            });
                         }
                       }
                     }
@@ -130,6 +143,7 @@ angular.module('b')
       Payment.get_status({rrr:pay.rrr}).$promise
         .then(function () {
           getPayment();
+          $rootScope.$broadcast('paymentMade');
         });
     }
     function reload(){
