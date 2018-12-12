@@ -5,6 +5,8 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('login',{url:'/login/',templateUrl:'app/login/login.html'})
     .state('home',{url:'/home/',templateUrl:'app/home/home.html'})
 
+    .state('pass_recovery',{url:'/facil/privi/:rand/pass-rec/:id/:rand2/',templateUrl:'app/login/pass_recovery.html'})
+
     .state('studentUpload',{url:'/student-upload/',templateUrl:'app/student/studentUpload.html'})
     .state('courseToMajor',{url:'/course-to-major/',templateUrl:'app/courseToMajor/courseToMajor.html'})
     .state('log',{url:'/system/logs/',templateUrl:'app/systemLog/logs.html'})

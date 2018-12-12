@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var ftp_conf = require('./ftp-config');
 var gutil = require('gulp-util');
 var ftp = require('vinyl-ftp');
 
@@ -96,9 +97,9 @@ gulp.task('clean', function () {
 });
 
 /** Configuration **/
-var user = "ghost@summituniversity.edu.ng";
-var password = "punch8";
-var host = '160.153.128.3';
+var user = ftp_conf.summit.user;
+var password = ftp_conf.summit.pass;
+var host = ftp_conf.summit.host;
 var port = 21;
 var p = path.join(conf.paths.dist,'./**/*');
 var localFilesGlob = [p];
