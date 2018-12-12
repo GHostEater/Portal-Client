@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var ftp_conf = require('./ftp-config');
 var gutil = require('gulp-util');
 var ftp = require('vinyl-ftp');
 
@@ -96,13 +97,13 @@ gulp.task('clean', function () {
 });
 
 /** Configuration **/
-var user = 'fuoedung';
-var password = 'Adeniyi3116#';
-var host = '216.120.247.65';
+var user = ftp_conf.fountain.user;
+var password = ftp_conf.fountain.pass;
+var host = ftp_conf.fountain.host;
 var port = 21;
 var p = path.join(conf.paths.dist,'./**/*');
 var localFilesGlob = [p];
-var remoteFolder = '/public_html/portal';
+var remoteFolder = '/portal';
 
 // helper function to build an FTP connection based on our configuration
 function getFtpConnection() {
@@ -123,6 +124,15 @@ function getFtpConnection() {
  * Usage: `FTP_USER=someuser FTP_PWD=somepwd gulp ftp-deploy`
  */
 gulp.task('ftp-deploy', ['build'], function() {
+  var conn = getFtpConnection();
+
+  return gulp
+    .src(localFilesGlob, { base: './dist', buffer: false })
+    .pipe(conn.newer(remoteFolder)) // only upload newer files
+    .pipe(conn.dest(remoteFolder))
+});
+
+gulp.task('ftp-deploy-only', function() {
   var conn = getFtpConnection();
 
   return gulp
