@@ -1,6 +1,6 @@
 /* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('CourseRegCtrl',function (CurrentUser,Semester,Session,CourseReview,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
+  .controller('CourseRegCtrl',function (CurrentUser,Semester,Payment,PaymentType,Session,CourseReview,ExtraUnit,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -9,6 +9,9 @@ angular.module('b')
     vm.removeCourse = removeCourse;
     vm.submitCourseForm = submitCourseForm;
     vm.requestLateReg = requestLateReg;
+    vm.request_extra_unit = request_extra_unit;
+    vm.paid_late_reg = false;
+    vm.paid_extra_unit = false;
     vm.regs = [];
     vm.outstandings = [];
     vm.counter = 0;
@@ -48,6 +51,10 @@ angular.module('b')
       .then(function (data) {
         vm.courses = data.courses;
         vm.outstandings = data.outstandings;
+        vm.reg_courses = data.reg_courses;
+        angular.forEach(vm.reg_courses,function (reg) {
+          vm.counter_limit -= Number(reg.course.unit);
+        });
         course_review_restrict();
       });
     }
@@ -67,6 +74,47 @@ angular.module('b')
       CourseReview.restrict({semester:semester,session:session.id,student:vm.user.student.id}).$promise
         .then(function (data) {
           vm.done_reviews = data.done_reviews;
+          getPayment();
+          getExtraUnit();
+        });
+    }
+    function getPayment() {
+      PaymentType.query().$promise
+        .then(function (data) {
+          vm.late_reg_payment_type = lodash.find(data,{tag:'late_reg'});
+          vm.extra_unit_payment_type = lodash.find(data,{tag:'extra_unit'});
+          Payment.student({student:vm.user.student.id}).$promise
+            .then(function (data) {
+              vm.late_reg_payment = lodash.find(data,{payment_type:{id:vm.late_reg_payment_type.id},level:{id:vm.user.student.level.id},paid:true});
+              if(vm.late_reg_payment){
+                vm.paid_late_reg = true;
+              }
+              vm.extra_unit_payment = lodash.find(data,{payment_type:{id:vm.extra_unit_payment_type.id},level:{id:vm.user.student.level.id},paid:true});
+              if(vm.extra_unit_payment){
+                vm.paid_extra_unit = true;
+              }
+            });
+        });
+    }
+    function getExtraUnit() {
+      ExtraUnit.query().$promise
+        .then(function (data) {
+          vm.extra_unit = lodash.find(data,{student:{id:vm.user.student.id},session:{id:vm.session.id},semester:vm.semester.semester});
+          if(vm.extra_unit.status === 1){
+            vm.counter_limit += Number(vm.extra_unit.units);
+          }
+        });
+    }
+    function request_extra_unit() {
+      var options = {
+        templateUrl: 'app/courseReg/request_extra_unit_modal.html',
+        controller: "RequestExtraUnitModalController",
+        controllerAs: 'vm',
+        size: 'sm'
+      };
+      $uibModal.open(options).result
+        .then(function(){
+          getExtraUnit();
         });
     }
     function addCourse(course,from){

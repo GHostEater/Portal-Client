@@ -5,7 +5,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('login',{url:'/login/',templateUrl:'app/login/login.html'})
     .state('home',{url:'/home/',templateUrl:'app/home/home.html'})
 
-    .state('pass_recovery',{url:'/facil/privi/:rand/pass-rec/:id/:rand2/',templateUrl:'app/login/pass_recovery.html'})
+    .state('pass_reset',{url:'/facil/privi/:rand/pass-reset/:id/:rand2/',templateUrl:'app/login/pass_reset.html'})
 
     .state('studentUpload',{url:'/student-upload/',templateUrl:'app/student/studentUpload.html'})
     .state('courseToMajor',{url:'/course-to-major/',templateUrl:'app/courseToMajor/courseToMajor.html'})
@@ -27,6 +27,8 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('editLog',{url:'/admin/result-edit-logs/',templateUrl:'app/academicAffairs/resultEditLog.html'})
     .state('uploadLog',{url:'/admin/result-upload-logs/',templateUrl:'app/academicAffairs/resultUploadLog.html'})
     .state('lateRegRequest',{url:'/admin/late-reg-requests/',templateUrl:'app/academicAffairs/lateRegRequest.html'})
+    .state('extra_unit_request',{url:'/admin/extra-unit-requests/',templateUrl:'app/academicAffairs/extra_unit_request.html'})
+    .state('intra_transfer_request',{url:'/admin/intra-transfer-requests/',templateUrl:'app/academicAffairs/intra_transfer_request.html'})
 
     .state('studentList',{url:'/student-list/',templateUrl:'app/levelAdviser/studentList.html'})
     .state('studentTranscript',{url:'/lecturer/student-transcript/:userId/',templateUrl:'app/levelAdviser/transcript.html'})
@@ -51,6 +53,10 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('adminCourseSlip',{url:'/admin/course-slip/:userId/',templateUrl:'app/courseReg/adminCourseSlip.html'})
 
     .state('acceptance',{url:'/student/acceptance-form/',templateUrl:'app/student/acceptance_form.html'})
+
+    .state('intra_transfer',{url:'/student/intra-university-transfer/',templateUrl:'app/student/intra_transfer.html'})
+
+    .state('grad_status',{url:'/student/graduation-status/',templateUrl:'app/student/grad_status.html'})
 
     .state('studentResult',{url:'/student/result/',templateUrl:'app/student/result.html'})
     .state('courseReview',{url:'/student/course-lecturer-evaluations/',templateUrl:'app/courseReview/courseReview.html'})

@@ -19,6 +19,10 @@ angular.module('b')
       autoWithdraw:{
         url: Host.host+'/student/auto-withdraw/',
         method: 'get'
+      },
+      graduate:{
+        url: Host.host+'/student/graduate/',
+        method: 'post'
       }
 
     });

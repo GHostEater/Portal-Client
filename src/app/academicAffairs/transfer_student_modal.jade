@@ -1,0 +1,28 @@
+//Created by P-FLEX MONEY on 17-Dec-18.
+.modal-header
+  h3.modal-title Transfer Student
+.modal-body
+  h4 Current Info
+  p {{vm.request.student.user.last_name}}, {{vm.request.student.user.first_name}} {{vm.request.student.user.username | matricNo}}
+  p Major: {{vm.request.student.major.name}}
+  p Department: {{vm.request.student.major.dept.name}}
+  p College: {{vm.request.student.major.dept.college.name}}
+  p Level: {{vm.request.student.level.level}}
+  form(name="vm.form").form-horizontal
+    .form-group
+      .col-sm-10
+        select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
+          option(value='') Select Level
+    .form-group
+      .col-sm-4
+        select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+          option(value='') Select College
+      .col-sm-4
+        select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
+          option(value='') Select Department
+      .col-sm-4
+        select.form-control.input-sm(name="major" ng-model="vm.major" required ng-options="major as major.name for major in vm.majors | filter:{dept:{id:vm.dept.id}} track by major.id")
+          option(value="") Select Major
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

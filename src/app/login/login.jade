@@ -1,7 +1,7 @@
 //Created by GHostEater on 19-Feb-16.
 div(ng-controller="LoginController as vm")
   .row
-    section.col-sm-4.col-sm-offset-4.text-center
+    section.col-sm-6.col-sm-offset-3.text-center(ng-show="vm.forgot_pass === false")
       p Note: Your Login ID is your Matriculation Number or your Application Form Number (if you don't have Matriculation Number Yet)
       form(name="vm.form")
         .panel.panel-success
@@ -11,3 +11,19 @@ div(ng-controller="LoginController as vm")
             input.form-control(type="text" ng-model="vm.username" placeholder="Login ID" required)
             input.form-control(type="password" ng-model="vm.password" placeholder="Password" required)
             button.btn.btn-primary.form-control(ng-click="vm.login(vm.username,vm.password)") Login
+            a(ng-click="vm.forgot_pass = true") Forgot Password?
+
+    section.col-sm-6.col-sm-offset-3.text-center(ng-show="vm.forgot_pass === true")
+      p Enter the E-Mail Associated with your Login ID. You will receive an E-Mail with a link to reset your password.
+      div(ng-show="vm.link_sent === 1")
+        .alert-success Reset Link Has Been Sent To Your Email
+      div(ng-show="vm.link_sent === 2")
+        .alert-danger No User With This Email Exists in the System, Try Again
+      form(name="vm.form")
+        .panel.panel-warning
+          .panel-heading Password Reset
+          .panel-body
+            div(ng-show="vm.link_sent === 0 || vm.link_sent === 2")
+              input.form-control(type="text" ng-model="vm.email" placeholder="E-Mail" required)
+              button.btn.btn-primary.form-control(ng-click="vm.forgot(vm.email)") Reset Password
+            a(ng-click="vm.forgot_pass = false") Back to Login

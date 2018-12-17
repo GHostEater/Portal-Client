@@ -1,11 +1,12 @@
 /* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller("CourseSlipCtrl",function(CourseReg,Student,Semester,toastr,lodash,Session,CurrentUser,Access,$uibModal,$window){
+  .controller("CourseSlipCtrl",function(CourseReg,Student,Semester,toastr,lodash,Session,CurrentUser,Access,$uibModal,$window,Payment,PaymentType){
     Access.student();
     var vm = this;
     vm.counter = 0;
     vm.student = CurrentUser.profile.student;
     vm.user = CurrentUser.profile;
+    vm.add_drop = false;
     vm.deleteCourse = deleteCourse;
     vm.print = print;
     Session.getCurrent().$promise
@@ -27,6 +28,20 @@ angular.module("b")
           for(var i = 0; i < vm.courses.length; i++){
             vm.counter += Number(vm.courses[i].course.unit);
           }
+          getPayment();
+        });
+    }
+    function getPayment(){
+      PaymentType.query().$promise
+        .then(function (data) {
+          vm.payment_type = lodash.find(data,{tag:"add_drop"});
+          Payment.student({student:vm.user.student.id}).$promise
+            .then(function (data) {
+              vm.payment = lodash.find(data,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
+              if(vm.payment){
+                vm.add_drop = true;
+              }
+            });
         });
     }
     function deleteCourse(id){

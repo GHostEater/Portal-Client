@@ -1,8 +1,9 @@
 //Created by GHostEater on 16-Aug-16.
 .modal-header
-    h3.modal-title Disable Edit Privileges
+  h3.modal-title(ng-show="vm.tell === 1") Delete Edit Request
+  h3.modal-title(ng-show="vm.tell === 2") Disable Edit Privileges
 .modal-body
-    p.text-center Are You Sure
+  p.text-center Are You Sure
 .modal-footer
-    button.btn.btn-primary(ng-click="vm.ok()") Confirm
-    button.btn.btn-default(ng-click="$dismiss()") Cancel
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

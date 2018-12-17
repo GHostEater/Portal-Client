@@ -1,0 +1,21 @@
+//Created by P-FLEX MONEY on 17-Dec-18.
+div(ng-controller="GradStatusCtrl as vm").row
+  .col-sm-12.text-center(ng-show="vm.student.status != 8")
+    h4 You have not been Graduated Yet.
+    h5 Your Current Status is:&nbsp
+      span(ng-show="vm.student.status == 1") Regular Student
+      span(ng-show="vm.student.status == 2") Exchange Student
+      span(ng-show="vm.student.status == 3") Leave
+      span(ng-show="vm.student.status == 4") Sick
+      span(ng-show="vm.student.status == 5") Suspension
+      span(ng-show="vm.student.status == 6") Deferment
+      span(ng-show="vm.student.status == 7") Withdrawn
+
+  div(ng-show="vm.stude.status == 8")
+    .col-sm-12.text-center.hidden-print
+      h4 You have been Graduated.
+      button.btn.btn-primary(ng-click="vm.print()") Print
+    .visible-print(ng-show="vm.student.mode_of_entry.name != 'D/E 300'")
+      div(ng-include="'app/student/clearance_form_normal.html'")
+    .visible-print(ng-show="vm.student.mode_of_entry.name == 'D/E 300'")
+      div(ng-include="'app/student/clearance_form_conversion.html'")
