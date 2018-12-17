@@ -1,0 +1,11 @@
+//Created by P-FLEX MONEY on 16-Dec-18.
+.modal-header
+  h3.modal-title Request Extra Units
+.modal-body
+  form(name="vm.form").form-horizontal
+    .form-group
+      .col-sm-10
+        input.form-control(type="text" name="units" required ng-model="vm.units" placeholder="Requested Units")
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

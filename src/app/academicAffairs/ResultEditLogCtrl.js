@@ -4,7 +4,7 @@
  */
 angular.module("b")
   .controller("ResultEditLogCtrl", function (CourseResultEditLog,Access) {
-    Access.general();
+    Access.notStudent();
     var vm = this;
     vm.logs = CourseResultEditLog.query();
   });

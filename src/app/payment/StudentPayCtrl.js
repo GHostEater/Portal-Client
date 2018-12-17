@@ -3,7 +3,7 @@
  * Created by GHostEater on 26-Apr-18.
  */
 angular.module('b')
-  .controller('StudentPayCtrl',function (PaymentType,Access,lodash,Host,$sce,$window,Random,$state,$filter,Payment,$stateParams,Session,$location,Remita,toastr,CurrentUser,$rootScope) {
+  .controller('StudentPayCtrl',function (PaymentType,Access,lodash,Host,$sce,$window,Random,$state,$filter,Payment,$stateParams,SystemLog,Session,$location,Remita,toastr,CurrentUser,$rootScope) {
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -130,6 +130,7 @@ angular.module('b')
         .then(function (data) {
           vm.payment = data;
           hash_pay();
+          SystemLog.add("Generated RRR for "+vm.payment.payment_type.name);
         });
     }
     function hash_pay(){

@@ -97,9 +97,9 @@ gulp.task('clean', function () {
 });
 
 /** Configuration **/
-var user = ftp_conf.summit.user;
-var password = ftp_conf.summit.pass;
-var host = ftp_conf.summit.host;
+var user = ftp_conf.config.summit.user;
+var password = ftp_conf.config.summit.pass;
+var host = ftp_conf.config.summit.host;
 var port = 21;
 var p = path.join(conf.paths.dist,'./**/*');
 var localFilesGlob = [p];

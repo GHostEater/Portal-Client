@@ -1,0 +1,91 @@
+//Created by P-FLEX MONEY on 17-Dec-18.
+.col-sm-12
+  .row.visible-print
+    .col-sm-1
+      img.center-block(src="img/logo.png" width="30px")
+    .col-sm-11.text-center
+      h4 {{school_long_name | uppercase}}
+      h5(ng-show="school_slogan != ''") ({{school_slogan}})
+      h6 {{vm.student.major.dept.college.name}}
+    .row
+      .col-sm-2.col-sm-offset-10
+        img.img-responsive.center-block(ng-src="{{vm.user.student.user.img}}" width="60px")
+    .row
+      span.col-sm-4 Session: {{vm.session.session}}
+      span.col-sm-4.col-sm-offset-4 Semester: {{vm.semester.semester}}
+        span(ng-show="vm.semester.semester == 1") st Semester
+        span(ng-show="vm.semester.semester == 2") nd Semester
+    .row
+      span.col-sm-4 Department: {{vm.user.student.major.dept.name}}
+      span.col-sm-4.col-sm-offset-4 Course of Study: {{vm.user.student.major.name}}
+    .row
+      span.col-sm-10 Name:&nbsp
+        b {{vm.user.student.user.last_name | uppercase}},&nbsp
+        span {{vm.user.student.user.first_name}}
+    .row
+      span.col-sm-10 Matric Number: {{vm.user.student.user.username | matricNo}}
+    .row
+      span.col-sm-10 Level: {{vm.user.student.level.level}}
+    .row
+      span.col-sm-10 Mode of Entry: {{vm.user.student.mode_of_entry.name}}
+
+.col-sm-12
+  p
+    i Each Graduating Student is expected to visit the collaborating units/Departments of the university in the order below and get him/her self CLEARED before obtaining Final Clearance from the Academics Affairs Office.
+  hr
+  h3 A. BURSARY
+  p I certify that the above named student has paid all the stipulated fees during the course of his/her programme and was not indebted to the University. He/She is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 B. INTERNAL AUDIT UNIT
+  p I certify that {{vm.student.last_name}}, {{vm.student.first_name}} (Mat. No {{vm.student.user.username | matricNo}}) has paid all the stipulated fees during the course of his/her programme and was not indebted to the University. He/She is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 C. LIBRARY
+  p The above named student was a bonafide registered USER of the facilities in the University Library. The records at our disposal show that he/she is not in any way indebted to the Unit. He/She is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 D. DEPARTMENT
+  p I certify that the above named student has fulfilled all Departmental requirements from him/her in respect to their programme and was not indebted to the Department is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 E. LABORATORY (ONLY SCIENCE STUDENTS)
+  p I certify that the above named student has NOT damaged any/some of the equipment in the Laboratory and was not indebted to the Unit. He/She is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 F. HOSTEL ACCOMMODATION
+  p I certify that the above named student has NOT damaged some or any of the facilities in the student hall of residence throughout his/her stay in the University and he/she is free of any disciplinary case. He/Sge is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 G. SPORTS
+  p I certify that the above named student has NOT damaged some or any of the facilities of the SPORTS UNIT throughout his/her stay in the University and he/she is free of any disciplinary case. He/Sge is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date
+  h3 H. COLLEGE
+  p I certify that the above named student has fulfilled all the College requirements of him/her in respect to his/her programme and was not indebted to the College. He/She is hereby CLEARED.
+  .row.text-center
+    span.col-sm-4 ______________________________________
+    span.col-sm-8 ____________________________________________
+    span.col-sm-4 Name & Rank
+    span.col-sm-8 Signature/Stamp & Date

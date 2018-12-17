@@ -33,7 +33,7 @@ angular.module('b')
         getRequests();
         });
     }
-    function disable(id){
+    function disable(id,tell){
       var options = {
         templateUrl: 'app/academicAffairs/disableEdit.html',
         controller: "DisableEditCtrl",
@@ -42,6 +42,9 @@ angular.module('b')
         resolve:{
           id: function(){
             return id;
+          },
+          tell: function () {
+            return tell
           }
         }
       };

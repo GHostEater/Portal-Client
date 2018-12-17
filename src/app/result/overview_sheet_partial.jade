@@ -21,7 +21,7 @@
         td {{student.gpa | number:2}}
         td {{student.cgpa | number:2}}
         td
-          span(ng-show="student.cgpa >= 4.50") Summit Scholar
+          span(ng-show="student.cgpa >= vm.high_grade.lower_limit") {{school_short_name}} Scholar
         td.hidden-print
           a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
           a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result
@@ -47,7 +47,7 @@
         td {{student.gpa | number:2}}
         td {{student.cgpa | number:2}}
         td
-          span(ng-show="student.cgpa >= 4.50") Summit Scholar
+          span(ng-show="student.cgpa >= vm.high_grade.lower_limit") {{school_short_name}} Scholar
         td.hidden-print
           a.btn.btn-xs.btn-primary(ui-sref="student_view({id:student.info.user.id})") View Details
           a.btn.btn-xs.btn-primary(ui-sref="studentResultView({userId:student.info.user.id})") View Result

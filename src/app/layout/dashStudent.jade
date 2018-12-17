@@ -20,8 +20,12 @@
         a(ui-sref='courseReview') Lecturers Assessment
       li(ui-sref-active="active" ng-show="vm.user.student.level.level == 100")
         a(ui-sref='acceptance') Acceptance Form
+      li(ui-sref-active="active" ng-show="vm.user.student.level.level != 100")
+        a(ui-sref='intra_transfer') Intra-University Transfer
       li(ui-sref-active="active")
         a(ui-sref='studentResult') View/Print Result
+      li(ui-sref-active="active" ng-show="vm.user.student.level.level == 400")
+        a(ui-sref='grad_status') Graduation Status/Print Clearance Form
     ul.nav.nav-pills.nav-stacked
       li.dropdown
         a.dropdown-toggle(data-toggle="dropdown") Payments

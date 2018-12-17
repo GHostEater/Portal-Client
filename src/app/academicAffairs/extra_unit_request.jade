@@ -1,41 +1,49 @@
-//Created by GHostEater on 13-Jul-17.
-div(ng-controller="LateRegRequestCtrl as vm")
+//Created by P-FLEX MONEY on 16-Dec-18.
+div(ng-controller="ExtraUnitRequestCtrl as vm")
   .row
-    section.col-sm-6
+    .col-sm-12
+      button.btn.btn-sm.btn-primary(ng-click="vm.change_view('pending')") Pending
+      button.btn.btn-sm.btn-primary(ng-click="vm.change_view('approved')") Approved
+  .row
+    section.col-sm-12(ng-show="vm.pending")
       .panel.panel-info
         .panel-heading
-          .panel-title Pending Late Registration Requests
+          .panel-title Pending Extra Unit Requests
         .panel-body
           table.table.table-condensed.table-striped.table-bordered
             thead
               th S/N
               th Name
               th Matric No
+              th Units
               th Action
             tbody
               tr(ng-repeat="(key,request) in vm.requests | filter:{status:0}")
                 td {{key + 1}}
                 td {{request.student.user.last_name | uppercase}}, {{request.student.user.first_name}}
                 td {{request.student.user.username | matricNo}}
+                td {{request.units}}
                 td
-                  button.btn.btn-sm.btn-success(ng-click="vm.processLate(request)") Approve
+                  button.btn.btn-sm.btn-success(ng-click="vm.process(request)") Approve
                   button.btn.btn-sm.btn-danger(ng-click="vm.decline(request)") Decline
 
-    section.col-sm-6
+    section.col-sm-12(ng-show="vm.approved")
       .panel.panel-info
         .panel-heading
-          .panel-title Approved Late Registration Requests
+          .panel-title Approved Extra Unit Requests
         .panel-body
           table.table.table-condensed.table-striped.table-bordered
             thead
               th S/N
               th Name
               th Matric No
+              th Units
               th Action
             tbody
               tr(ng-repeat="(key,request) in vm.requests | filter:{status:1}")
                 td {{key + 1}}
                 td {{request.student.user.last_name | uppercase}}, {{request.student.user.first_name}}
                 td {{request.student.user.username | matricNo}}
+                td {{request.units}}
                 td
                   button.btn.btn-sm.btn-danger(ng-click="vm.decline(request)") Decline
