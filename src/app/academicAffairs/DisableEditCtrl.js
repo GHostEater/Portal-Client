@@ -3,8 +3,9 @@
  * Created by GHostEater on 16-Aug-16.
  */
 angular.module("b")
-  .controller("DisableEditCtrl", function(CourseResultEditRequest,id,toastr,$uibModalInstance,SystemLog){
+  .controller("DisableEditCtrl", function(CourseResultEditRequest,id,tell,toastr,$uibModalInstance,SystemLog){
     var vm = this;
+    vm.tell = tell;
 
     vm.ok = function(){
       CourseResultEditRequest.delete({id:id}).$promise

@@ -3,7 +3,7 @@
  * Created by GHostEater on 08-Aug-18.
  */
 angular.module('b')
-  .controller('ResultsCtrl',function(CurrentUser,Hod,LevelAdviser,Dept,College,CourseReg,CourseToMajor,CourseWaving,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,$window,Access,SystemLog,toastr,$filter){
+  .controller('ResultsCtrl',function(CurrentUser,Hod,GradePoint,LevelAdviser,Dept,College,CourseReg,CourseToMajor,CourseWaving,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,$window,Access,SystemLog,toastr,$filter){
     Access.notStudent();
     var vm = this;
     vm.print = print;
@@ -24,6 +24,11 @@ angular.module('b')
     vm.semester = Semester.get();
     vm.status = CourseResult.getReleaseStatus();
     vm.level_advisers = LevelAdviser.query();
+    GradePoint.query().$promise
+      .then(function (data) {
+        vm.grades = lodash.orderBy(data,['upper_limit'],['desc']);
+        vm.high_grade = vm.grades[0];
+      });
     Level.query().$promise
       .then(function (data) {
         vm.levels = data;
@@ -177,7 +182,9 @@ angular.module('b')
         session: vm.session.id,
         semester: vm.semester.semester,
         major: vm.major.id,
-        level: vm.level.id
+        level: vm.level.id,
+        school_med_name: $rootScope.school_med_name,
+        sender_email: 'results@fuo.edu.ng'
       };
       CourseResultGPA.releaseResultAndCgpa(request).$promise
         .then(function(){

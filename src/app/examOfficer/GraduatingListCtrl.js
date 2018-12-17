@@ -3,8 +3,8 @@
  * Created by GHostEater on 29-May-17.
  */
 angular.module('b')
-  .controller("GraduatingListCtrl",function(CurrentUser,Lecturer,Hod,LevelAdviser,Dept,College,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,$window,Access) {
-    Access.general();
+  .controller("GraduatingListCtrl",function(CurrentUser,toastr,Lecturer,GradePoint,Hod,LevelAdviser,Dept,College,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,$window,Access) {
+    Access.notStudent();
     var vm = this;
     vm.getStudents = getStudents;
     vm.user = CurrentUser.profile;
@@ -14,6 +14,7 @@ angular.module('b')
     vm.session = Session.getCurrent();
     vm.semester = Semester.get();
     vm.majors = Major.query();
+    vm.grade_points = GradePoint.query();
     Level.query().$promise
       .then(function(data){
         vm.levels = [];
@@ -46,7 +47,20 @@ angular.module('b')
         .then(function (data) {
           vm.hod = lodash.find(data,{dept:{id:vm.dept.id}});
         });
+       vm.grades = lodash.orderBy(vm.grade_points,['upper_limit'],['desc']);
+       vm.high_grade = vm.grades[0];
     }
+    vm.graduate_students = function () {
+      var request = [];
+      angular.forEach(vm.students,function (student) {
+        var std = {id:student.student.id};
+        request.push(std);
+      });
+      Student.graduate(request).$promise
+        .then(function () {
+          toastr.success("Students Graduated");
+        });
+    };
     vm.print = function(){
       $window.print();
     };

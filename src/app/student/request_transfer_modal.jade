@@ -1,0 +1,21 @@
+//Created by P-FLEX MONEY on 17-Dec-18.
+.modal-header
+  h3.modal-title Request Intra-University Transfer
+.modal-body
+  form(name="vm.form").form-horizontal
+    .form-group
+      .col-sm-10
+        textarea.form-control.input-sm(name="reason" required ng-model="vm.reason" placeholder="Reason for Transfer Request")
+    .form-group
+      .col-sm-4
+        select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
+          option(value='') Select College
+      .col-sm-4
+        select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
+          option(value='') Select Department
+      .col-sm-4
+        select.form-control.input-sm(name="major" ng-model="vm.major" required ng-options="major as major.name for major in vm.majors | filter:{dept:{id:vm.dept.id}} track by major.id")
+          option(value="") Select Major
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.ok()") Confirm
+  button.btn.btn-default(ng-click="$dismiss()") Cancel

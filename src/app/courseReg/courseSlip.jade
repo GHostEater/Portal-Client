@@ -28,20 +28,22 @@ div(ng-controller="CourseSlipCtrl as vm").row
         span.col-sm-10 Matric Number: {{vm.user.student.user.username | matricNo}}
       .row
         span.col-sm-10 Level: {{vm.user.student.level.level}}
+  .col-sm-12.hidden-print(ng-show="vm.add_drop === false")
+    button.btn.btn-sm.btn-primary(ui-sref="student_pay({id:vm.payment_type.id})") Pay {{vm.payment_type.name}}
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code
       th Course Title
       th Unit
       th Type
-      th.hidden-print Action
+      th.hidden-print(ng-show="vm.add_drop === true") Action
     tbody
       tr(ng-repeat="course in vm.courses | orderBy: '+code'")
         td {{course.course.code}}
         td {{course.course.title}}
         td {{course.course.unit}}
         td {{course.course.type}}
-        td.hidden-print
+        td.hidden-print(ng-show="vm.add_drop === true")
           button.btn.btn-xs.btn-danger(ng-click="vm.deleteCourse(course.id)") Delete Course
   span.row Total Units Registered: {{vm.counter}}
   .row.visible-print

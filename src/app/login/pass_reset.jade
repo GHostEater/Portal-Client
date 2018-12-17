@@ -1,0 +1,12 @@
+//Created by P-FLEX MONEY on 13-Dec-18.
+div(ng-controller="PassResetCtrl as vm").row
+  section.col-sm-6.col-sm-offset-3.text-center
+    p Enter Your New Password in both fields.
+    form(name="vm.form")
+      .panel.panel-warning
+        .panel-heading Password Reset
+        .panel-body
+          small.text-danger(ng-show="vm.error === true") Passwords Don't Match
+          input.form-control(type="password" ng-model="vm.password" placeholder="Password" required)
+          input.form-control(type="password" ng-model="vm.password2" placeholder="Password Again" required)
+          button.btn.btn-primary.form-control(ng-click="vm.reset_pass()") Reset Password

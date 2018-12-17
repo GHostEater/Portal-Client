@@ -35,6 +35,7 @@ angular.module('b')
         delete vm.user.password;
       }
         delete vm.user.img;
+        delete vm.user.sign;
         User.patch(vm.user).$promise
           .then(function (data) {
             vm.user = data;

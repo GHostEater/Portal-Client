@@ -2,12 +2,15 @@
  * Created by GHostEater on 19-Feb-16.
  */
 angular.module("b")
-  .controller("LoginController",function(Auth,$state,$filter,CurrentUser,toastr,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Dean,Session,Semester,SystemLog,StudentAffairs){
+  .controller("LoginController",function(Auth,User,$state,$filter,CurrentUser,toastr,Random,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Dean,Session,Semester,SystemLog,StudentAffairs){
     var vm = this;
     $rootScope.flex = 'yes';
+    vm.forgot_pass = false;
+    vm.link_sent = 0;
     vm.user = CurrentUser.profile;
     vm.semester = Semester.get();
     vm.login = login;
+    vm.forgot = forgot;
     if(CurrentUser.profile.loggedIn){
       $rootScope.flex = 'yes';
       $state.go('home');
@@ -105,5 +108,34 @@ angular.module("b")
             }
           });
       }
+    }
+    function forgot() {
+      var rand = Random.string(13);
+      var rand2 = Random.string(13);
+      User.email({email:vm.email}).$promise
+        .then(function (data) {
+          var link = $state.href('pass_reset',{rand:rand,rand2:rand2,id:data.id});
+          var request = {
+            link: link,
+            school_med_name: $rootScope.school_med_name,
+            email: vm.email,
+            sender_email: 'no_reply@fuo.edu.ng'
+          };
+          Auth.pass_reset(request).$promise
+            .then(function (data) {
+              if(data.user_exists === true){
+                vm.link_sent = 1;
+                toastr.success("Reset Link Has Been Sent To Your Email");
+              }
+              else{
+                vm.link_sent = 2;
+                toastr.error("No User With This Email Exists in the System, Try Again");
+              }
+            });
+        })
+        .catch(function () {
+          vm.link_sent = 2;
+          toastr.error("No User With This Email Exists in the System, Try Again");
+        });
     }
   });
