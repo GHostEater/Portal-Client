@@ -6,6 +6,6 @@ div(ng-controller="IntraTransferCtrl as vm").row
     h4 Processing Intra-University Transfer Request... Please Contact Academic for Further instructions and Check back later.
   .col-sm-12.text-center(ng-show="vm.transfer.status === 1 && vm.paid_transfer === false")
     h4 Intra-University Transfer Request Approved... Payment Required
-    button.btn.btn-sm.btn-primary(ui-sref="student_pay({id:vm.payment_type.id})") Pay {{vm.payment_type.name}}
+    button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.payment_type.id})") Pay {{vm.payment_type.name}}
   .col-sm-12.text-center(ng-show="vm.transfer.status === 1 && vm.paid_transfer === true")
     h4 Intra-University Transfer Request Has Been Approved and Payment Made. Please Contact Academic for Further instructions and Transfer Finalisation

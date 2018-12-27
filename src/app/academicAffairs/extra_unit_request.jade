@@ -1,6 +1,6 @@
 //Created by P-FLEX MONEY on 16-Dec-18.
 div(ng-controller="ExtraUnitRequestCtrl as vm")
-  .row
+  .row.text-center.content-vert
     .col-sm-12
       button.btn.btn-sm.btn-primary(ng-click="vm.change_view('pending')") Pending
       button.btn.btn-sm.btn-primary(ng-click="vm.change_view('approved')") Approved
@@ -28,7 +28,7 @@ div(ng-controller="ExtraUnitRequestCtrl as vm")
                   button.btn.btn-sm.btn-danger(ng-click="vm.decline(request)") Decline
 
     section.col-sm-12(ng-show="vm.approved")
-      .panel.panel-info
+      .panel.panel-success
         .panel-heading
           .panel-title Approved Extra Unit Requests
         .panel-body

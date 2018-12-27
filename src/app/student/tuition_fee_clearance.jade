@@ -57,7 +57,7 @@ div(ng-controller="TuitionFeeClearanceCtrl as vm").row
           th Date
           th Status
         tbody
-          tr(ng-repeat="payment in vm.payments | filter:vm.search")
+          tr(ng-repeat="payment in vm.payments | filter:vm.search | orderBy:'-date'")
             td {{payment.payment_type.name}}
             td {{payment.order_id}}
             td {{payment.rrr}}

@@ -27,6 +27,8 @@ angular.module('b')
         });
     }
     $rootScope.$on('paymentMade',function(){
-      AccessFee();
+      if(vm.user.student){
+          AccessFee();
+        }
     })
   });

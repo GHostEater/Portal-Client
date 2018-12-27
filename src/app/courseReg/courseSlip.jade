@@ -28,8 +28,8 @@ div(ng-controller="CourseSlipCtrl as vm").row
         span.col-sm-10 Matric Number: {{vm.user.student.user.username | matricNo}}
       .row
         span.col-sm-10 Level: {{vm.user.student.level.level}}
-  .col-sm-12.hidden-print(ng-show="vm.add_drop === false")
-    button.btn.btn-sm.btn-primary(ui-sref="student_pay({id:vm.payment_type.id})") Pay {{vm.payment_type.name}}
+  .col-sm-12.content-vert.hidden-print(ng-show="vm.add_drop === false")
+    button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.payment_type.id})") Pay {{vm.payment_type.name}}
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code

@@ -23,7 +23,7 @@ div(ng-controller="StudentResultViewController as vm")
           th Grade
           th(ng-show="(vm.user.examOfficer && vm.perm.status == 1) || vm.user.type === '1'") Actions
         tbody
-          tr(ng-repeat="result in res.result | orderBy:'+code'")
+          tr(ng-repeat="result in res.result | orderBy:'+course.code'")
             td {{result.course.code}}
             td {{result.course.title}}
             td {{result.course.unit}}
