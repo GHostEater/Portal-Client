@@ -49,7 +49,7 @@ div(ng-controller="AdminStudentPaymentCtrl as vm").row
               th Status
               th Action
             tbody
-              tr(ng-repeat="payment in vm.payments | filter:vm.search")
+              tr(ng-repeat="payment in vm.payments | filter:vm.search | orderBy:'-date'")
                 td {{payment.payment_type.name}}
                 td {{payment.order_id}}
                 td {{payment.rrr}}

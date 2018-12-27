@@ -7,6 +7,10 @@ angular.module("b")
       save:{
         method: 'post',
         url: Host.host+"/intra-uni/new/"
+      },
+      transfer_student:{
+        method: 'post',
+        url: Host.host+"/intra-uni/transfer-student/"
       }
     });
   });

@@ -18,7 +18,7 @@ angular.module('b')
     function getLateReg() {
      LateReg.query().$promise
       .then(function (data) {
-        vm.requests = lodash.filter(data,{session:{id:vm.session.id},semester:vm.semester.semester});
+        vm.requests = lodash.filter(data,{session:{id:vm.session.id},semester:Number(vm.semester.semester)});
       });
     }
     vm.processLate = processLate;

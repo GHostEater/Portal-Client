@@ -6,6 +6,7 @@ angular.module('b')
   .controller('ExtraUnitRequestCtrl', function (CurrentUser,ExtraUnit,lodash,toastr,SystemLog,Access,Session,Semester) {
     Access.notStudent();
     var vm = this;
+    vm.user = CurrentUser.profile;
     vm.pending = true;
     vm.approved = false;
     vm.paid = false;
@@ -27,7 +28,7 @@ angular.module('b')
     function getExtraUnit() {
      ExtraUnit.query().$promise
       .then(function (data) {
-        vm.requests = lodash.filter(data,{session:{id:vm.session.id},semester:vm.semester.semester});
+        vm.requests = lodash.filter(data,{session:{id:vm.session.id},semester:Number(vm.semester.semester)});
       });
     }
 
@@ -55,19 +56,11 @@ angular.module('b')
     function process(request) {
       var data = {
         id: request.id,
-        status: 1
+        status: 1,
+        handled_by: vm.user.id
       };
       ExtraUnit.patch(data).$promise
         .then(function () {
-          var data = {
-            student: request.student.id,
-            handled_by: CurrentUser.profile.id,
-            date: new Date()
-          };
-          ExtraUnit.addLog(data).$promise
-            .then(function () {
-              toastr.success("Approval Logged");
-            });
           toastr.success("Extra Unit Request Approved");
           SystemLog.add("Approved Extra Unit Request");
           getExtraUnit();

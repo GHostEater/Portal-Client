@@ -17,10 +17,10 @@ div(ng-controller="TranscriptCtrl as vm")
       span Department: {{vm.student.major.dept.name}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Date of Birth: {{vm.student.dateBirth}}
   .row.content.hidden-print
     button.btn.btn-primary(ng-click="vm.print()") Print
-  .panel.panel-info(ng-repeat="res in vm.results")
+  .panel.panel-info(ng-repeat="res in vm.results | orderBy:'+gp.session.session'")
     .panel-heading
       h3.panel-title
-        span(ng-repeat="session in vm.sessions | filter:{session:res.gp.session}") {{session.session}} Session &nbsp
+        span {{res.gp.session.session}} Session &nbsp
         span(ng-show="res.gp.semester == 1") 1st Semester
         span(ng-show="res.gp.semester == 2") 2nd Semester
     .panel-body
@@ -33,7 +33,7 @@ div(ng-controller="TranscriptCtrl as vm")
             th Score 100%
             th Grade
           tbody
-            tr(ng-repeat="result in res.result | orderBy:'+code'")
+            tr(ng-repeat="result in res.result | orderBy:'+course.code'")
               td {{result.course.code}}
               td {{result.course.title}}
               td {{result.course.unit}}

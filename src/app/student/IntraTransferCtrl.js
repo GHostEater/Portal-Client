@@ -3,11 +3,11 @@
  * Created by P-FLEX MONEY on 14-Dec-18.
  */
 angular.module('b')
-  .controller('IntraTransferCtrl', function (CurrentUser,Payment,PaymentType,IntraUni,$uibModal,Access,Session,Semester) {
+  .controller('IntraTransferCtrl', function (CurrentUser,Payment,PaymentType,IntraUni,$uibModal,Access,Session,lodash,Semester) {
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
-    vm.paid_transfer = true;
+    vm.paid_transfer = false;
     vm.request_transfer = request_transfer;
 
     Session.getCurrent().$promise

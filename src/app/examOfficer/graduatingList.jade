@@ -48,8 +48,8 @@ div(ng-controller="GraduatingListCtrl as vm")
   .row
     h3.col-sm-12.text-center GRADUATING LIST
   div(ng-repeat="grade_point in vm.grade_points | orderBy:'-upper_limit'")
-    h5.text-center {{grade_point.grade | uppercase}}
-    table.table.table-striped
+    h4.text-center {{grade_point.grade | uppercase}}
+    table.table.table-striped.table-bordered
       thead
         th S/N
         th Matric No
@@ -57,7 +57,7 @@ div(ng-controller="GraduatingListCtrl as vm")
         th FINAL CGPA
         th
       tbody(style="font-size: 0.9em")
-        tr(ng-repeat="(key,gp) in vm.students | orderBy:'+username' | cgpaRangeFilter(grade_point.lower_limit,grade_point.upper_limit)")
+        tr(ng-repeat="(key,gp) in vm.students | orderBy:'+student.user.username' | cgpaRangeFilter:{min:grade_point.lower_limit,max:grade_point.upper_limit}")
           td {{key + 1}}
           td {{gp.student.user.username | matricNo}}
           td {{gp.student.user.last_name | uppercase}}, {{gp.student.user.first_name}}
