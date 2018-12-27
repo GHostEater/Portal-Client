@@ -48,7 +48,7 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
         th Level of Payment
         th Date of Payment
       tbody
-        tr(ng-repeat="student in vm.students | filter:vm.search")
+        tr(ng-repeat="student in vm.students | filter:vm.search | orderBy:'+student.user.username'")
           td {{student.student.user.username | matricNo}} {{student.student.user.last_name}}, {{student.student.user.first_name}}
           td ₦{{student.amount | number:'0'}}
           td ₦{{student.owing | number:'0'}}

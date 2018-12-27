@@ -19,7 +19,7 @@
           th Score 100%
           th Grade
         tbody
-          tr(ng-repeat="result in student.result | orderBy:'+code'")
+          tr(ng-repeat="result in student.result | orderBy:'+course.code'")
             td {{result.course.code}}
             td {{result.course.title}}
             td {{result.course.unit}}

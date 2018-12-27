@@ -16,17 +16,17 @@ div(ng-controller="CourseRegCtrl as vm")
       button.btn.btn-sm.btn-primary(ng-click="vm.requestLateReg()") Apply for Late Registration
     div.text-center(ng-show="vm.lateRegStatus.status == 0")
       h3 Processing Late Registration Request... Please Contact Academic for Further instructions and Check back later.
-    .col-sm-12.text-center(ng-show="vm.lateRegStatus.status == 1 && vm.paid_late_reg === false")
+    .col-sm-12.content-vert.text-center(ng-show="vm.lateRegStatus.status == 1 && vm.paid_late_reg === false")
       h3 Late Registration Request Approved... Payment Required
-      button.btn.btn-sm.btn-primary(ui-sref="student_pay({id:vm.late_reg_payment_type.id})") Pay {{vm.late_reg_payment_type.name}}
+      button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.late_reg_payment_type.id})") Pay {{vm.late_reg_payment_type.name}}
   .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || (vm.lateRegStatus.status == 1 && vm.paid_late_reg === true)) && vm.done_reviews")
-    .col-sm-12(ng-show="!vm.extra_unit")
+    .col-sm-12.content-vert(ng-show="!vm.extra_unit")
       button.btn.btn-sm.btn-primary(ng-click="vm.request_extra_unit()") Request Extra Units
-    .col-sm-12(ng-show="vm.extra_unit.status === 0").text-center
+    .col-sm-12.content-vert(ng-show="vm.extra_unit.status === 0").text-center
       h4 Processing Extra Unit Request... Please Contact Academic for Further instructions and Check back later.
-    .col-sm-12(ng-show="vm.extra_unit.status === 1 && vm.paid_extra_unit === false").text-center
+    .col-sm-12.content-vert(ng-show="vm.extra_unit.status === 1 && vm.paid_extra_unit === false").text-center
       h4 Extra Unit Request Approved... Payment Required
-      button.btn.btn-sm.btn-primary(ui-sref="student_pay({id:vm.extra_unit_payment_type.id})") Pay {{vm.extra_unit_payment_type.name}}
+      button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.extra_unit_payment_type.id})") Pay {{vm.extra_unit_payment_type.name}}
     .col-sm-8
       .panel.panel-primary
         .panel-heading Course Registration

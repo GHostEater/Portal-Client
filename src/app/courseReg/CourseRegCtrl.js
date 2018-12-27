@@ -1,6 +1,6 @@
 /* eslint-disable angular/controller-name */
 angular.module('b')
-  .controller('CourseRegCtrl',function (CurrentUser,Semester,Payment,PaymentType,Session,CourseReview,ExtraUnit,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
+  .controller('CourseRegCtrl',function (CurrentUser,Semester,Payment,PaymentType,Session,$uibModal,CourseReview,ExtraUnit,CourseReg,CourseToMajor,CourseWaving,CourseResult,lodash,toastr,SystemLog,LateReg,$state,Access){
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -75,7 +75,6 @@ angular.module('b')
         .then(function (data) {
           vm.done_reviews = data.done_reviews;
           getPayment();
-          getExtraUnit();
         });
     }
     function getPayment() {
@@ -93,16 +92,20 @@ angular.module('b')
               if(vm.extra_unit_payment){
                 vm.paid_extra_unit = true;
               }
+              getExtraUnit();
             });
         });
     }
     function getExtraUnit() {
       ExtraUnit.query().$promise
         .then(function (data) {
-          vm.extra_unit = lodash.find(data,{student:{id:vm.user.student.id},session:{id:vm.session.id},semester:vm.semester.semester});
-          if(vm.extra_unit.status === 1){
-            vm.counter_limit += Number(vm.extra_unit.units);
+          vm.extra_unit = lodash.find(data,{student:{id:vm.user.student.id},session:{id:vm.session.id},semester:Number(vm.semester.semester)});
+          if(vm.extra_unit){
+            if(vm.extra_unit.status === 1 && vm.paid_extra_unit === true){
+              vm.counter_limit += Number(vm.extra_unit.units);
+            }
           }
+          console.log(vm.extra_unit);
         });
     }
     function request_extra_unit() {

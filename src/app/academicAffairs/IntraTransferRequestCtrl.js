@@ -3,7 +3,7 @@
  * Created by P-FLEX MONEY on 17-Dec-18.
  */
 angular.module('b')
-  .controller('IntraTransferRequestCtrl', function (CurrentUser,IntraUni,lodash,toastr,SystemLog,Access,Session,Semester) {
+  .controller('IntraTransferRequestCtrl', function (CurrentUser,IntraUni,lodash,toastr,SystemLog,Access,Session,Semester,$uibModal) {
     Access.notStudent();
     var vm = this;
     vm.pending = true;
@@ -60,19 +60,11 @@ angular.module('b')
     function process(request) {
       var data = {
         id: request.id,
-        status: 1
+        status: 1,
+        handled_by: CurrentUser.profile.id
       };
       IntraUni.patch(data).$promise
         .then(function () {
-          var data = {
-            student: request.student.id,
-            handled_by: CurrentUser.profile.id,
-            date: new Date()
-          };
-          IntraUni.addLog(data).$promise
-            .then(function () {
-              toastr.success("Approval Logged");
-            });
           toastr.success("Intra-University Transfer Request Approved");
           SystemLog.add("Approved Intra-University Transfer Request");
           getIntraUni();
@@ -81,7 +73,7 @@ angular.module('b')
     function transfer(request) {
       var options = {
         templateUrl: 'app/academicAffairs/transfer_student_modal.html',
-        controller: "TransferStudentModalController",
+        controller: "TransferStudentModalCtrl",
         controllerAs: 'vm',
         size: 'lg',
         resolve:{

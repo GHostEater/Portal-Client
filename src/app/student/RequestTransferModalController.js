@@ -14,6 +14,7 @@ angular.module('b')
     vm.ok = function () {
       if(vm.form.$dirty && vm.form.$valid){
         var request = {
+          student: vm.user.student.id,
           major: vm.major.id,
           reason: vm.reason,
           status: 0,

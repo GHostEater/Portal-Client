@@ -13,7 +13,7 @@
       th
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.pass | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.pass | orderBy:'+info.user.username'")
         td {{key + 1}}
         td {{student.info.user.username | matricNo}}
         td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -39,7 +39,7 @@
       th
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.pcso | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.pcso | orderBy:'+info.user.username'")
         td {{key + 1}}
         td {{student.info.user.username | matricNo}}
         td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -64,7 +64,7 @@
       th FINAL CGPA
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.probation | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.probation | orderBy:'+info.user.username'")
         td {{key + 1}}
         td {{student.info.user.username | matricNo}}
         td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -87,7 +87,7 @@
       th FINAL CGPA
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.withdrawal | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.withdrawal | orderBy:'+info.user.username'")
         td {{key + 1}}
         td {{student.info.user.username | matricNo}}
         td {{student.info.user.last_name | uppercase}}, {{student.info.user.first_name}}
@@ -107,7 +107,7 @@
       th Name
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.sick | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.sick | orderBy:'+user.username'")
         td {{key + 1}}
         td {{student.user.username | matricNo}}
         td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
@@ -124,7 +124,7 @@
       th Name
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.leave | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.leave | orderBy:'+user.username'")
         td {{key + 1}}
         td {{student.user.username | matricNo}}
         td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
@@ -141,7 +141,7 @@
       th Name
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.deferment | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.deferment | orderBy:'+user.username'")
         td {{key + 1}}
         td {{student.user.username | matricNo}}
         td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
@@ -158,7 +158,7 @@
       th Name
       th.hidden-print Actions
     tbody(style="font-size: 0.9em")
-      tr(ng-repeat="(key,student) in vm.suspension | orderBy:'+username'")
+      tr(ng-repeat="(key,student) in vm.suspension | orderBy:'+user.username'")
         td {{key + 1}}
         td {{student.user.username | matricNo}}
         td {{student.user.last_name | uppercase}}, {{student.user.first_name}}

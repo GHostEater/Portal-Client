@@ -5,7 +5,6 @@
 angular.module('b')
   .controller('RequestExtraUnitModalController', function(ExtraUnit,Session,Semester,toastr,$uibModalInstance,CurrentUser,SystemLog){
     var vm = this;
-    vm.prevScore = vm.result.ca;
     vm.user = CurrentUser.profile;
     vm.session = Session.getCurrent();
     vm.semester = Semester.get();

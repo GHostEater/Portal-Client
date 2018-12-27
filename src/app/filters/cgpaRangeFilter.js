@@ -4,11 +4,13 @@
 
 angular.module('b')
   .filter('cgpaRangeFilter', function() {
-    return function(items, min, max) {
+    return function(items, obj) {
       var filtered = [];
+      var min = obj.min;
+      var max = obj.max;
 
       angular.forEach(items, function(item) {
-        if((item.cgpa >= min) && (item.cgpa <= max)) {
+        if((Number(item.cgpa) >= Number(min)) && (Number(item.cgpa) <= Number(max))) {
           filtered.push(item);
         }
       });

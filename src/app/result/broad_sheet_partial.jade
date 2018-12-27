@@ -27,7 +27,7 @@ table.table.table-striped.table-bordered
       th
       th.hidden-print
   tbody(style="font-size: 0.7em")
-    tr(ng-repeat="(key,student) in vm.students | orderBy:'+username'")
+    tr(ng-repeat="(key,student) in vm.students | orderBy:'+info.user.username'")
       td {{key + 1}}
       td {{student.info.user.username | matricNo}}
       td

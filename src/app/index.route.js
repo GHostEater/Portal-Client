@@ -39,7 +39,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
     .state('resultSheet',{url:'/lecturer/result-sheet/',templateUrl:'app/examOfficer/resultSheet.html'})
     .state('resComp',{url:'/lecturer/result-computation/',templateUrl:'app/examOfficer/resultComputation.html'})
     .state('studentResultView',{url:'/lecturer/student-result-view/:userId/',templateUrl:'app/examOfficer/studentResultView.html'})
-    .state('gradList',{url:'/lecturer/graduating-list/',templateUrl:'app/examOfficer/graduatingList.html'})
+    .state('gradList',{url:'/graduating-list/',templateUrl:'app/examOfficer/graduatingList.html'})
 
     .state('courseAllocation',{url:'/course-allocation/',templateUrl:'app/courseAllocation/courseAllocation.html'})
     .state('lecturerCourses',{url:'/my-courses/',templateUrl:'app/lecturer/lecturerCourses.html'})
