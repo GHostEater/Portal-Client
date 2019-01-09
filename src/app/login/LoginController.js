@@ -119,7 +119,7 @@ angular.module("b")
             link: link,
             school_med_name: $rootScope.school_med_name,
             email: vm.email,
-            sender_email: 'no_reply@fuo.edu.ng'
+            sender_email: 'no_reply@summituniversity.edu.ng'
           };
           Auth.pass_reset(request).$promise
             .then(function (data) {
