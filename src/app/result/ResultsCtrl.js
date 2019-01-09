@@ -184,7 +184,7 @@ angular.module('b')
         major: vm.major.id,
         level: vm.level.id,
         school_med_name: $rootScope.school_med_name,
-        sender_email: 'results@fuo.edu.ng'
+        sender_email: 'results@summituniversity.edu.ng'
       };
       CourseResultGPA.releaseResultAndCgpa(request).$promise
         .then(function(){
