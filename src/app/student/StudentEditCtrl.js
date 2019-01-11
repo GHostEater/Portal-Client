@@ -67,7 +67,7 @@ angular.module('b')
           else{
             toastr.success("Student Profile Edited");
             vm.uploaded = true;
-            $window.location.back();
+            $window.history.back();
           }
         })
         .catch(function () {
