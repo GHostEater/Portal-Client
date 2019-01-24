@@ -7,9 +7,6 @@ angular.module('b')
     Access.notStudent();
     var vm = this;
     vm.user = CurrentUser.profile;
-    if(vm.user.type === '3'){
-      vm.bursar = vm.user.bursar;
-    }
     Student.get({user:$stateParams.user}).$promise
       .then(function (data) {
         vm.student = data;
@@ -100,7 +97,7 @@ angular.module('b')
         request = {
           payment_type: id,
           student: vm.student.id,
-          waved_by: vm.bursar.id,
+          waved_by: vm.user.id,
           level: level
         };
       }
