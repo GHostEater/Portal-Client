@@ -32,6 +32,14 @@ angular.module('b')
         method: 'patch',
         url: Host.host+'/release-status/1/'
       },
+      getUploadStatus:{
+        method: 'get',
+        url: Host.host+'/upload-status/1/'
+      },
+      setUploadStatus:{
+        method: 'patch',
+        url: Host.host+'/upload-status/1/'
+      },
       patch:{
         method: 'patch'
       },

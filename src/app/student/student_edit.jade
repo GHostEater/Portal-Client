@@ -56,13 +56,16 @@ div(ng-controller="StudentEditCtrl as vm").row
           input.input-sm.form-control(type="text" name="dateBirth" ng-model="vm.user.date_birth" placeholder="Date of Birth (YYYY-MM-DD)")
       .form-group
         .col-sm-3
-          input.input-sm.form-control(type="text" name="nationality" ng-model="vm.user.nationality" placeholder="Nationality")
-        .col-sm-3
-          input.input-sm.form-control(type="text" name="stateOrigin" ng-model="vm.user.state_origin" placeholder="State Of Origin")
-        .col-sm-3
-          input.input-sm.form-control(type="text" name="town" ng-model="vm.user.town" placeholder="Town")
-        .col-sm-3
-          input.input-sm.form-control(type="text" name="lga" ng-model="vm.user.lga" placeholder="Local Government Area")
+          select.input-sm.form-control(name="nationality" ng-model="vm.country" ng-options="country as country.name for country in vm.countries | orderBy:'+name' track by country.code")
+            option(value="") Select Nationality
+        .col-sm-3(ng-show="vm.country.name === 'Nigeria'")
+          select.input-sm.form-control(name="stateOrigin" ng-model="vm.state" ng-options="state as state.state for state in vm.states | orderBy:'+state' track by state.alias")
+            option(value="") Select State of Origin
+        .col-sm-3(ng-show="vm.country.name === 'Nigeria'")
+          select.input-sm.form-control(name="lga" ng-model="vm.user.lga" ng-options="lga as lga for lga in vm.state.lgas | orderBy:'+lga'")
+            option(value="") Select Local Government Area
+        .col-sm-3(ng-show="vm.country.name === 'Nigeria'")
+          input.input-sm.form-control(type="text" name="town" ng-model="vm.user.town" placeholder="Town/City")
       .form-group
         .col-sm-12
           input.input-sm.form-control(type="text" name="religion" ng-model="vm.user.religion" placeholder="Religion")

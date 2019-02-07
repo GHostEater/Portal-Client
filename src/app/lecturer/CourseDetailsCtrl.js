@@ -13,6 +13,7 @@ angular.module("b")
     vm.uploadExam = uploadExam;
     vm.request = request;
     vm.perm = {status: null};
+    vm.upload_status = CourseResult.getUploadStatus();
     function getRequests() {
       CourseResultEditRequest.query().$promise
       .then(function (data) {

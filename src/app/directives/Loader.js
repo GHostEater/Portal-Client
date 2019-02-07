@@ -2,8 +2,8 @@
  * Created by GHostEater on 29-Jul-16.
  */
 angular.module("b")
-    .directive("loader", function ($rootScope) {
-        return function ($scope, element, attrs) {
+    .directive("loader", function () {
+        return function ($scope, element) {
             $scope.$on("loader_show", function () {
                 return element.show();
             });
