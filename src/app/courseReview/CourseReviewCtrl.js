@@ -3,7 +3,7 @@
  * Created by GHostEater on 08-Dec-17.
  */
 angular.module('b')
-  .controller('CourseReviewCtrl',function (CourseReview,CourseReg,CurrentUser,Session,Semester,lodash,$uibModal,Access,CourseAllocation) {
+  .controller('CourseReviewCtrl',function (CourseReview,CourseReg,CurrentUser,Session,Semester,lodash,$uibModal,Access) {
     Access.student();
     var vm = this;
     vm.user = CurrentUser.profile;

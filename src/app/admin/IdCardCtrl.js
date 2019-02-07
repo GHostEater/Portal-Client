@@ -3,7 +3,7 @@
  * Created by P-FLEX MONEY on 11-Dec-18.
  */
 angular.module('b')
-  .controller('IdCardCtrl', function (CurrentUser,Student,lodash,Access,College,Dept,Excel) {
+  .controller('IdCardCtrl', function (CurrentUser,Student,lodash,Access,College,Dept,Excel,$timeout,SystemLog) {
     Access.general();
     var vm = this;
     vm.user = CurrentUser.profile;

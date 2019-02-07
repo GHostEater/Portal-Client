@@ -3,7 +3,7 @@
  * Created by GHostEater on 08-Aug-18.
  */
 angular.module('b')
-  .controller('ResultsCtrl',function(CurrentUser,Hod,GradePoint,LevelAdviser,Dept,College,CourseReg,CourseToMajor,CourseWaving,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,$window,Access,SystemLog,toastr,$filter){
+  .controller('ResultsCtrl',function(CurrentUser,Hod,GradePoint,LevelAdviser,Dept,College,CourseReg,CourseToMajor,$rootScope,CourseWaving,CourseResult,CourseResultGPA,Level,Major,Student,Session,Semester,lodash,$window,Access,SystemLog,toastr,$filter){
     Access.notStudent();
     var vm = this;
     vm.print = print;
@@ -101,7 +101,6 @@ angular.module('b')
         for(var i=0; i<students.length; i++){
           students[i] = $filter('matricNo')(students[i]);
         }
-        console.log(students);
         data = {
           session: vm.session.id,
           semester: vm.semester.semester,
@@ -184,7 +183,7 @@ angular.module('b')
         major: vm.major.id,
         level: vm.level.id,
         school_med_name: $rootScope.school_med_name,
-        sender_email: 'results@fuo.edu.ng'
+        sender_email: $rootScope.result_email
       };
       CourseResultGPA.releaseResultAndCgpa(request).$promise
         .then(function(){
