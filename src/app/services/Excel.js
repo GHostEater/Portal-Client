@@ -9,7 +9,7 @@ angular.module('b')
       format=function(s,c){return s.replace(/{(\w+)}/g,function(m,p){return c[p];})};
     return {
       tableToExcel:function(tableId,worksheetName){
-        var table=$(tableId),
+        var table=angular.element(tableId),
           ctx={worksheet:worksheetName,table:table.html()},
           href=uri+base64(format(template,ctx));
         return href;

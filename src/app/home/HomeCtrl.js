@@ -14,19 +14,20 @@ angular.module('b')
             vm.allocation = lodash.find(data,{session:{id:vm.session.id}});
           });
           vm.student = Student.get({user:vm.user.id});
-          function AccessFee() {
-            Payment.access_fee_restrict({student:vm.user.student.id}).$promise
-              .then(function (data) {
-                vm.access_fee_paid = data.paid;
-              });
-            Payment.tuition_fee_clearance({student:vm.user.student.id}).$promise
-              .then(function (data) {
-                vm.payments = data.payments;
-                vm.pay_status = data.pay_status;
-              });
-          }AccessFee();
+          AccessFee();
         }
       });
+    function AccessFee() {
+      Payment.access_fee_restrict({student:vm.user.student.id}).$promise
+        .then(function (data) {
+          vm.access_fee_paid = data.paid;
+        });
+      Payment.tuition_fee_clearance({student:vm.user.student.id}).$promise
+        .then(function (data) {
+          vm.payments = data.payments;
+          vm.pay_status = data.pay_status;
+        });
+    }
     vm.sessionActions = function () {
       LevelAdviser.query().$promise
         .then(function (data) {

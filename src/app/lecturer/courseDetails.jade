@@ -45,10 +45,10 @@ div(ng-controller="CourseDetailsCtrl as vm")
                 button.btn.btn-xs.btn-warning(ng-click="vm.editCa(student.result)") Edit CA
                 button.btn.btn-xs.btn-warning(ng-click="vm.editExam(student.result)") Edit Exam
     .panel-footer.hidden-print(ng-show="((vm.course.position == 1) || (vm.user.hod || vm.user.type == 1)) && vm.students")
-      .row.content
+      .row.content(ng-show="vm.upload_status.ca === true")
         csv-upload.col-sm-4(ng-model="vm.ca")
         button.col-sm-2.btn.btn-primary(ng-click="vm.uploadCA()") Upload CA
-      .row.content
+      .row.content(ng-show="vm.upload_status.exam === true")
         csv-upload.col-sm-4(ng-model="vm.exam")
         button.col-sm-2.btn.btn-primary(ng-click="vm.uploadExam()") Upload Exam
       h5(ng-show="vm.notReg") Unregistered Students

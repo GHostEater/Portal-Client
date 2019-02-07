@@ -1,6 +1,6 @@
 /* eslint-disable angular/controller-name */
 angular.module("b")
-  .controller('AllocationDeleteCtrl',function(CourseAllocation,id,toastr,$modalInstance,SystemLog){
+  .controller('AllocationDeleteCtrl',function(CourseAllocation,id,toastr,$uibModalInstance,SystemLog){
     var vm = this;
 
     vm.ok = function(){
@@ -8,7 +8,7 @@ angular.module("b")
         .then(function(){
           SystemLog.add("Deleted Allocated Course");
           toastr.success("Course Allocation Removed");
-          $modalInstance.close();
+          $uibModalInstance.close();
         })
         .catch(function(){
           toastr.error("Unable to Remove Allocation");

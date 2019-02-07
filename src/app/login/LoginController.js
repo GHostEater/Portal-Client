@@ -2,7 +2,7 @@
  * Created by GHostEater on 19-Feb-16.
  */
 angular.module("b")
-  .controller("LoginController",function(Auth,User,$state,$filter,CurrentUser,toastr,Random,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Dean,Session,Semester,SystemLog,StudentAffairs){
+  .controller("LoginController",function(Auth,User,$state,$filter,CurrentUser,toastr,Random,Bursar,$rootScope,Student,Lecturer,Hod,LevelAdviser,ExamOfficer,CollegeOfficer,Dean,Session,Semester,SystemLog,StudentAffairs){
     var vm = this;
     $rootScope.flex = 'yes';
     vm.forgot_pass = false;
@@ -42,6 +42,13 @@ angular.module("b")
               StudentAffairs.get({user:vm.data.id}).$promise
                 .then(function (data) {
                   vm.data.studentAffairs = data;
+                  setUser();
+                });
+            }
+            else if(vm.data.type === '2'){
+              Bursar.get({user:vm.data.id}).$promise
+                .then(function (data) {
+                  vm.data.bursar = data;
                   setUser();
                 });
             }
@@ -104,6 +111,7 @@ angular.module("b")
               $rootScope.session = Session.getCurrent();
               $rootScope.semester = Semester.get();
               $rootScope.$broadcast('paymentMade');
+              $rootScope.$broadcast('login');
               $state.go('home');
             }
           });
@@ -119,7 +127,7 @@ angular.module("b")
             link: link,
             school_med_name: $rootScope.school_med_name,
             email: vm.email,
-            sender_email: 'no_reply@fuo.edu.ng'
+            sender_email: $rootScope.noreply_email
           };
           Auth.pass_reset(request).$promise
             .then(function (data) {

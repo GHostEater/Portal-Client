@@ -97,7 +97,7 @@ angular.module('b')
         request = {
           payment_type: id,
           student: vm.student.id,
-          waved_by: vm.user.id,
+          waved_by: vm.user.bursar.id,
           level: level
         };
       }

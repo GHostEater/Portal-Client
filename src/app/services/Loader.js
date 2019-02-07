@@ -4,7 +4,7 @@
 (function () {
     'use strict';
     angular.module("b")
-        .factory('httpInterceptor', function ($q, $rootScope, $log) {
+        .factory('httpInterceptor', function ($q, $rootScope) {
 
             var numLoadings = 0;
 

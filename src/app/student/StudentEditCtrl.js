@@ -3,7 +3,7 @@
  * Created by GHostEater on 01-Mar-18.
  */
 angular.module('b')
-  .controller('StudentEditCtrl',function ($stateParams,CurrentUser,Student,User,Access,College,Major,Dept,ModeOfEntry,Level,Upload,Host,$timeout,toastr,$window) {
+  .controller('StudentEditCtrl',function ($stateParams,lodash,CurrentUser,Country,StateLga,Student,User,Access,College,Major,Dept,ModeOfEntry,Level,Upload,Host,$timeout,toastr,$window) {
     Access.general();
     var vm = this;
     vm.change_pass = false;
@@ -17,6 +17,16 @@ angular.module('b')
         .then(function (data) {
           vm.user = data;
           vm.user.password = '';
+          Country.query().$promise
+            .then(function (data) {
+              vm.countries = data;
+              vm.country = lodash.find(vm.countries,{name:vm.user.nationality});
+            });
+          StateLga.query().$promise
+            .then(function (data) {
+              vm.states = data;
+              vm.state = lodash.find(vm.states,{state:vm.user.state_origin});
+            });
         });
       Student.get({user:$stateParams.id}).$promise
         .then(function (data) {
@@ -36,6 +46,13 @@ angular.module('b')
       }
         delete vm.user.img;
         delete vm.user.sign;
+        vm.user.nationality = vm.country.name;
+        vm.user.state_origin = vm.state.state;
+        if(vm.user.nationality !== 'Nigeria'){
+          vm.user.state_origin = "";
+          vm.user.lga = "";
+          vm.user.town = "";
+        }
         User.patch(vm.user).$promise
           .then(function (data) {
             vm.user = data;

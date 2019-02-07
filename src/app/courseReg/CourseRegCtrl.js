@@ -105,7 +105,6 @@ angular.module('b')
               vm.counter_limit += Number(vm.extra_unit.units);
             }
           }
-          console.log(vm.extra_unit);
         });
     }
     function request_extra_unit() {
