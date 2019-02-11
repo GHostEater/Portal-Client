@@ -1,3 +1,4 @@
+/* eslint-disable angular/controller-name,no-undef,angular/angularelement */
 /**
  * Created by GHostEater on 15-Sep-16.
  */
@@ -9,7 +10,7 @@ angular.module('b')
       format=function(s,c){return s.replace(/{(\w+)}/g,function(m,p){return c[p];})};
     return {
       tableToExcel:function(tableId,worksheetName){
-        var table=angular.element(tableId),
+        var table=$(tableId),
           ctx={worksheet:worksheetName,table:table.html()},
           href=uri+base64(format(template,ctx));
         return href;
