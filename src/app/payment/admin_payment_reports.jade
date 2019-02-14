@@ -38,7 +38,7 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
     span(ng-show="vm.unpaid_list") &nbsp UnPaid List
   .row
     span Session {{vm.session.session}}
-  .table-responsive(ng-show="vm.students")
+  .table-responsive(ng-show="vm.students && !vm.payment_type.tuition")
     table.table.table-striped.table-bordered
       thead
         th Student
@@ -55,3 +55,29 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
           td {{student.waved}}
           td {{student.level}}
           td {{student.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+
+  .table-responsive(ng-show="vm.students && vm.payment_type.tuition")
+    table.table.table-striped.table-bordered
+      thead
+        th Student
+        th Amount
+        th Owing
+        th Waved
+        th Payments Detail
+      tbody
+        tr(ng-repeat="student in vm.students | filter:vm.search | orderBy:'+student.user.username'")
+          td {{student.student.user.username | matricNo}} {{student.student.user.last_name}}, {{student.student.user.first_name}}
+          td ₦{{student.amount | number:'0'}}
+          td ₦{{student.owing | number:'0'}}
+          td {{student.waved}}
+          td
+            table.table.table-striped.table-bordered
+              thead
+                th Amount
+                th Level of Payment
+                th Date of Payment
+              tbody
+                tr(ng-repeat="payment in student.payments | filter:vm.search | orderBy:'+date'")
+                  td ₦{{payment.amount | number:'0'}}
+                  td {{payment.level.level}}
+                  td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
