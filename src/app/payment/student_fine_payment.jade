@@ -1,0 +1,23 @@
+//Created by P-FLEX MONEY on 26-Feb-19.
+div(ng-controller="StudentFinePaymentCtrl as vm").row
+  .col-sm-6.col-sm-offset-3
+    .panel.panel-info
+      .panel-heading
+        .panel-title Payment of Fines
+      .panel-body
+        .row.content-vert
+          .col-sm-12
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:500})") Pay ₦500
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:1000})") Pay ₦1,000
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:2000})") Pay ₦2,000
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:3000})") Pay ₦3,000
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:4000})") Pay ₦4,000
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:5000})") Pay ₦5,000
+        .row.content-vert
+          .col-sm-12
+            button.btn.btn-sm.btn-primary(ng-click="vm.custom_pay = true") Enter Amount
+        .row.content-vert(ng-show="vm.custom_pay === true")
+          .col-sm-12
+            label.control-label Enter Amount
+              input.form-control.input-sm(type="number" ng-model="vm.partial_pay")
+            button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.fine.id,amount:vm.partial_pay})") Pay

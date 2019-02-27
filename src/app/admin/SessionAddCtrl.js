@@ -7,11 +7,13 @@ angular.module('b')
     var vm = this;
     vm.admission = false;
     vm.current = false;
+    vm.start_date = moment().format("YYYY-MM-DD");
 
     vm.ok = function () {
       if(vm.form.$valid){
         var data = {
           session: vm.session,
+          start_date: moment(vm.start_date).format("YYYY-MM-DD"),
           is_current: vm.current,
           is_admission: vm.admission
         };

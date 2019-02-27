@@ -32,7 +32,8 @@ angular.module('b')
         }
     });
     vm.login = $rootScope.$on('login',function () {
-      Payment.access_fee_restrict({student:vm.user.student.id}).$promise
+      if(CurrentUser.profile.type === '7'){
+        Payment.access_fee_restrict({student:vm.user.student.id}).$promise
         .then(function (data) {
           vm.access_fee_paid = data.paid;
           if(vm.access_fee_paid === false){
@@ -43,5 +44,6 @@ angular.module('b')
               });
           }
         });
+      }
     })
   });

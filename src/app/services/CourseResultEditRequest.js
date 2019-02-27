@@ -7,6 +7,14 @@ angular.module('b')
       },
       patch:{
         method: 'patch'
+      },
+      notifyDean:{
+        method: 'get',
+        url: Host.host+'/notify-dean/'
+      },
+      autoDisableEdit:{
+        method: 'get',
+        url: Host.host+'/auto-disable-edit/'
       }
     });
   });

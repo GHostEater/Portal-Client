@@ -7,12 +7,14 @@ div(ng-controller="SessionCtrl as vm")
     table.table.table-bordered.table-striped
       thead
         th Session
+        th Start Date
         th Current
         th For Admission
         th Actions
       tbody
         tr(ng-repeat="session in vm.sessions")
           td {{session.session}}
+          td {{session.start_date | date:'dd-MMM-YYYY'}}
           td(ng-class="{'bg-success':session.is_current === true,'bg-danger':session.is_current === false}").text-white {{session.is_current}}
           td(ng-class="{'bg-success':session.is_admission === true,'bg-danger':session.is_admission === false}").text-white {{session.is_admission}}
           td

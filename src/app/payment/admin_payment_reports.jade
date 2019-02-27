@@ -6,13 +6,13 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
         option(value='') Select Payment Type
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.college" ng-options="college as college.acronym for college in vm.colleges track by college.id")
-        option(value='') Select College
+        option(value='') All Colleges
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.dept" ng-options="dept as dept.name for dept in vm.depts | filter:{college:{id:vm.college.id}} track by dept.id")
-        option(value='') Select Department
+        option(value='') All Departments
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.major" ng-options="major as major.name for major in vm.majors | filter:{dept:{name:vm.dept.name}} track by major.id")
-        option(value="") Select Major
+        option(value="") All Majors
     .col-sm-2
       select.form-control.input-sm(ng-model="vm.level" ng-options="level as level.level for level in vm.levels track by level.id")
         option(value="") Select Level
@@ -41,43 +41,65 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
   .table-responsive(ng-show="vm.students && !vm.payment_type.tuition")
     table.table.table-striped.table-bordered
       thead
+        th S/N
         th Student
+        th RRR
         th Amount
         th Owing
         th Waved
         th Level of Payment
         th Date of Payment
       tbody
-        tr(ng-repeat="student in vm.students | filter:vm.search | orderBy:'+student.user.username'")
-          td {{student.student.user.username | matricNo}} {{student.student.user.last_name}}, {{student.student.user.first_name}}
-          td ₦{{student.amount | number:'0'}}
-          td ₦{{student.owing | number:'0'}}
+        tr(ng-repeat="(key,student) in vm.students | filter:vm.search | orderBy:'+student.user.username' | orderBy:'+student.level.level'")
+          td {{key+1}}
+          td {{student.student.user.username | matricNo}} {{student.student.user.last_name}}, {{student.student.user.first_name}} {{student.student.level.level}} Level
+          td {{student.rrr}}
+          td ₦{{student.amount | number:'2'}}
+          td ₦{{student.owing | number:'2'}}
           td {{student.waved}}
           td {{student.level}}
           td {{student.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+  .row(ng-show="vm.students && !vm.payment_type.tuition")
+    .col-sm-4.col-sm-offset-4
+      table.table.table-striped.table-bordered
+        tr
+          th Total Owing Amount
+          td {{vm.total_owing | number:'2'}}
 
   .table-responsive(ng-show="vm.students && vm.payment_type.tuition")
     table.table.table-striped.table-bordered
       thead
+        th S/N
         th Student
         th Amount
         th Owing
         th Waved
         th Payments Detail
       tbody
-        tr(ng-repeat="student in vm.students | filter:vm.search | orderBy:'+student.user.username'")
-          td {{student.student.user.username | matricNo}} {{student.student.user.last_name}}, {{student.student.user.first_name}}
-          td ₦{{student.amount | number:'0'}}
-          td ₦{{student.owing | number:'0'}}
+        tr(ng-repeat="(key,student) in vm.students | filter:vm.search | orderBy:'+student.user.username' | orderBy:'+student.level.level'")
+          td {{key+1}}
+          td {{student.student.user.username | matricNo}} {{student.student.user.last_name}}, {{student.student.user.first_name}} {{student.student.level.level}} Level
+          td ₦{{student.amount | number:'2'}}
+          td ₦{{student.owing | number:'2'}}
           td {{student.waved}}
           td
-            table.table.table-striped.table-bordered
+            table.table.table-striped.table-bordered(ng-show="student.payments.length > 0")
               thead
+                th S/N
                 th Amount
+                th RRR
                 th Level of Payment
                 th Date of Payment
               tbody
-                tr(ng-repeat="payment in student.payments | filter:vm.search | orderBy:'+date'")
-                  td ₦{{payment.amount | number:'0'}}
+                tr(ng-repeat="(key,payment) in student.payments | filter:vm.search | orderBy:'+date'")
+                  td {{key+1}}
+                  td ₦{{payment.amount | number:'2'}}
+                  td {{payment.rrr}}
                   td {{payment.level.level}}
                   td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+  .row(ng-show="vm.students && vm.payment_type.tuition")
+    .col-sm-4.col-sm-offset-4
+      table.table.table-striped.table-bordered
+        tr
+          th Total Owing Amount
+          td {{vm.total_owing | number:'2'}}

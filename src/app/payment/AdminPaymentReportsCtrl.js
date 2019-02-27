@@ -16,6 +16,10 @@ angular.module('b')
     vm.getUnPaid = getUnPaid;
     vm.paid_list = false;
     vm.unpaid_list = false;
+    vm.level = null;
+    vm.major = null;
+    vm.dept = null;
+    vm.college = null;
 
     PaymentType.student().$promise
       .then(function (data) {
@@ -27,13 +31,27 @@ angular.module('b')
       vm.unpaid_list = false;
       var request = {
         session: vm.session.id,
-        major: vm.major.id,
-        level: vm.level.id,
         payment_type: vm.payment_type.id
       };
+      if(vm.level !== null ){
+        request.level = vm.level.id;
+      }
+      if(vm.major !== null){
+        request.major = vm.major.id;
+      }
+      if(vm.dept !== null ){
+        request.dept = vm.dept.id;
+      }
+      if(vm.college !== null ){
+        request.college = vm.college.id;
+      }
       Payment.getPaid(request).$promise
         .then(function (data) {
           vm.students = data;
+          vm.total_owing = 0;
+          angular.forEach(vm.students,function (student) {
+            vm.total_owing += Number(student.owing);
+          });
         });
     }
     function getUnPaid() {
@@ -41,13 +59,27 @@ angular.module('b')
       vm.unpaid_list = true;
       var request = {
         session: vm.session.id,
-        major: vm.major.id,
-        level: vm.level.id,
         payment_type: vm.payment_type.id
       };
+      if(vm.level !== null ){
+        request.level = vm.level.id;
+      }
+      if(vm.major !== null){
+        request.major = vm.major.id;
+      }
+      if(vm.dept !== null ){
+        request.dept = vm.dept.id;
+      }
+      if(vm.college !== null ){
+        request.college = vm.college.id;
+      }
       Payment.getUnPaid(request).$promise
         .then(function (data) {
           vm.students = data;
+          vm.total_owing = 0;
+          angular.forEach(vm.students,function (student) {
+            vm.total_owing += Number(student.owing);
+          });
         });
     }
   });
