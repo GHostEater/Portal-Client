@@ -2,7 +2,16 @@
 .modal-header
     h3.modal-title(ng-show="vm.status == 1") Approve Edit Request
     h3.modal-title(ng-show="vm.status == 2") Decline Edit Request
-.modal-body
+.modal-body(ng-show="vm.status == 1")
+  h5 Length of time for Edit Privilege
+  form(name="vm.form").form-horizontal
+    label.control-label Days
+      input.form-control.input-sm(type="number" ng-model="vm.days")
+    label.control-label Hours
+      input.form-control.input-sm(type="number" ng-model="vm.hours")
+    label.control-label Minutes
+      input.form-control.input-sm(type="number" ng-model="vm.minutes")
+.modal-body(ng-show="vm.status == 2")
     p.text-center Are You Sure
 .modal-footer
     button.btn.btn-primary(ng-click="vm.ok()") Confirm

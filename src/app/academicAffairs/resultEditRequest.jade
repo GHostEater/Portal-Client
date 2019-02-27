@@ -34,7 +34,8 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
               th Name
               th Department
               th College
-              th Date
+              th Start Date
+              th End Date
               th Handled By
               th Actions
             tbody
@@ -43,7 +44,8 @@ div(ng-controller="ResultEditRequestCtrl as vm").row
                 td {{request.lecturer.user.last_name | uppercase}}, {{request.lecturer.user.first_name}}
                 td {{request.lecturer.dept.name}}
                 td {{request.lecturer.dept.college.acronym}}
-                td {{request.date | date:'dd-MMM-yyyy hh:mm:ss a'}}
+                td {{request.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+                td {{request.end_date | date:'dd-MMM-yyyy hh:mm:ssa'}}
                 td {{request.handled_by.last_name | uppercase}}, {{request.handled_by.first_name}}
                 td
                   button.btn.btn-sm.btn-danger(ng-click="vm.disable(request.id,2)") Disable Edit

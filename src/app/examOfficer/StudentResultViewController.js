@@ -2,7 +2,7 @@
  * Created by GHostEater on 6/12/2016.
  */
 angular.module("b")
-  .controller("StudentResultViewController",function(CourseResultEditRequest,CourseResult,CourseResultGPA,CourseReg,CourseToMajor,CourseWaving,Student,lodash,toastr,$stateParams,Session,Semester,CurrentUser,SystemLog,$uibModal,Access){
+  .controller("StudentResultViewController",function(CourseResultEditRequest,$interval,CourseResult,CourseResultGPA,CourseReg,CourseToMajor,CourseWaving,Student,lodash,toastr,$stateParams,Session,Semester,CurrentUser,SystemLog,$uibModal,Access){
     Access.general();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -19,8 +19,24 @@ angular.module("b")
       CourseResultEditRequest.query().$promise
       .then(function (data) {
         vm.perm = lodash.find(data,{lecturer:{id:vm.user.lecturer.id}});
+        if(vm.perm){
+          check_perm_status();
+        }
       });
     }getRequests();
+    function check_perm_status() {
+      function check_status_validity() {
+        vm.date = Date.now();
+        vm.end_date = new Date(vm.perm.end_date);
+        if(vm.end_date <= vm.date){
+          CourseResultEditRequest.delete({id:vm.perm.id}).$promise
+            .then(function () {
+              getRequests();
+            });
+        }
+      }
+      $interval(check_status_validity(),1000);
+    }
     Student.get({user:$stateParams.userId}).$promise
       .then(function (data) {
         vm.student = data;

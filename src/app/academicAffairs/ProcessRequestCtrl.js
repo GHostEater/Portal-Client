@@ -3,20 +3,26 @@
  * Created by GHostEater on 16-Aug-16.
  */
 angular.module("b")
-  .controller("ProcessRequestCtrl", function(CourseResultEditRequest,id,status,handled_by,toastr,$uibModalInstance,SystemLog){
+  .controller("ProcessRequestCtrl", function(CurrentUser,CourseResultEditRequest,id,status,handled_by,toastr,$uibModalInstance,SystemLog){
     var vm = this;
     vm.status = status;
     CourseResultEditRequest.get({id:id}).$promise
       .then(function (data) {
         vm.request = data;
       });
+    vm.date = new Date();
+    vm.days = 0;
+    vm.hours = 0;
+    vm.minutes = 0;
 
     vm.ok = function(){
+      vm.end_date = moment(vm.date).add(vm.hours,'hours').add(vm.minutes,'minutes').add(vm.days,'days');
       var data = {
         id: id,
         status: status,
-        date: new Date(),
-        handled_by: handled_by
+        date: vm.date,
+        end_date: vm.end_date,
+        handled_by: CurrentUser.profile.id
       };
       CourseResultEditRequest.patch(data).$promise
         .then(function(){

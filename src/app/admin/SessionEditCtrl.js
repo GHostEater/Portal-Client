@@ -9,6 +9,7 @@ angular.module('b')
 
     vm.ok = function () {
       if(vm.form.$valid && vm.form.$dirty){
+        vm.session.start_date = moment(vm.session.start_date).format("YYYY-MM-DD");
         Session.patch(vm.session).$promise
           .then(function () {
             toastr.success("Edited Session Successfully");

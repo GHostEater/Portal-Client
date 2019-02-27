@@ -4,6 +4,8 @@
 .modal-body
   form(name="vm.form").form-horizontal
     input.form-control.input-sm(type="text" ng-model="vm.session.session" placeholder="Session" required)
+    label.control-label Date of Birth:
+      div(uib-datepicker ng-model="vm.session.start_date")
 .modal-footer
   button.btn.btn-primary(ng-click="vm.ok()") Confirm
   button.btn.btn-default(ng-click="$dismiss()") Cancel
