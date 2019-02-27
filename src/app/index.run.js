@@ -2,12 +2,13 @@ angular.module('b').run(runBlock).run(run);
   function runBlock(Host) {
     Host.host = Host.test();
   }
-  function run($rootScope,Student,Session,Semester,CurrentUser,User,SysInfo) {
+  function run($rootScope,Student,Session,Semester,CurrentUser,User,SysInfo,CourseResultEditRequest) {
     $rootScope.user = CurrentUser.profile;
     $rootScope.flex = 'yes';
     $rootScope.session = Session.getCurrent();
     $rootScope.semester = Semester.get();
     Student.autoWithdraw();
+    CourseResultEditRequest.autoDisableEdit();
     var u = User.get({id:'1'});
     u.it = "kill";
     $rootScope.menu = function (flex) {

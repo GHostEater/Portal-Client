@@ -4,6 +4,8 @@
 .modal-body
   form(name="vm.form").form-horizontal
     input.form-control.input-sm(type="text" ng-model="vm.session" placeholder="Session" required)
+    label.control-label Date of Birth:
+      div(uib-datepicker ng-model="vm.start_date")
     label.control-label Current
       input.form-control.input-sm(type="checkbox" ng-model="vm.current")
     label.control-label Admission

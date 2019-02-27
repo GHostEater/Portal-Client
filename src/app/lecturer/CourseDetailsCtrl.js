@@ -1,6 +1,6 @@
 /* eslint-disable angular/controller-name,angular/definedundefined */
 angular.module("b")
-  .controller("CourseDetailsCtrl",function(CourseAllocation,CourseReg,CourseResult,CourseResultEditRequest,Student,Lecturer,Session,Semester,CurrentUser,lodash,toastr,$stateParams,$uibModal,SystemLog,$filter,Access){
+  .controller("CourseDetailsCtrl",function(CourseAllocation,$interval,$rootScope,CourseReg,CourseResult,CourseResultEditRequest,Student,Lecturer,Session,Semester,CurrentUser,lodash,toastr,$stateParams,$uibModal,SystemLog,$filter,Access){
     Access.notStudent();
     var vm = this;
     vm.user = CurrentUser.profile;
@@ -18,8 +18,24 @@ angular.module("b")
       CourseResultEditRequest.query().$promise
       .then(function (data) {
         vm.perm = lodash.find(data,{lecturer:{id:vm.user.lecturer.id},status:1});
+        if(vm.perm){
+          check_perm_status();
+        }
       });
     }getRequests();
+    function check_perm_status() {
+      function check_status_validity() {
+        vm.date = Date.now();
+        vm.end_date = new Date(vm.perm.end_date);
+        if(vm.end_date <= vm.date){
+          CourseResultEditRequest.delete({id:vm.perm.id}).$promise
+            .then(function () {
+              getRequests();
+            });
+        }
+      }
+      $interval(check_status_validity(),1000);
+    }
     function getDetails() {
       vm.lecturer = vm.course.lecturer;
       var data = {
