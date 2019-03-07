@@ -28,6 +28,7 @@ angular.module('b').run(runBlock).run(run);
         $rootScope.school_slogan = data.slogan;
         $rootScope.school_reciept_name = data.receipt_name;
         $rootScope.school_site = data.site;
+        $rootScope.school_portal_site = data.portal_site;
         $rootScope.result_email = data.result_email;
         $rootScope.noreply_email = data.noreply_email;
       });
