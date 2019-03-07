@@ -16,9 +16,9 @@ div(ng-controller="LoginController as vm")
     section.col-sm-6.col-sm-offset-3.text-center(ng-show="vm.forgot_pass === true")
       p Enter the E-Mail Associated with your Login ID. You will receive an E-Mail with a link to reset your password.
       div(ng-show="vm.link_sent === 1")
-        .alert-success Reset Link Has Been Sent To Your Email
+        p.alert-success Reset Link Has Been Sent To Your Email
       div(ng-show="vm.link_sent === 2")
-        .alert-danger No User With This Email Exists in the System, Try Again
+        p.alert-danger No User With This Email Exists in the System, Try Again
       form(name="vm.form")
         .panel.panel-warning
           .panel-heading Password Reset
