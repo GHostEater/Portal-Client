@@ -19,7 +19,7 @@ angular.module("b")
       CourseResultEditRequest.query().$promise
       .then(function (data) {
         vm.perm = lodash.find(data,{lecturer:{id:vm.user.lecturer.id}});
-        if(vm.perm){
+        if(vm.perm.status === 1){
           check_perm_status();
         }
       });
