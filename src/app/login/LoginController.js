@@ -124,7 +124,7 @@ angular.module("b")
         .then(function (data) {
           var link = $state.href('pass_reset',{rand:rand,rand2:rand2,id:data.id});
           var request = {
-            link: +$rootScope.school_portal_site+"/"+link,
+            link: $rootScope.school_portal_site+"/"+link,
             school_med_name: $rootScope.school_med_name,
             email: vm.email,
             sender_email: $rootScope.noreply_email
