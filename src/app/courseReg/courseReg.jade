@@ -31,6 +31,7 @@ div(ng-controller="CourseRegCtrl as vm")
       .panel.panel-primary
         .panel-heading Course Registration
         .panel-body
+          h4.text-center 1st Semester
           table.table.table-striped.table-condensed
             thead
               th Course Code
@@ -39,7 +40,23 @@ div(ng-controller="CourseRegCtrl as vm")
               th Type
               th Actions
             tbody
-              tr(ng-repeat="course in vm.courses | orderBy: '+course.code'")
+              tr(ng-repeat="course in vm.courses | filter:{course:{semester:1}} | orderBy: '+course.code'")
+                td {{course.course.code}}
+                td {{course.course.title}}
+                td {{course.course.unit}}
+                td {{course.course.type}}
+                td
+                  button.btn.btn-xs.btn-success(ng-click="vm.addCourse(course,0)") Add
+          h4.text-center 2nd Semester
+          table.table.table-striped.table-condensed
+            thead
+              th Course Code
+              th Course Title
+              th Unit
+              th Type
+              th Actions
+            tbody
+              tr(ng-repeat="course in vm.courses | filter:{course:{semester:2}} | orderBy: '+course.code'")
                 td {{course.course.code}}
                 td {{course.course.title}}
                 td {{course.course.unit}}
@@ -50,25 +67,40 @@ div(ng-controller="CourseRegCtrl as vm")
       .panel.panel-primary
         .panel-heading Selected Courses
         .panel-body
-            span Total Units/Unit Limit: {{vm.counter}}/{{vm.counter_limit}}
-            table.table.table-striped.table-condensed
-              thead
-                th Course Code
-                th Unit
-                th Action
-              tbody
-                tr(ng-repeat="reg in vm.regs")
-                  td {{reg.course.course.code}}
-                  td {{reg.course.course.unit}}
-                  td
-                    button.btn.btn-xs.btn-danger(ng-click="vm.removeCourse(reg.course,reg.from)" ng-hide="reg.status == 1") Remove
-        .panel-footer
-          button(ng-show="(vm.counter >= 15 && vm.counter <= vm.counter_limit) || ((vm.student.level.level === '300' || vm.student.level.level === '400') && vm.semester.semester === 2 && vm.counter >= 6) || (vm.student.level.level === '400' && vm.counter >= 1 && vm.counter <= vm.counter_limit)" ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
+          h4.text-center 1st Semester
+          h5 Total Units/Unit Limit: {{vm.counter_1}}/{{vm.counter_limit_1}}
+          table.table.table-striped.table-condensed
+            thead
+              th Course Code
+              th Unit
+              th Action
+            tbody
+              tr(ng-repeat="reg in vm.regs | filter:{course:{course:{semester:1}}}")
+                td {{reg.course.course.code}}
+                td {{reg.course.course.unit}}
+                td
+                  button.btn.btn-xs.btn-danger(ng-click="vm.removeCourse(reg.course,reg.from)" ng-hide="reg.status == 1") Remove
+          h4.text-center 2nd Semester
+          h5 Total Units/Unit Limit: {{vm.counter_2}}/{{vm.counter_limit_2}}
+          table.table.table-striped.table-condensed
+            thead
+              th Course Code
+              th Unit
+              th Action
+            tbody
+              tr(ng-repeat="reg in vm.regs | filter:{course:{course:{semester:2}}}")
+                td {{reg.course.course.code}}
+                td {{reg.course.course.unit}}
+                td
+                  button.btn.btn-xs.btn-danger(ng-click="vm.removeCourse(reg.course,reg.from)" ng-hide="reg.status == 1") Remove
+        .panel-footer(ng-show="vm.can_submit")
+          button(ng-click="vm.submitCourseForm()").btn.btn-primary Submit Course Form
   .row(ng-show="(vm.student.status == 1) && (vm.regStatus.status == 1 || (vm.lateRegStatus.status == 1 && vm.paid_late_reg === true)) && vm.done_reviews")
     .col-sm-6.col-sm-offset-4(ng-show="vm.outstandings.length>0")
       .panel.panel-danger
         .panel-heading Outstanding Courses
         .panel-body
+          h4.text-center 1st Semester
           table.table.table-striped.table-condensed
             thead
               th Course Code
@@ -77,7 +109,23 @@ div(ng-controller="CourseRegCtrl as vm")
               th Type
               th Actions
             tbody
-              tr(ng-repeat="course in vm.outstandings | orderBy: '+course.code'")
+              tr(ng-repeat="course in vm.outstandings | filter:{course:{semester:1}} | orderBy: '+course.code'")
+                td {{course.course.code}}
+                td {{course.course.title}}
+                td {{course.course.unit}}
+                td {{course.course.type}}
+                td
+                  button.btn.btn-xs.btn-success(ng-click="vm.addCourse(course,1)") Add
+          h4.text-center 2nd Semester
+          table.table.table-striped.table-condensed
+            thead
+              th Course Code
+              th Course Title
+              th Unit
+              th Type
+              th Actions
+            tbody
+              tr(ng-repeat="course in vm.outstandings | filter:{course:{semester:2}} | orderBy: '+course.code'")
                 td {{course.course.code}}
                 td {{course.course.title}}
                 td {{course.course.unit}}

@@ -30,6 +30,14 @@ div(ng-controller="CourseSlipCtrl as vm").row
         span.col-sm-10 Level: {{vm.user.student.level.level}}
   .col-sm-12.content-vert.hidden-print(ng-show="vm.add_drop === false")
     button.btn.btn-sm.btn-primary(ui-sref="student_pay({payment:vm.payment_type.id})") Pay {{vm.payment_type.name}}
+  .col-sm-12.hidden-print
+    .row.hidden-print
+      .col-sm-4
+        select.form-control.input-sm(ng-model="vm.session" ng-options="session as session.session for session in vm.sessions track by session.id")
+          option(value="") Select Session
+      .col-sm-2
+        button.btn.btn-sm.btn-primary(ng-click="vm.getCourses()") Go
+  h3.text-center 1st Semester
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code
@@ -38,14 +46,31 @@ div(ng-controller="CourseSlipCtrl as vm").row
       th Type
       th.hidden-print(ng-show="vm.add_drop === true") Action
     tbody
-      tr(ng-repeat="course in vm.courses | orderBy: '+code'")
+      tr(ng-repeat="course in vm.courses | filter:{course:{semester:1}} | orderBy: '+code'")
         td {{course.course.code}}
         td {{course.course.title}}
         td {{course.course.unit}}
         td {{course.course.type}}
         td.hidden-print(ng-show="vm.add_drop === true")
           button.btn.btn-xs.btn-danger(ng-click="vm.deleteCourse(course.id)") Delete Course
-  span.row Total Units Registered: {{vm.counter}}
+  span.row Total Units Registered: {{vm.counter_1}}
+  h3.text-center 2nd Semester
+  table.table.table-striped.table-bordered.table-condensed
+    thead
+      th Course Code
+      th Course Title
+      th Unit
+      th Type
+      th.hidden-print(ng-show="vm.add_drop === true") Action
+    tbody
+      tr(ng-repeat="course in vm.courses | filter:{course:{semester:2}} | orderBy: '+code'")
+        td {{course.course.code}}
+        td {{course.course.title}}
+        td {{course.course.unit}}
+        td {{course.course.type}}
+        td.hidden-print(ng-show="vm.add_drop === true")
+          button.btn.btn-xs.btn-danger(ng-click="vm.deleteCourse(course.id)") Delete Course
+  span.row Total Units Registered: {{vm.counter_2}}
   .row.visible-print
     .col-sm-5
       span ________________________&nbsp
