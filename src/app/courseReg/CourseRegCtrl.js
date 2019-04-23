@@ -12,16 +12,21 @@ angular.module('b')
     vm.request_extra_unit = request_extra_unit;
     vm.paid_late_reg = false;
     vm.paid_extra_unit = false;
+    vm.can_submit = false;
     vm.regs = [];
     vm.outstandings = [];
-    vm.counter = 0;
+    vm.counter_1 = 0;
+    vm.counter_2 = 0;
     vm.regStatus = CourseReg.status();
-    vm.counter_limit = 0;
+    vm.counter_limit_1 = 0;
+    vm.counter_limit_2 = 0;
     if(vm.student.level.level === '400'){
-      vm.counter_limit = 27;
+      vm.counter_limit_1 = 27;
+      vm.counter_limit_2 = 27;
     }
     else{
-      vm.counter_limit = 24;
+      vm.counter_limit_1 = 24;
+      vm.counter_limit_2 = 24;
     }
     Session.getCurrent().$promise
       .then(function (data) {
@@ -53,7 +58,12 @@ angular.module('b')
         vm.outstandings = data.outstandings;
         vm.reg_courses = data.reg_courses;
         angular.forEach(vm.reg_courses,function (reg) {
-          vm.counter_limit -= Number(reg.course.unit);
+          if(Number(reg.course.semester) === 1){
+            vm.counter_limit_1 -= Number(reg.course.unit);
+          }
+          else if(Number(reg.course.semester) === 2){
+            vm.counter_limit_2 -= Number(reg.course.unit);
+          }
         });
         course_review_restrict();
       });
@@ -102,7 +112,8 @@ angular.module('b')
           vm.extra_unit = lodash.find(data,{student:{id:vm.user.student.id},session:{id:vm.session.id},semester:Number(vm.semester.semester)});
           if(vm.extra_unit){
             if(vm.extra_unit.status === 1 && vm.paid_extra_unit === true){
-              vm.counter_limit += Number(vm.extra_unit.units);
+              vm.counter_limit_1 += Number(vm.extra_unit.units);
+              vm.counter_limit_2 += Number(vm.extra_unit.units);
             }
           }
         });
@@ -119,26 +130,83 @@ angular.module('b')
           getExtraUnit();
         });
     }
+    function submit_verify_first (){
+      var reg_count = 0;
+      angular.forEach(vm.reg_courses,function (reg) {
+        if(Number(reg.course.semester) === 1) {
+          reg_count += Number(reg.course.unit);
+        }
+      });
+      var counter = vm.counter_1+reg_count;
+      if((counter >= 15 && counter <= vm.counter_limit_1) || (vm.student.level.level === '400' && counter >= 1 && counter <= vm.counter_limit_1)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    function submit_verify_second (){
+      var reg_count = 0;
+      angular.forEach(vm.reg_courses,function (reg) {
+        if(Number(reg.course.semester) === 2) {
+          reg_count += Number(reg.course.unit);
+        }
+      });
+      var counter = vm.counter_2+reg_count;
+      if((counter >= 15 && counter <= vm.counter_limit_2) || (vm.student.level.level === '400' && counter >= 1 && counter <= vm.counter_limit_2) || ((vm.student.level.level === '300' || vm.student.level.level === '400') && counter >= 6)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    function submit_verify() {
+      if(submit_verify_first() && submit_verify_second()){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
     function addCourse(course,from){
       var c = {
         course: course,
         status: 0,
         from: from
       };
-      vm.counter += Number(course.course.unit);
-      if(vm.counter <= vm.counter_limit){
-        vm.regs.push(c);
-        if(from === 0){
-          lodash.remove(vm.courses,{course:{code:course.course.code}});
+      if(Number(course.course.semester) === 1){
+        vm.counter_1 += Number(course.course.unit);
+        if(vm.counter_1 <= vm.counter_limit_1){
+          vm.regs.push(c);
+          if(from === 0){
+            lodash.remove(vm.courses,{course:{code:course.course.code}});
+          }
+          else if(from === 1){
+            lodash.remove(vm.outstandings,{course:{code:course.course.code}});
+          }
         }
-        else if(from === 1){
-          lodash.remove(vm.outstandings,{course:{code:course.course.code}});
+        else{
+          toastr.warning("Total Number of Units Exceeded");
+          vm.counter_1 -= Number(course.course.unit);
         }
       }
-      else{
-        toastr.warning("Total Number of Units Exceeded");
-        vm.counter -= Number(course.course.unit);
+      else if(Number(course.course.semester) === 2){
+        vm.counter_2 += Number(course.course.unit);
+        if(vm.counter_2 <= vm.counter_limit_2){
+          vm.regs.push(c);
+          if(from === 0){
+            lodash.remove(vm.courses,{course:{code:course.course.code}});
+          }
+          else if(from === 1){
+            lodash.remove(vm.outstandings,{course:{code:course.course.code}});
+          }
+        }
+        else{
+          toastr.warning("Total Number of Units Exceeded");
+          vm.counter_2 -= Number(course.course.unit);
+        }
       }
+      vm.can_submit = submit_verify();
     }
     function removeCourse(course,from){
       lodash.remove(vm.regs,{course:{course:{code:course.course.code}}});
@@ -149,6 +217,7 @@ angular.module('b')
       else if(from === 1){
         vm.outstandings.push(course);
       }
+      vm.can_submit = submit_verify();
     }
     function submitCourseForm(){
       var data = [];

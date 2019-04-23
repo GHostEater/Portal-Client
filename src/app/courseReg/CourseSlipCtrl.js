@@ -3,12 +3,15 @@ angular.module("b")
   .controller("CourseSlipCtrl",function(CourseReg,Student,Semester,toastr,lodash,Session,CurrentUser,Access,$uibModal,$window,Payment,PaymentType){
     Access.student();
     var vm = this;
-    vm.counter = 0;
+    vm.counter_1 = 0;
+    vm.counter_2 = 0;
     vm.student = CurrentUser.profile.student;
     vm.user = CurrentUser.profile;
     vm.add_drop = false;
+    vm.getCourses = getCourses;
     vm.deleteCourse = deleteCourse;
     vm.print = print;
+    vm.sessions = Session.query();
     Session.getCurrent().$promise
       .then(function (data) {
         vm.session = data;
@@ -24,10 +27,15 @@ angular.module("b")
     function getCourses() {
       CourseReg.student({student:vm.student.id}).$promise
         .then(function (data) {
-          vm.courses = lodash.filter(data,{course:{semester:Number(vm.semester.semester)},session:{id:vm.session.id}});
-          for(var i = 0; i < vm.courses.length; i++){
-            vm.counter += Number(vm.courses[i].course.unit);
-          }
+          vm.courses = lodash.filter(data,{session:{id:vm.session.id}});
+          angular.forEach(vm.courses,function (course) {
+            if(Number(course.course.semester) === 1){
+              vm.counter_1 += Number(course.course.unit);
+            }
+            if(Number(course.course.semester) === 2){
+              vm.counter_2 += Number(course.course.unit);
+            }
+          });
           getPayment();
         });
     }
