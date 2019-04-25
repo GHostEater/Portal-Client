@@ -10,11 +10,11 @@
             a(ui-sref='reg_info_fresh') Information for Fresh Students
           li(ui-sref-active="active")
             a(ui-sref='reg_info_returning') Information for Returning Students
-          li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
+          li(ui-sref-active="active")
             a(ui-sref='courseReg') Register Courses
-          li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
+          li(ui-sref-active="active")
             a(ui-sref='courseSlip') View/Print Completed Course Form
-      li(ui-sref-active="active")
+      li(ui-sref-active="active" ng-show="(vm.pay_status.p_first && vm.semester.semester == 1) || (vm.pay_status.p_total && vm.semester.semester == 2)")
         a(ui-sref='tuition_fee_clearance') Eligibility and Clearance
       li(ui-sref-active="active" ng-hide="vm.user.student.level.level == 100")
         a(ui-sref='courseReview') Lecturers Assessment
