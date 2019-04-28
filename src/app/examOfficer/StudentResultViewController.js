@@ -15,6 +15,9 @@ angular.module("b")
     vm.request = request;
     vm.processResult = processResult;
     vm.perm = {status: null};
+    if(vm.user.type === '6'){
+      getRequests();
+    }
     function getRequests() {
       CourseResultEditRequest.query().$promise
       .then(function (data) {
@@ -23,7 +26,7 @@ angular.module("b")
           check_perm_status();
         }
       });
-    }getRequests();
+    }
     function check_perm_status() {
       function check_status_validity() {
         vm.date = Date.now();
