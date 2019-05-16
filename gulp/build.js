@@ -3,6 +3,8 @@
 var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
+var gutil = require('gulp-util');
+var ftp = require('vinyl-ftp');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
