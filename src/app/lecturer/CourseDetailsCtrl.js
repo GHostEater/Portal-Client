@@ -17,9 +17,11 @@ angular.module("b")
     function getRequests() {
       CourseResultEditRequest.query().$promise
       .then(function (data) {
-        vm.perm = lodash.find(data,{lecturer:{id:vm.user.lecturer.id}});
-        if(vm.perm.status === 1){
-          check_perm_status();
+        if(vm.user.type === '6'){
+          vm.perm = lodash.find(data,{lecturer:{id:vm.user.lecturer.id}});
+          if(vm.perm.status === 1){
+            check_perm_status();
+          }
         }
       });
     }getRequests();
