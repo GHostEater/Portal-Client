@@ -55,7 +55,7 @@ angular.module("b")
             CourseResult.student({student: vm.student.id}).$promise
               .then(function (data) {
                 vm.result = lodash.filter(data, {session: gp.session, course: {semester: gp.semester}});
-                vm.resultFail = lodash.filter(data, {grade: 'E'});
+                vm.resultFail = lodash.filter(data,{status:0});
                 sortResults();
               });
             function sortResults() {
@@ -125,7 +125,7 @@ angular.module("b")
           vm.result = lodash.filter(data, {session:{id:gp.session.id}, course: {semester: gp.semester}});
           vm.resultFail = [];
           vm.stdResults = data;
-          vm.stdResultsFail = lodash.filter(data, {grade: "E"});
+          vm.stdResultsFail = lodash.filter(data, {status:0});
           angular.forEach(vm.stdResultsFail,function (result) {
             if (!lodash.find(vm.stdResults, {course:{id:result.course.id}, status: 1}) && !lodash.find(vm.wavings, {course:{id:result.course.id}})) {
               vm.resultFail.push(result);
@@ -146,7 +146,7 @@ angular.module("b")
           angular.forEach(vm.result,function (res) {
             tnu += Number(res.course.unit);
             tcp += Number(res.gp) * Number(res.course.unit);
-            if (res.grade !== 'E') {
+            if (res.status !== 0) {
               tce += Number(res.gp);
             }
           });
