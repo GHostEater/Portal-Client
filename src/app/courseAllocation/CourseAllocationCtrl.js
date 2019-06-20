@@ -34,7 +34,12 @@ angular.module('b')
     function getAllocations() {
       CourseAllocation.query({session:vm.session.id}).$promise
         .then(function (data) {
-          vm.allocations = lodash.filter(data,{allocated_by:{id:vm.hod.lecturer.id},course:{semester:Number(vm.semester.semester)}});
+          if(vm.user.hod){
+            vm.allocations = lodash.filter(data,{allocated_by:{id:vm.hod.lecturer.id},course:{semester:Number(vm.semester.semester)}});
+          }
+          else{
+            vm.allocations = lodash.filter(data,{dept:{id:vm.dept.id},course:{semester:Number(vm.semester.semester)}});
+          }
         });
     }
     function allocate() {
