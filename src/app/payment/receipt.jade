@@ -44,6 +44,9 @@ div(ng-controller="ReceiptCtrl as vm")
           th Date
           td {{vm.payment.date | date:"dd-MMMM-yyyy hh:mm:ssa"}}
         tr
+          th Narration
+          td {{vm.payment.narration"}}
+        tr
           th Amount
           td ₦{{ vm.payment.amount | number:'0' }}
 
