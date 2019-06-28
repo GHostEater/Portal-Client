@@ -49,6 +49,7 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
         th Waved
         th Level of Payment
         th Date of Payment
+        th(ng-show="vm.payment_type.tag === 'fine'") Narration
       tbody
         tr(ng-repeat="(key,student) in vm.students | filter:vm.search | orderBy:'+student.user.username' | orderBy:'+student.level.level'")
           td {{key+1}}
@@ -59,6 +60,7 @@ div(ng-controller="AdminPaymentReportsCtrl as vm")
           td {{student.waved}}
           td {{student.level}}
           td {{student.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+          td(ng-show="vm.payment_type.tag === 'fine'") {{payment.narration}}
   .row(ng-show="vm.students && !vm.payment_type.tuition")
     .col-sm-4.col-sm-offset-4
       table.table.table-striped.table-bordered

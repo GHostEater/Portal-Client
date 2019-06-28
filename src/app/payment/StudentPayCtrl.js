@@ -15,6 +15,10 @@ angular.module('b')
     vm.payment = {};
     vm.payment.paid = false;
     vm.payment.payment_type = {};
+    vm.narration = $stateParams.narration;
+    if(!vm.narration){
+      vm.narration = '';
+    }
     vm.generate_order_id = generate_order_id;
     vm.reload = reload;
     vm.check_status = check_status;
@@ -84,6 +88,11 @@ angular.module('b')
                     }
                   });
               }
+              else if(vm.payment_type.tag === 'fine'){
+                vm.payment = {};
+                vm.payment.paid = false;
+                vm.payment.payment_type = {};
+              }
               else{
                 vm.payment = lodash.find(vm.payments,{payment_type:{id:vm.payment_type.id},level:{id:vm.user.student.level.id},paid:true});
                 if(!vm.payment){
@@ -124,7 +133,8 @@ angular.module('b')
         payerPhone: vm.user.student.user.phone,
         amount: vm.payment_type.amount,
         matricNo: $filter('matricNo')(vm.user.username),
-        dept: vm.user.student.major.dept.name
+        dept: vm.user.student.major.dept.name,
+        narration: vm.narration
       };
       Payment.generate_rrr(request).$promise
         .then(function (data) {
