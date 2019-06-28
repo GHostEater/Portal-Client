@@ -22,6 +22,7 @@ div(ng-controller="PaymentValidationCtrl as vm").row
               th Session
               th Level
               th Date
+              th Narration
               th Status
               th Action
             tbody
@@ -34,6 +35,7 @@ div(ng-controller="PaymentValidationCtrl as vm").row
                 td {{payment.session.session}}
                 td {{payment.level.level}}
                 td {{payment.date | date:'dd-MMM-yyyy hh:mm:ssa'}}
+                td {{payment.narration}}
                 td(ng-class="{'bg-success':payment.paid === true,'bg-danger':payment.paid === false && !payment.rrr && payment.status != 'Pending','bg-warning':(payment.rrr || payment.status == 'Pending') && payment.paid == false}").text-white
                   span(ng-show="payment.status") {{payment.status}}
                   br(ng-show="payment.status")
