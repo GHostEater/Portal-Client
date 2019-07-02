@@ -88,7 +88,7 @@ angular.module('b')
                     }
                   });
               }
-              else if(vm.payment_type.tag === 'fine'){
+              else if(vm.payment_type.tag === 'fine' || vm.payment_type.tag === 'summer'){
                 vm.payment = {};
                 vm.payment.paid = false;
                 vm.payment.payment_type = {};

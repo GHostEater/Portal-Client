@@ -1,7 +1,7 @@
 /* eslint-disable angular/controller-name */
 angular.module('b')
   .controller('PaymentToMajorCtrl',function (PaymentToMajor,College,CollegeOfficer,Dept,Major,Level,toastr,lodash,$uibModal,CurrentUser,Access) {
-    Access.admin();
+    Access.notStudent();
     var vm = this;
     vm.user = CurrentUser.profile;
     College.query().$promise

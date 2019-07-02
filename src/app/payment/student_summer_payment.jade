@@ -1,0 +1,23 @@
+//Created by DELL on 02-Jul-19.
+div(ng-controller="StudentSummerPaymentCtrl as vm").row
+  .col-sm-6.col-sm-offset-3
+    .panel.panel-info
+      .panel-heading
+        .panel-title Payment of Summer Fees
+      .panel-body
+        form(name="vm.form").form-horizontal
+          .row.content-vert
+            .col-sm-12
+              button.btn.btn-sm.btn-primary(ng-click="vm.pay = 25000") ₦25,000
+              button.btn.btn-sm.btn-primary(ng-click="vm.pay = 50000") ₦50,000
+              button.btn.btn-sm.btn-primary(ng-click="vm.pay = 75000") ₦75,000
+              button.btn.btn-sm.btn-primary(ng-click="vm.pay = 100000") ₦100,000
+          .row.content-vert
+            .col-sm-12
+              textarea.form-control(placeholder="Description of Fees" ng-model="vm.narration" required)
+            .col-sm-12
+              label.control-label Enter Amount
+                input.form-control.input-sm(type="number" ng-model="vm.pay" required)
+          .row.content-vert
+            .col-sm-12
+              button.btn.btn-sm.btn-primary(ng-click="vm.pay_summer()") Pay
