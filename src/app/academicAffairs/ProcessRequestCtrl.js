@@ -1,4 +1,4 @@
-/* eslint-disable angular/controller-name */
+/* eslint-disable angular/controller-name,no-undef */
 /**
  * Created by GHostEater on 16-Aug-16.
  */
