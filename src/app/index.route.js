@@ -70,6 +70,7 @@ function routerConfig($stateProvider, $urlRouterProvider) {
 
     .state('student_payment',{url:'/student/payment/',templateUrl:'app/payment/student_payment.html'})
     .state('student_fine_payment',{url:'/student/pay-fines/',templateUrl:'app/payment/student_fine_payment.html'})
+    .state('student_summer_payment',{url:'/student/pay-summer-fees/',templateUrl:'app/payment/student_summer_payment.html'})
     .state('student_pay',{url:'/student/payment/pay/:payment/:amount/:level/:narration',templateUrl:'app/payment/student_pay.html'})
     .state('payment_reference',{url:'/student/payment/reference-slip/:id/',templateUrl:'app/payment/payment_reference.html'})
     .state('payment_receipt',{url:'/student/payment/receipt/:id/',templateUrl:'app/payment/receipt.html'})
