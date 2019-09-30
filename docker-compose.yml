@@ -1,0 +1,13 @@
+version: '3'
+services:
+  angularjs-portal:
+    build: 
+      context: .
+    image: angularjs-portal
+    ports:
+      - 80:3000
+    volumes:
+      - ./dist:/usr/application/dist
+      - ./e2e:/usr/application/e2e
+      - ./gulp:/usr/application/gulp
+      - ./src:/usr/application/src     
