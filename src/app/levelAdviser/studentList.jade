@@ -5,6 +5,7 @@ div(ng-controller="StudentListCtrl as vm")
       input.form-control.input-sm(type="text" placeholder="Search" ng-model="vm.searchTerm")
   table.table.table-condensed.table-striped.table-bordered
     thead
+      th S/N
       th Matric No
       th Name
       th College
@@ -15,7 +16,8 @@ div(ng-controller="StudentListCtrl as vm")
       th E-mail
       th Actions
     tbody
-      tr(ng-repeat="student in vm.students | orderBy: '+user.username' | filter: vm.searchTerm")
+      tr(ng-repeat="(key,student) in vm.students | orderBy: '+user.username' | filter: vm.searchTerm")
+        td {{key+1}}
         td {{student.user.username | matricNo}}
         td {{student.user.last_name | uppercase}}, {{student.user.first_name}}
         td {{student.major.dept.college.name}}
