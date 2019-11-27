@@ -5,9 +5,9 @@ div(ng-controller="CourseSlipCtrl as vm").row
       .col-sm-1
         img.center-block(src="img/logo.png" width="30px")
       .col-sm-11.text-center
-        h4 {{school_long_name | uppercase}}
-        h5(ng-show="school_slogan != ''") ({{school_slogan}})
-        h6 {{vm.student.major.dept.college.name}}
+        h6 {{school_long_name | uppercase}}
+        p(ng-show="school_slogan != ''") ({{school_slogan}})
+        p {{vm.student.major.dept.college.name}}
       .row
         .col-sm-2.col-sm-offset-10
           img.img-responsive.center-block(ng-src="{{vm.user.student.user.img}}" width="60px")
@@ -37,7 +37,7 @@ div(ng-controller="CourseSlipCtrl as vm").row
           option(value="") Select Session
       .col-sm-2
         button.btn.btn-sm.btn-primary(ng-click="vm.getCourses()") Go
-  h3.text-center 1st Semester
+  h6.text-center 1st Semester
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code
@@ -54,7 +54,7 @@ div(ng-controller="CourseSlipCtrl as vm").row
         td.hidden-print(ng-show="vm.add_drop === true")
           button.btn.btn-xs.btn-danger(ng-click="vm.deleteCourse(course.id)") Delete Course
   span.row Total Units Registered: {{vm.counter_1}}
-  h3.text-center 2nd Semester
+  h6.text-center 2nd Semester
   table.table.table-striped.table-bordered.table-condensed
     thead
       th Course Code

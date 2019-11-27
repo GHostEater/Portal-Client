@@ -1,6 +1,8 @@
 .panel.panel-default.text-center
   .panel-heading
     .panel-title Dashboard for Student
+      br
+      span ({{vm.user.student.major.name}})
   .panel-body
     ul.nav.nav-pills.nav-stacked(ng-show="vm.access_fee_paid")
       li.dropdown
